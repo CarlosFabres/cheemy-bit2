@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="font">Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="body">
+    <ion-item>
+      <ion-label floating><img src="/assets/img/cheems.png" alt=""></ion-label>
+      <ion-input type="file" [id]="pic" class="icolor font" ></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Nombre:</ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="nombre"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Apellido:</ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="apellido"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Email:</ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="email" placeholder="nombre@ejemplo.com"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font" >Número:</ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="numero" placeholder="912345678"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Contraseña:</ion-label>
+      <ion-input type="password" required class="inpu2 font" [(ngModel)]="clave"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Contraseña:</ion-label>
+      <ion-input type="password" required class="inpu2 font" [(ngModel)]="clave2"></ion-input>
+    </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="mycolor" expand="block" (click)="pasarDatos()" class="font">Registrarse</ion-button>
+        </ion-col>
+      </ion-row>
+  <center><div class="font">¿Ya tienes una cuenta? <span [routerLink]="['/login']" class="font">Inicia sesión</span></div></center>
+</ion-content>

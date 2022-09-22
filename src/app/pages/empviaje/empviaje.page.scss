@@ -1,0 +1,40 @@
+.ion-color-mycolor {
+	--ion-color-base: var(--ion-color-mycolor);
+	--ion-color-base-rgb: var(--ion-color-mycolor-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor-shade);
+	--ion-color-tint: var(--ion-color-mycolor-tint);
+}
+
+.ion-color-mycolor2 {
+	--ion-color-base: var(--ion-color-mycolor2);
+	--ion-color-base-rgb: var(--ion-color-mycolor2-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor2-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor2-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor2-shade);
+	--ion-color-tint: var(--ion-color-mycolor2-tint);
+}
+
+
+.sombra{
+	box-shadow: 10px 5px 5px black;
+	
+}
+
+.foto{
+	border-radius: 6px;
+}
+
+.icon{
+    color: aliceblue;
+    font-size: 200px;
+}
+
+.font{
+	font-family: Silkscreen-Regular;
+}
+
+ion-button{
+	font-family: Silkscreen-Regular;
+}

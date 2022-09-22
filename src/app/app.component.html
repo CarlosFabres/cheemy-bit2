@@ -1,0 +1,49 @@
+<ion-app>
+  <ion-menu-toggle auto-hide="false" color="mycolor">
+    <ion-menu side="start" menuId="first" contentId="main">
+      <ion-header color="mycolor">
+        <ion-toolbar color="mycolor">
+          <ion-title class="font">Menú</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content color="mycolor">
+        <ion-list>
+          <ion-item [button]="true" [routerLink]="'/perfil'" color="mycolor">
+            <ion-icon name="person-circle-sharp" color="mycolor4"></ion-icon>
+            <p>Mi perfil</p>
+          </ion-item>
+          <ion-item [routerLink]="'/menu-p'" color="mycolor">
+            <ion-icon name="home-sharp" color="mycolor4"></ion-icon>
+            <p>Inicio</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/vehiculo'">
+            <ion-icon name="car-sport-sharp" color="mycolor4"></ion-icon>
+            <p>Mi auto</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/cviajes'">
+            <ion-icon name="create-sharp" color="mycolor4"></ion-icon>
+            <p>Crear viaje</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/viajes'">
+            <ion-icon name="search-circle-sharp" color="mycolor4"></ion-icon>
+            <p>Buscar viaje</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/v-agendar'" *ngIf= "e == 'vicente@gmail.com'">
+            <ion-icon name="bookmarks-sharp" color="mycolor4"></ion-icon>
+            <p>Mi viaje P</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/empviaje'" *ngIf= "e == 'carlos@gmail.com'">
+            <ion-icon name="bookmarks-sharp" color="mycolor4"></ion-icon>
+            <p>Mi viaje C</p>
+          </ion-item>
+          <ion-item color="mycolor" [routerLink]="'/login'">
+            <ion-icon name="log-out-sharp" color="mycolor4"></ion-icon>
+            <p>Cerrar sesión</p>
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+  </ion-menu-toggle>
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-app>
+<ion-icon name="bookmarks-sharp"></ion-icon>

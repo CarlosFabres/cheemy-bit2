@@ -1,0 +1,62 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">perfil</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+
+
+  <center>
+    <div class="divi"><img src="../../assets/img/cheems.png" alt="" class="img2">
+      <p class="font titu">{{ n }} {{ a }}</p>
+      <p class="font titulo">Kong 🦍</p>
+    </div>
+  </center>
+  <ion-item>
+    <p class="info font">👤 Usuario:</p>
+    <ion-label class="font icolo">Chofer</ion-label>
+  </ion-item>
+  <ion-item>
+    <p class="info font">⭐ Nivel:</p>
+    <ion-label class="font icolo level">12 <p>
+      </p>
+    </ion-label>
+  </ion-item>
+  <ion-item>
+    <p class="info font">✉️ Correo:</p>
+    <ion-label class="font icolo">{{ e }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <p class="info font">📱 Número:</p>
+    <ion-label class="font icolo">9 {{ nu }}</ion-label>
+  </ion-item>
+  <ion-item>
+    <p class="info font"> <ion-icon name="card-outline"></ion-icon> :</p>
+    <ion-label class="font icolo">{{0 | currency:'CLP'}}</ion-label>
+  </ion-item>
+
+  <center>
+    <ion-button size="small" color="mycolor" (click)="modificarDatos2()">Modificar Perfil</ion-button>
+  </center>
+  <div class="example-button-container">
+    <div class="example-button-container">
+      <center>
+      <button mat-fab color="warn" aria-label="Example icon button with a home icon" (click)="presentAlert()" class="icota">
+        <mat-icon><center><ion-icon name="log-out-sharp" class="icoloo out"></ion-icon></center></mat-icon>
+      </button>
+      </center>
+    </div>
+  </div>
+
+
+
+
+
+</ion-content>

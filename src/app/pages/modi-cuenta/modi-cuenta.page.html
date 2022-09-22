@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="font">Modificar</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="body">
+
+    <ion-item>
+      <ion-label floating><img src="/assets/img/cheems.png" alt=""></ion-label>
+      <ion-input type="file" [id]="pic" class="icolor"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Nombre:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="n"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Apellido:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="a"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Correo:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="e"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Número:</ion-label>
+      <ion-input type="string" required class="inpu2" [(ngModel)]="nu"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Contraseña:</ion-label>
+      <ion-input type="password" required class="inpu2" [(ngModel)]="c" placeholder="Contraseña actual"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Repetir Contraseña:</ion-label>
+      <ion-input type="password" required class="inpu2" [(ngModel)]="c2" placeholder="Nueva contraseña"></ion-input>
+    </ion-item>
+    <center>
+      <ion-button size="small" color="mycolor" (click)="validar()">Modificar Perfil</ion-button>
+    </center>
+ 
+
+</ion-content>

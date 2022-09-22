@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">Registro</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Patente:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="patente"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Marca:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="marca"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Modelo:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="modelo"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu font">Color:</ion-label>
+      <ion-input type="text" required class="inpu2" [(ngModel)]="color"></ion-input>
+    </ion-item>
+        <ion-button type="submit" color="mycolor" expand="block" (click)="pasarDatos()" class="font" size="small">Registrar</ion-button>
+        <ion-button [routerLink]="['/vehiculo']" color="danger" expand="block" class="font" size="small">Cancelar</ion-button>
+</ion-content>

@@ -1,0 +1,43 @@
+.ion-color-mycolor {
+	--ion-color-base: var(--ion-color-mycolor);
+	--ion-color-base-rgb: var(--ion-color-mycolor-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor-shade);
+	--ion-color-tint: var(--ion-color-mycolor-tint);
+}
+
+img{
+    max-width: 40px;
+    margin-right: 10px;
+}
+
+.inpu{
+	color: aliceblue;
+}
+
+
+
+.font{
+	font-family: Silkscreen-Regular;
+}
+
+ion-item{
+	color: aliceblue;
+	font-size: medium;
+	
+	
+}
+
+p{
+	color: rgb(165, 168, 170);
+	font-family: Silkscreen-Regular;
+	font-size: small;
+}
+
+mat-spinner{
+	margin-top: 20px;
+		
+}
+
+.uploader-status ::ng-deep .mat-progress-spinner circle, .mat-spinner circle { stroke: #571ec0; }

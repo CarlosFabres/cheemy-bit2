@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">Viaje</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+
+    <center><img src="../../../assets/img/mapa.PNG" alt="" class="img1"></center>
+
+    <ion-button [routerLink]="['/menu-p']" expand="block" color="mycolor" class="font" (click)="terminarViaje()">Terminar viaje</ion-button>
+
+</ion-content>

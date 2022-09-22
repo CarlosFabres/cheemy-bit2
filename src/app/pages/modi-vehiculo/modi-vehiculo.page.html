@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title>Modificar</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu"> <p class="colour font">Modificar Patente:</p></ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="patente" placeholder="{{ p }}"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu"><p class="colour font">Modificar Marca:</p></ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="marca" placeholder="{{ m }}"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu"><p class="colour font">Modificar Modelo:</p></ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="modelo" placeholder="{{ o }}"></ion-input>
+    </ion-item>
+    <ion-item lines="full">
+      <ion-label position="floating" class="inpu"><p class="colour font">Modificar Color:</p></ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="color" placeholder="{{ l }}"></ion-input>
+    </ion-item>
+
+    <ion-row>
+      <ion-col>
+        <ion-button type="submit" color="mycolor" expand="block" (click)="modificarDatos2()" class="font">Modificar</ion-button>
+        <ion-button [routerLink]="['/vehiculo']" color="danger" expand="block" class="font">Cancelar</ion-button>
+      </ion-col>
+    </ion-row>
+  
+</ion-content>

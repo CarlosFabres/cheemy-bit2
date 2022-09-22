@@ -1,0 +1,62 @@
+.ion-color-mycolor {
+	--ion-color-base: var(--ion-color-mycolor);
+	--ion-color-base-rgb: var(--ion-color-mycolor-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor-shade);
+	--ion-color-tint: var(--ion-color-mycolor-tint);
+}
+
+.inpu{
+	color: aliceblue;
+}
+
+.icolor{
+	color: aliceblue;
+	
+}
+
+
+.inpu2{
+	color: rgb(124, 134, 134);
+}
+
+img{
+	width: 80px;
+}
+
+div{
+	margin-top: 5px;
+	color: aliceblue;
+}
+
+a{
+	text-decoration: none;
+	margin-left: 10px;
+}
+
+.icota{
+	font-size: 90px;
+	margin-left: 120px;
+	
+}
+
+.font{
+	font-family: Silkscreen-Regular;
+}
+
+ion-input{
+	font-family: Silkscreen-Regular;
+}
+
+
+ion-button{
+	font-family: Silkscreen-Regular;
+	font-size: smaller;
+	margin-top: 20px;
+	margin-bottom: 5px;
+}
+
+.marp{
+	margin: 0px;
+}

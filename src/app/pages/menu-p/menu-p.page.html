@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">Menú</ion-title>
+    <!--<ion-icon name="person" class="floata" (click)="pasarDatos()"></ion-icon>-->
+    <ion-buttons slot="end" (click) = "pasarDatosMenu()">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <center><h4 class="font">¡¡Bienvenido {{n}}!!</h4></center>
+  <div>
+     <center><img src="../../../assets/img/car1.gif" alt="" class="baner"></center>
+  </div>
+  <div>
+    <center><p class="podio">🏆 Podio 🏆</p></center>
+    <ion-row>
+      <ion-col>
+        <center>
+          <ion-card class="sombra" color="mycolor">
+            <ion-card-header>
+              <ion-card-title class="font cardtittle">ㅤMessiㅤ</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <img src="../../../assets/img/messi.jpg" alt="" class="foto">
+              <ion-card-subtitle class="font">Turbo 🚀</ion-card-subtitle>
+            </ion-card-content>
+          </ion-card>
+        </center>
+      </ion-col>
+      <ion-col>
+        <center>
+          <ion-card class="sombra" color="mycolor">
+            <ion-card-header>
+              <ion-card-title class="font cardtittle">Amongas</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <img src="../../../assets/img/amongus.jpg" alt="" class="foto2">
+              <ion-card-subtitle class="font">Retro 👾</ion-card-subtitle>
+        
+
+            </ion-card-content>
+          </ion-card>
+        </center>
+      </ion-col>
+    </ion-row>
+
+    <ion-list>
+      <ion-item (click) = "pasarDatosViaje()">
+        <img src="../../assets/img/cheems.png" alt="" class="viaje mar ">
+        <ion-label class="inpu font">Salida: 19:00 - Til-Til <p>2/4 Asientos</p></ion-label>
+      </ion-item>
+      <ion-item (click) = "pasarDatosViaje()">
+        <img src="../../assets/img/amongus.jpg" alt="" class="viaje mar">
+        <ion-label class="inpu font">Salida: 19:00 - La Florida  <p>3/4 Asientos</p></ion-label>
+      </ion-item>
+      <ion-item (click) = "pasarDatosViaje()">
+        <img src="../../assets/img/alexis.jpg" alt="" class="viaje mar">
+        <ion-label class="inpu font" >Salida: 19:00 - Valle Grand  <p>2/4 Asientos</p></ion-label>
+      </ion-item>
+    </ion-list>
+    <center>
+      <ion-button color="mycolor" size="medium" class="font" (click) = "pasarDatosViaje2()" *ngIf= "e == 'carlos@gmail.com' && eliminar == '1'">Mi Viaje 🚖</ion-button>
+      <ion-button color="mycolor" size="medium" [routerLink]="'/empviaje'" class="font" *ngIf= "e == 'vicente@gmail.com' && eliminar == '1'">Mi Viaje 👨‍✈️</ion-button>
+    </center>
+  </div>
+
+
+
+
+</ion-content>

@@ -1,0 +1,33 @@
+.img2{
+    max-width: 150px;
+    margin-top: 20px;
+}
+
+.ion-color-mycolor {
+	--ion-color-base: var(--ion-color-mycolor);
+	--ion-color-base-rgb: var(--ion-color-mycolor-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor-shade);
+	--ion-color-tint: var(--ion-color-mycolor-tint);
+}
+
+.sombra{
+	box-shadow: 10px 5px 5px black;
+}
+
+.inpu{
+	color: aliceblue;
+}
+
+.inpu2{
+	color: rgb(124, 134, 134);
+}
+
+.font{
+	font-family: Silkscreen-Regular;
+}
+
+ion-button{
+	margin-top: 20px;
+}

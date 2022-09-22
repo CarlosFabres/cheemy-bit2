@@ -1,0 +1,7 @@
+{
+  "name": "cheemy-bit",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

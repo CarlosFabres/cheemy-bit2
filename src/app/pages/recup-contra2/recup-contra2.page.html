@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">Recuperar</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <center><img src="../../../assets/img/cheems.png" alt="" class="img2"></center>
+  <ion-item lines="full" class="aaa">
+    <ion-label position="floating" class="inpu font" >Contraseña:</ion-label>
+    <ion-input type="password" required class="inpu2 font" placeholder="Nueva contraseña" [(ngModel)]="clave"></ion-input>
+  </ion-item>
+  <ion-item lines="full" class="aaa">
+    <ion-label position="floating" class="inpu font" >Repetir Contraseña:</ion-label>
+    <ion-input type="password" required class="inpu2 font" placeholder="Repetir contraseña" [(ngModel)]="clave2"></ion-input>
+  </ion-item>
+  <ion-button expand="block" color="mycolor" class="font" (click)="pasarDatos()">Recuperar contraseña</ion-button>
+</ion-content>

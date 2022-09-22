@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">Recuperar</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <center><img src="../../../assets/img/cheems.png" alt="" class="img2"></center>
+    <ion-item lines="full" class="aaa">
+      <ion-label position="floating" class="inpu font">Email:</ion-label>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="email"></ion-input>
+    </ion-item>
+    <ion-button expand="block" color="mycolor" class="font" (click)="pasarDatos()">Enviar correo</ion-button>
+</ion-content>

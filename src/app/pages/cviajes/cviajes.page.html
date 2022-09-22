@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color = "mycolor">
+    <ion-title class="font">Crear viaje</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <ion-item lines="full">
+    <ion-label position="floating" class="inpu font">Horario de salida:</ion-label>
+    <ion-input type="time" required class="inpu2" [(ngModel)]="horario"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating" class="inpu font">Destino:</ion-label>
+    <ion-input type="text" required class="inpu2" [(ngModel)]="destino"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating" class="inpu font">Tarifa por asiento:</ion-label>
+    <ion-input type="text" required class="inpu2" [(ngModel)]="tarifa"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating" class="inpu font">Asientos disponibles:</ion-label>
+    <ion-input type="text" required class="inpu2" [(ngModel)]="asientos"></ion-input>
+  </ion-item>
+  <ion-item lines="full">
+    <ion-label position="floating" class="inpu font">Sector de salida:</ion-label>
+    <ion-input type="text" required class="inpu2" [(ngModel)]="sector"></ion-input>
+  </ion-item>
+
+  <center><img src="assets/img/Sectores.png" alt=""  *ngIf="isDisplayImage">
+    <button ion-button (click)="displayImage()">Mapa de Sectores</button></center>
+  <center><h4 class="font">Ruta</h4><img src="../../../assets/img/mapa.PNG" alt=""></center>
+
+  <ion-button (click)="pasarDatos()" expand="block" color="mycolor" class="margen font">Crear viaje</ion-button>
+</ion-content>

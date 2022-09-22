@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title class="font">inicio</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <h1>Cheemy-Bit<img src="/assets/img/cheems.png" alt="" class="img2"></h1>
+  <div>
+      <center><img src="/assets/img/pixelcar.png" alt="" class="img3">
+      </center>
+  </div>
+  <p> Pa donde vamos mi rey </p>
+  <ion-row>
+    <ion-col>
+      <ion-button class="font" [routerLink]="['/registro']" expand="block" color="mycolor">Registrarse</ion-button>
+      <ion-button class="font" [routerLink]="['/login']" expand="block" color="mycolor">Iniciar sesión</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

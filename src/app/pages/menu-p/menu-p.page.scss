@@ -1,0 +1,113 @@
+.ion-color-mycolor {
+	--ion-color-base: var(--ion-color-mycolor);
+	--ion-color-base-rgb: var(--ion-color-mycolor-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor-shade);
+	--ion-color-tint: var(--ion-color-mycolor-tint);
+}
+
+.ion-color-mycolor2 {
+	--ion-color-base: var(--ion-color-mycolor2);
+	--ion-color-base-rgb: var(--ion-color-mycolor2-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor2-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor2-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor2-shade);
+	--ion-color-tint: var(--ion-color-mycolor2-tint);
+}
+
+.ion-color-mycolor3 {
+	--ion-color-base: var(--ion-color-mycolor3);
+	--ion-color-base-rgb: var(--ion-color-mycolor3-rgb);
+	--ion-color-contrast: var(--ion-color-mycolor3-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-mycolor3-contrast-rgb);
+	--ion-color-shade: var(--ion-color-mycolor3-shade);
+	--ion-color-tint: var(--ion-color-mycolor3-tint);
+}
+
+
+.sombra{
+	box-shadow: 10px 5px 5px black;
+	
+}
+
+.foto{
+	border-radius: 6px;
+	max-width: 80px;
+	
+}
+
+.foto2{
+	border-radius: 6px;
+	max-width: 76.75px;
+	
+}
+
+
+.baner{
+	box-shadow: 10px 5px 5px black;
+	border-radius: 6px;
+	margin-left: 12px;
+	margin-right: 12px;
+	max-width: 250px;
+	
+}
+
+.font{
+	font-family: Silkscreen-Regular;
+}
+
+.cardtittle{
+	font-size: small;
+}
+
+.fondo{
+	--ion-background-color: #e90404;
+}
+
+.viaje{
+	max-width: 50px;
+}
+
+.mar{
+	margin-right: 10px;
+}
+
+h4{
+	color: aliceblue;
+}
+
+ion-card-header{
+	padding: 3px;
+}
+
+ion-card-content{
+	padding: 1px;
+}
+
+ion-button{
+	margin-top: 20px;
+	margin-left: 6px;
+}
+
+
+ion-item{
+	color: aliceblue;
+	font-size: small;
+	
+}
+
+p{
+	color: rgb(165, 168, 170);
+	font-family: Silkscreen-Regular;
+	font-size: smaller;
+}
+
+.img1{
+	border-radius: 6px;
+}
+
+.podio{
+	font-size: medium;
+	margin-bottom: 0px;
+}
