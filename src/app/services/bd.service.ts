@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Puntaje } from './puntaje';
 import { Tipousuario } from './tipousuario';
+import { Titulo } from './titulo';
 import { Usuario } from './usuario';
 
 @Injectable({
@@ -77,11 +79,46 @@ export class BDService {
      }
  
    }
+
+   //-----------------------------------------------------------------------------------------------------------------------------------//
+
+   //variable para la sentencia de creación de tabla
+   tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_itulo NUMBER PRIMARY KEY, nombret VARCHAR(40) NOT NULL);";
+   //variable para la sentencia de registros por defecto en la tabla
+   listaTitulos = new BehaviorSubject([]);
+   //observable para manipular si la BD esta lista  o no para su manipulación
+ 
+
+   //FALTA INSERTAR LOS TITULOS CON SUS ID'S
+   dbState3() {
+     return this.isDBReady.asObservable();
+   }
+ 
+   fetchTitulos(): Observable<Titulo[]> {
+     return this.listaTitulos.asObservable();
+   }
+
+   //-----------------------------------------------------------------------------------------------------------------------------------//
+
+   //variable para la sentencia de creación de tabla
+   tablaPuntajes: string = "CREATE TABLE IF NOT EXISTS puntaje(id_puntaje NUMBER PRIMARY KEY autoincrement, puntos NUMBER NOT NULL, FOREIGN KEY(id_titulo) REFERENCES titulo(id_titulo));";
+   //variable para la sentencia de registros por defecto en la tabla
+   listaPuntajes = new BehaviorSubject([]);
+   //observable para manipular si la BD esta lista  o no para su manipulación
+ 
+   //FALTA INSRTAR EL 0 EN PUNTOS
+   dbState4() {
+     return this.isDBReady.asObservable();
+   }
+ 
+   fetchPuntaje(): Observable<Puntaje[]> {
+     return this.listaPuntajes.asObservable();
+   }
   
    //-----------------------------------------------------------------------------------------------------------------------------------//
 
    //variable para la sentencia de creación de tabla
-   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario VARCHAR(50) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMBER NOT NULL, clave VARCHAR(25) NOT NULL, imagen File);";
+   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario VARCHAR(50) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMBER NOT NULL, clave VARCHAR(25) NOT NULL, puntosusuario NUMBER, imagen File, FOREIGN KEY(id_tipo) REFERENCES tipouusuario(id_tipo));";
    //variable para la sentencia de registros por defecto en la tabla
    listaUsuarios = new BehaviorSubject([]);
    //observable para manipular si la BD esta lista  o no para su manipulación
@@ -93,6 +130,10 @@ export class BDService {
    fetchUsuarios(): Observable<Usuario[]> {
      return this.listaUsuarios.asObservable();
    }
+
+   //-----------------------------------------------------------------------------------------------------------------------------------//
+
+   
  
    
 
