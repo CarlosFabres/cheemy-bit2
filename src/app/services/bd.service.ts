@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Detalleviaje } from './detalleviaje';
-import { Puntaje } from './puntaje';
 import { Tipousuario } from './tipousuario';
 import { Titulo } from './titulo';
 import { Usuario } from './usuario';
@@ -60,8 +58,6 @@ export class BDService {
 
       await this.database.executeSql(this.tablaTitulos, []);
 
-      await this.database.executeSql(this.tablaPuntajes, []);
-
       await this.database.executeSql(this.tablaTipousuario, []);
 
       await this.database.executeSql(this.registroTipousuario, []);
@@ -71,8 +67,6 @@ export class BDService {
       await this.database.executeSql(this.tablaVehiculo, []);
 
       await this.database.executeSql(this.tablaViaje, []);
-
-      await this.database.executeSql(this.tablaDetalleViaje, []);
 
       this.isDBReady.next(true);
 
@@ -85,7 +79,7 @@ export class BDService {
   //TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-------------------------//
 
   //variable para la sentencia de creación de tabla
-  tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_itulo NUMBER PRIMARY KEY, nombret VARCHAR(40) NOT NULL);";
+  tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_itulo NUMBER PRIMARY KEY, nombret VARCHAR(40) NOT NULL,puntost NUMBER NOT NULL);";
   //variable para la sentencia de registros por defecto en la tabla
   listaTitulos = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -98,23 +92,6 @@ export class BDService {
 
   fetchTitulos(): Observable<Titulo[]> {
     return this.listaTitulos.asObservable();
-  }
-
-  //PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----PUNTAJE-----------------------//
-
-  //variable para la sentencia de creación de tabla
-  tablaPuntajes: string = "CREATE TABLE IF NOT EXISTS puntaje(id_puntaje NUMBER PRIMARY KEY autoincrement, puntos NUMBER NOT NULL, FOREIGN KEY(id_titulo) REFERENCES titulo(id_titulo));";
-  //variable para la sentencia de registros por defecto en la tabla
-  listaPuntajes = new BehaviorSubject([]);
-  //observable para manipular si la BD esta lista  o no para su manipulación
-
-  //FALTA INSRTAR EL 0 EN PUNTOS
-  dbState4() {
-    return this.isDBReady.asObservable();
-  }
-
-  fetchPuntaje(): Observable<Puntaje[]> {
-    return this.listaPuntajes.asObservable();
   }
 
   //TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-----TIPOUSUARIO-------------//
@@ -138,7 +115,7 @@ export class BDService {
   //USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO------------------------//
 
   //variable para la sentencia de creación de tabla
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario VARCHAR(50) PRIMARY KEY, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMBER NOT NULL, clave VARCHAR(25) NOT NULL, puntosusuario NUMBER, imagen File, FOREIGN KEY(id_tipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(id_puntaje) REFERENCES puntaje(id_puntaje));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario VARCHAR(50) PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMBER NOT NULL, clave VARCHAR(25) NOT NULL, puntosusuario NUMBER, imagen File, FOREIGN KEY(id_tipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(id_titulo) REFERENCES titulo(id_titulo), FOREIGN KEY(id_viaje) REFERENCES viaje(id_viaje));";
   //variable para la sentencia de registros por defecto en la tabla
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -188,41 +165,139 @@ export class BDService {
     return this.listaViajes.asObservable();
   }
 
-  //DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE----------//
-
-  //variable para la sentencia de creación de tabla
-  tablaDetalleViaje: string = "CREATE TABLE IF NOT EXISTS detalleviaje(id_detalle NUMBER PRIMARY KEY, status VARCHAR(40) NOT NULL, FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario), FOREIGN KEY(id_viaje) REFERENCES viaje(id_viaje));";
-  //variable para la sentencia de registros por defecto en la tabla
-  listaDetallesViajes = new BehaviorSubject([]);
-  //observable para manipular si la BD esta lista  o no para su manipulación
-
-
-  //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-  dbState7() {
-    return this.isDBReady.asObservable();
-  }
-
-  fetchDetallesViajes(): Observable<Detalleviaje[]> {
-    return this.listaDetallesViajes.asObservable();
-  }
-
-
   //------------------------------------------METODOS---------------------------------------------------//         
+  //Vehiculo----------------------------------------------------------------
+  buscarVehiculos() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM vehiculo', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Vehiculo[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_vehiculo: res.rows.item(i).id_vehiculo,
+            patente: res.rows.item(i).patente,
+            color: res.rows.item(i).color,
+            modelo: res.rows.item(i).modelo,
+            marca: res.rows.item(i).marca
+          })
+        }
 
-  insertarVehiculos(id_vehiculo, color, modelo, marca, id_usuario) {
-    let data = [id_vehiculo, color, modelo, marca, id_usuario];
-    return this.database.executeSql('INSERT INTO vehiculo(id_vehiculo,color,modelo,marca,id_usuario) VALUES (?,?,?,?,?)', data).then(res => {
+      }
+      //actualizamos el observable de las noticias
+      this.listaVehiculos.next(items);
+    })
+  }
+
+  insertarVehiculos(id_vehiculo,patente, color, modelo, marca, id_usuario) {
+    let data = [id_vehiculo,patente, color, modelo, marca, id_usuario];
+    return this.database.executeSql('INSERT INTO vehiculo(id_vehiculo,patente,color,modelo,marca,id_usuario) VALUES (?,?,?,?,?) WHERE id_usuario = (?)', data).then(res => {
       this.buscarVehiculos();
     });
 
   }
 
   
-  modificarVehiculos(id_vehiculo,color,modelo, marca, id_usuario){
-    let data = [id_vehiculo,color,modelo,marca,id_usuario];
-    return this.database.executeSql('UPDATE vehiculo SET id_vehiculo = ?, color = ?,modelo = ?,marca = ?,id_usuario = ?,WHERE id_noticia = ?',data).then(data2=>{
-      this.buscarNoticias();
+  modificarVehiculos(patente,color,modelo, marca, id_vehiculo){
+    let data = [patente,color,modelo,marca,id_vehiculo];
+    return this.database.executeSql('UPDATE vehiculo SET id_vehiculo = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?',data).then(data2=>{
+      this.buscarVehiculos();
     })
   }
+
+  eliminarVehiculos(id_vehiculo){
+
+    return this.database.executeSql('DELETE FROM vehiculo WHERE id_vehiculo = ?',[id_vehiculo]).then(a=>{
+      this.buscarVehiculos();
+    })
+
+  }
+
+  //Usuario-----------------------------------------------------------------------------------------
+
+  buscarUsuarios() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Usuario[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            correo: res.rows.item(i).correo,
+            puntos: res.rows.item(i).puntos,
+            nombre: res.rows.item(i).nombre,
+            apellido: res.rows.item(i).apellido,
+            numero: res.rows.item(i).numero,
+            clave: res.rows.item(i).clave,
+            imagen: res.rows.item(i).imagen
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaUsuarios.next(items);
+    })
+  }
+
+  modificarUsuarios(id_usuario,correo,nombre,apellido, numero, clave, imagen){
+    let data = [correo,nombre,apellido,numero,clave,imagen,id_usuario];
+    return this.database.executeSql('UPDATE usuario SET correo = ?, nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?',data).then(data2=>{
+      this.buscarUsuarios();
+    })
+  }
+
+  //Viaje------------------------------------------------------------------------------------
+
+  buscarViajes() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM viaje', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Viaje[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_viaje: res.rows.item(i).id_viaje,
+            hora_salida: res.rows.item(i).hora_salida,
+            asientos_dispo: res.rows.item(i).asientos_dispo,
+            monto: res.rows.item(i).monto,
+            sector: res.rows.item(i).sector,
+            destino: res.rows.item(i).destino
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaViajes.next(items);
+    })
+  }
+
+  insertarViajes(id_viaje, hora_salida, asientos_dispo, monto, sector, destino,id_vehiculo) {
+    let data = [id_viaje,hora_salida, asientos_dispo, monto, sector, destino,id_vehiculo];
+    return this.database.executeSql('INSERT INTO vehiculo(id_viaje,hora_salida,asientos_dispo,monto,sector,destino,id_vehiculo) VALUES (?,?,?,?,?,?,?)', data).then(res => {
+      this.buscarVehiculos();
+    });
+
+  }
+
+  
+  modificarViajes(id_viaje,hora_salida,asientos_dispo, monto,sector,destino){
+    let data = [hora_salida,asientos_dispo,monto,sector,destino,id_viaje];
+    return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?',data).then(data2=>{
+      this.buscarViajes();
+    })
+  }
+
+  eliminarViajes(id_viaje){
+
+    return this.database.executeSql('DELETE FROM viaje WHERE id_viaje = ?',[id_viaje]).then(a=>{
+      this.buscarViajes();
+    })
+
+  }
+  //------------------------------------------------------------------------------------
 
 }

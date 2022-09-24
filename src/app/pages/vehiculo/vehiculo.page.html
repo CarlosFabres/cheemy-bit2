@@ -12,33 +12,35 @@
 
 
 <ion-content class="body">
-  <center>
-    <h3 class="font">Datos de vehiculo</h3>
-    <p *ngIf="p == ''">No tienes un vehiculo registrado...</p>
-  </center>
-  <center>
-    <ion-item *ngIf="p != ''">
-      <p class="info font">Patente:</p>
-      <ion-label class="font icolo">{{ p | uppercase}}</ion-label>
-    </ion-item>
-    <ion-item *ngIf="p != ''">
-      <p class="info font">Marca:</p>
-      <ion-label class="font icolo">{{ m | uppercase}}</ion-label>
-    </ion-item>
-    <ion-item *ngIf="p != ''">
-      <p class="info font">Modelo:</p>
-      <ion-label class="font icolo">{{ o | uppercase}}</ion-label>
-    </ion-item>
-    <ion-item *ngIf="p != ''">
-      <p class="info font">Color:</p>
-      <ion-label class="font icolo">{{ l | uppercase}}</ion-label>
-    </ion-item>
-  </center>
+  <div *ngFor="let x of arregloVehiculos">
+    <center>
+      <h3 class="font">Datos de vehiculo</h3>
+      <p *ngIf="x.id_patente == ''">No tienes un vehiculo registrado...</p>
+    </center>
+    <center>
+      <ion-item *ngIf="x.id_patente != ''">
+        <p class="info font">Patente:</p>
+        <ion-label class="font icolo">{{ x.id_vehiculo | uppercase}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="x.id_patente != ''">
+        <p class="info font">Marca:</p>
+        <ion-label class="font icolo">{{ x.marca | uppercase}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="x.id_patente != ''">
+        <p class="info font">Modelo:</p>
+        <ion-label class="font icolo">{{ x.modelo | uppercase}}</ion-label>
+      </ion-item>
+      <ion-item *ngIf="x.id_patente != ''">
+        <p class="info font">Color:</p>
+        <ion-label class="font icolo">{{ x.color | uppercase}}</ion-label>
+      </ion-item>
+    </center>
+  </div>
 
 
   <ion-button [routerLink]="['/registrar-v']" expand="block" color="mycolor" *ngIf="p == ''">Agregar vehiculo
   </ion-button>
-  <ion-button expand="block" color="mycolor" *ngIf="p != ''" (click)="modificarDatos()">Modificar vehiculo</ion-button>
-  <ion-button type=submit expand="block" color="danger" *ngIf="p != ''" (click)="presentAlert()">Eliminar vehiculo
+  <ion-button expand="block" color="mycolor" *ngIf="x.id_vehiculo != ''" (click)="modificarDatos()">Modificar vehiculo</ion-button>
+  <ion-button type=submit expand="block" color="danger" *ngIf="x.id_vehiculo != ''" (click)="presentAlert()">Eliminar vehiculo
   </ion-button>
 </ion-content>
