@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-registrar-v',
@@ -13,8 +14,10 @@ export class RegistrarVPage {
   marca: string = "";
   modelo: string = "";
   color: string = "";
+  idU: number = 1;
 
-  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController) { }
+
+  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController, private servicioBD: BDService) { }
 
   pasarDatos(){
     
@@ -27,16 +30,9 @@ export class RegistrarVPage {
     }
 
     else {
-      let navigationExtras: NavigationExtras = {
-        state: {
-          pat: this.patente,
-          mar: this.marca,
-          mod: this.modelo,
-          col: this.color
-        }
-      }
+      this.servicioBD.insertarVehiculos(this.patente,this.marca,this.modelo,this.color,this.idU);
       this.presentToast();
-      this.router.navigate(['/vehiculo'], navigationExtras);
+      this.router.navigate(['/vehiculo']);
     }
   }
 

@@ -56,7 +56,11 @@ export class BDService {
   async crearTablas() {
     try {
 
+      
+      
       await this.database.executeSql(this.tablaTitulos, []);
+
+      await this.database.executeSql(this.registroTitulos, []);
 
       await this.database.executeSql(this.tablaTipousuario, []);
 
@@ -64,31 +68,32 @@ export class BDService {
 
       await this.database.executeSql(this.tablaUsuario, []);
 
+      await this.database.executeSql(this.registroUsuario, []);
+
       await this.database.executeSql(this.tablaVehiculo, []);
 
+      await this.database.executeSql(this.registroVehiculo, []);
+
       await this.database.executeSql(this.tablaViaje, []);
+
+      this.buscarVehiculos();
 
       this.isDBReady.next(true);
 
     } catch (e) {
       this.presentToast("Error Tablas: " + e);
     }
-
   }
 
   //TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-------------------------//
 
-  //variable para la sentencia de creación de tabla
-  tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_itulo NUMBER PRIMARY KEY, nombret VARCHAR(40) NOT NULL,puntost NUMBER NOT NULL);";
-  //variable para la sentencia de registros por defecto en la tabla
+
+  tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_titulo INTEGER PRIMARY KEY, nombret VARCHAR(40) NOT NULL,puntost NUMERIC NOT NULL);";
+
+  registroTitulos: string = "INSERT or IGNORE INTO titulo(id_titulo, nombret,puntost) VALUES (1,'siwi',0),(2,'apapa',1000);";
   listaTitulos = new BehaviorSubject([]);
-  //observable para manipular si la BD esta lista  o no para su manipulación
 
-
-  //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-  dbState3() {
-    return this.isDBReady.asObservable();
-  }
+ 
 
   fetchTitulos(): Observable<Titulo[]> {
     return this.listaTitulos.asObservable();
@@ -115,14 +120,13 @@ export class BDService {
   //USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO------------------------//
 
   //variable para la sentencia de creación de tabla
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario VARCHAR(50) PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMBER NOT NULL, clave VARCHAR(25) NOT NULL, puntosusuario NUMBER, imagen File, FOREIGN KEY(id_tipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(id_titulo) REFERENCES titulo(id_titulo), FOREIGN KEY(id_viaje) REFERENCES viaje(id_viaje));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo));";
   //variable para la sentencia de registros por defecto en la tabla
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (1,'A@A.COM',1000,'vicente','echeverria',123332323,'pepe1',NULL,2);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
-  dbState2() {
-    return this.isDBReady.asObservable();
-  }
+ 
 
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
@@ -132,16 +136,15 @@ export class BDService {
 
 
   //variable para la sentencia de creación de tabla
-  tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo VARCHAR(10) PRIMARY KEY, color VARCHAR(40) NOT NULL, modelo VARCHAR(40) NOT NULL,  marca VARCHAR(40), FOREIGN KEY(id_usuario) REFERENCES usuario(id_usuario));";
+  tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo INTEGER PRIMARY KEY autoincrement,patente VARCHAR(10) NOT NULL, color VARCHAR(40) NOT NULL, modelo VARCHAR(40) NOT NULL,  marca VARCHAR(40) NOT NULL,idusuario INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
   //variable para la sentencia de registros por defecto en la tabla
+  registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (1,'as21kd','rojo','tesla','k2',1);";
   listaVehiculos = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
 
   //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-  dbState5() {
-    return this.isDBReady.asObservable();
-  }
+
 
   fetchVehiculos(): Observable<Vehiculo[]> {
     return this.listaVehiculos.asObservable();
@@ -150,16 +153,14 @@ export class BDService {
   //VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE--------------//
 
   //variable para la sentencia de creación de tabla
-  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje NUMBER PRIMARY KEY, hora_salida number NOT NULL, asientos_dispo number NOT NULL, monto NUMBER NOT NULL, sector VARCHAR(5),destino VARCHAR(50),FOREIGN KEY(id_vehiculo) REFERENCES vehiculo(id_vehiculo));";
+  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida DATETIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo VARCHAR(10), FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
 
   //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-  dbState6() {
-    return this.isDBReady.asObservable();
-  }
+
 
   fetchViajes(): Observable<Viaje[]> {
     return this.listaViajes.asObservable();
@@ -169,7 +170,7 @@ export class BDService {
   //Vehiculo----------------------------------------------------------------
   buscarVehiculos() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM vehiculo', []).then(res => {
+    return this.database.executeSql('SELECT * FROM vehiculo WHERE idusuario = 1', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Vehiculo[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -180,7 +181,7 @@ export class BDService {
             patente: res.rows.item(i).patente,
             color: res.rows.item(i).color,
             modelo: res.rows.item(i).modelo,
-            marca: res.rows.item(i).marca
+            marca: res.rows.item(i).marca,
           })
         }
 
@@ -190,18 +191,18 @@ export class BDService {
     })
   }
 
-  insertarVehiculos(id_vehiculo,patente, color, modelo, marca, id_usuario) {
-    let data = [id_vehiculo,patente, color, modelo, marca, id_usuario];
-    return this.database.executeSql('INSERT INTO vehiculo(id_vehiculo,patente,color,modelo,marca,id_usuario) VALUES (?,?,?,?,?) WHERE id_usuario = (?)', data).then(res => {
+  insertarVehiculos(patente, marca, modelo, color, id_usuario) {
+    let data = [patente, color, modelo, marca, id_usuario];
+    return this.database.executeSql('INSERT INTO vehiculo(patente,color,modelo,marca,idusuario) VALUES (?,?,?,?,?)', data).then(res => {
       this.buscarVehiculos();
     });
 
   }
 
   
-  modificarVehiculos(patente,color,modelo, marca, id_vehiculo){
+  modificarVehiculos(id_vehiculo,patente,marca,modelo,color){
     let data = [patente,color,modelo,marca,id_vehiculo];
-    return this.database.executeSql('UPDATE vehiculo SET id_vehiculo = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?',data).then(data2=>{
+    return this.database.executeSql('UPDATE vehiculo SET patente = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?',data).then(data2=>{
       this.buscarVehiculos();
     })
   }
@@ -263,6 +264,7 @@ export class BDService {
             id_viaje: res.rows.item(i).id_viaje,
             hora_salida: res.rows.item(i).hora_salida,
             asientos_dispo: res.rows.item(i).asientos_dispo,
+            asientos_ocupa: res.rows.item(i).asientos_ocupa,
             monto: res.rows.item(i).monto,
             sector: res.rows.item(i).sector,
             destino: res.rows.item(i).destino

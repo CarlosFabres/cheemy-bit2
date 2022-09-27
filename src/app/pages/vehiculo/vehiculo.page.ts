@@ -12,10 +12,11 @@ export class VehiculoPage {
 
   arregloVehiculos: any = [
     {
-      id_vehiculo : "p221se",
-      color : "rojo",
-      modelo : "sidfsdfd",
-      marca : "aaaa"
+      id_vehiculo : "",
+      patente: "",
+      color : "",
+      modelo : "",
+      marca : ""
     }
 
   ]
@@ -53,6 +54,22 @@ export class VehiculoPage {
     });
   
     await alert.present();
+  }
+
+  modificar(x){
+    
+    let navigationExtras: NavigationExtras = {
+      state: {
+        idEnviado: x.id_vehiculo,
+        patenteEnviado: x.patente,
+        marcaEnviado: x.marca,
+        modeloEnviado: x.modelo,
+        colorEnviado: x.color
+      }
+    }
+
+    this.router.navigate(['/modi-vehiculo'], navigationExtras);
+
   }
 
   eliminar(x){

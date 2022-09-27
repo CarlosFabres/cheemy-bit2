@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-modi-vehiculo',
@@ -9,48 +10,40 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class ModiVehiculoPage {
 
+  id:string = "";
   p:string = "";
   m:string = "";
   o:string = "";
   l:string = "";
 
-  patente:string = "";
-  marca:string = "";
-  modelo:string = "";
-  color:string = "";
 
-  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController) {
+
+  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController,private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.p = this.router.getCurrentNavigation().extras.state.pate;
-        this.m = this.router.getCurrentNavigation().extras.state.marc;
-        this.o = this.router.getCurrentNavigation().extras.state.model;
-        this.l = this.router.getCurrentNavigation().extras.state.colo;
+        this.id = this.router.getCurrentNavigation().extras.state.idEnviado;
+        this.p = this.router.getCurrentNavigation().extras.state.patenteEnviado;
+        this.m = this.router.getCurrentNavigation().extras.state.marcaEnviado;
+        this.o = this.router.getCurrentNavigation().extras.state.modeloEnviado;
+        this.l = this.router.getCurrentNavigation().extras.state.colorEnviado;
       }
     })
    }
 
     modificarDatos2(){
 
-      if ((this.patente.length < 1 ) || (this.marca.length < 1 ) || (this.marca.length < 1 ) || (this.color.length < 1 )) {
+      if ((this.p.length < 1 ) || (this.m.length < 1 ) || (this.o.length < 1 ) || (this.l.length < 1 )) {
         this.presentAlert4();
       }
 
-      else if ((this.patente.length != 6 )) {
+      else if ((this.p.length != 6 )) {
         this.presentAlert();
       }
   
       else {
-        let navigationExtras: NavigationExtras = {
-          state: {
-            pat: this.patente,
-            mar: this.marca,
-            mod: this.modelo,
-            col: this.color
-          }
-        }
+        this.servicioBD.modificarVehiculos(this.id,this.p,this.m,this.o,this.l);
         this.presentToast();
-        this.router.navigate(['/vehiculo'], navigationExtras);
+        this.router.navigate(['/vehiculo']);
       }
     }
 

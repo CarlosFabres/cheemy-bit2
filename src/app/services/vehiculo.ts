@@ -1,6 +1,6 @@
 export class Vehiculo {
-    id_vehiculo : number;
-    patente: string;
+    id_vehiculo : string;
+    patente : string;
     color : string;
     modelo : string;
     marca : string;
