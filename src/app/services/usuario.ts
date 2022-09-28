@@ -7,4 +7,5 @@ export class Usuario {
     numero: number;
     clave: string;
     imagen: File;
+    idtipo: Number;
 }

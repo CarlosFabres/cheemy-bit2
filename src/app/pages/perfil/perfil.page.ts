@@ -21,6 +21,7 @@ export class PerfilPage implements OnInit {
       numero : "",
       clave : "",
       imagen : "",
+      idtipo : ""
     }
 
   ]

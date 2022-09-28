@@ -183,7 +183,8 @@ export class BDService {
             patente: res.rows.item(i).patente,
             color: res.rows.item(i).color,
             modelo: res.rows.item(i).modelo,
-            marca: res.rows.item(i).marca
+            marca: res.rows.item(i).marca,
+            idusuario: res.rows.item(i).idusuario
           })
         }
 
@@ -235,7 +236,8 @@ export class BDService {
             apellido: res.rows.item(i).apellido,
             numero: res.rows.item(i).numero,
             clave: res.rows.item(i).clave,
-            imagen: res.rows.item(i).imagen
+            imagen: res.rows.item(i).imagen,
+            idtipo: res.rows.item(i).idtipo
           })
         }
 

@@ -4,4 +4,5 @@ export class Vehiculo {
     color : string;
     modelo : string;
     marca : string;
+    idusuario: number;
 }

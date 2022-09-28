@@ -16,7 +16,8 @@ export class VehiculoPage {
       patente: "",
       color : "",
       modelo : "",
-      marca : ""
+      marca : "",
+      idusuario : ""
     }
 
   ]
