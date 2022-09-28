@@ -9,7 +9,7 @@ import { BDService } from 'src/app/services/bd.service';
   templateUrl: './perfil.page.html',
   styleUrls: ['./perfil.page.scss'],
 })
-export class PerfilPage {
+export class PerfilPage implements OnInit {
 
   arregloUsuarios: any = [
     {

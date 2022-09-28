@@ -78,6 +78,8 @@ export class BDService {
 
       this.buscarVehiculos();
 
+      this.buscarUsuarios();
+
       this.isDBReady.next(true);
 
     } catch (e) {
