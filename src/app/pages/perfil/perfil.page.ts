@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { NavController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-perfil',
@@ -10,39 +11,23 @@ import { NavController } from '@ionic/angular';
 })
 export class PerfilPage {
 
-  e:string = "vicente@gmail.com";
-  c:string = "Vicente123";
-  n:string = "Vicente";
-  a:string = "Echeverria";
-  nu:string= "12345678";
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+    }
 
-  pepe:string = "cacaseca";
+  ]
 
-  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, public navCtrl:NavController) {
-    this.activedRouter.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
-        /*this.pepe = this.router.getCurrentNavigation().extras.state.pe;*/
-        this.e = this.router.getCurrentNavigation().extras.state.correo;
-        this.c = this.router.getCurrentNavigation().extras.state.contra;
-        this.n = this.router.getCurrentNavigation().extras.state.nom;
-        this.a = this.router.getCurrentNavigation().extras.state.ape;
-
-      }
-    })
-   }
-
-  modificarDatos2(){
-    let navigationExtras: NavigationExtras = {
-      state: {
-        nom: this.n,
-        em: this.e,
-        con: this.c,
-        ape: this.a,
-        num :this.nu,
-      }
+  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, public navCtrl:NavController, private servicioBD: BDService) {
+    
   }
-  this.router.navigate(['/modi-cuenta'], navigationExtras);
-}
 
 
 async presentAlert() {
@@ -65,6 +50,16 @@ async presentAlert() {
   });
 
   await alert.present();
+}
+
+ngOnInit() {
+  this.servicioBD.dbState().subscribe(res=>{
+    if(res){
+      this.servicioBD.fetchUsuarios().subscribe(item=>{
+        this.arregloUsuarios = item;
+      })
+    }
+  })
 }
 
 

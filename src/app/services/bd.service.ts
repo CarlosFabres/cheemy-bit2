@@ -153,14 +153,14 @@ export class BDService {
   //VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE--------------//
 
   //variable para la sentencia de creación de tabla
-  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida DATETIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo VARCHAR(10), FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
+  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida DATETIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
 
   //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-
+  
 
   fetchViajes(): Observable<Viaje[]> {
     return this.listaViajes.asObservable();
@@ -181,7 +181,7 @@ export class BDService {
             patente: res.rows.item(i).patente,
             color: res.rows.item(i).color,
             modelo: res.rows.item(i).modelo,
-            marca: res.rows.item(i).marca,
+            marca: res.rows.item(i).marca
           })
         }
 
@@ -219,7 +219,7 @@ export class BDService {
 
   buscarUsuarios() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
+    return this.database.executeSql('SELECT * FROM usuario WHERE id_usuario = 1', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Usuario[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
