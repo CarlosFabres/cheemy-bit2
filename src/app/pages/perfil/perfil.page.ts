@@ -53,6 +53,24 @@ async presentAlert() {
   await alert.present();
 }
 
+modificar(x){
+    
+  let navigationExtras: NavigationExtras = {
+    state: {
+      idEnviado: x.id_usuario,
+      correoEnviado: x.correo,
+      nombreEnviado: x.nombre,
+      apellidoEnviado: x.apellido,
+      numeroEnviado: x.numero,
+      claveEnviado: x.clave,
+      imagenEnviado: x.imagen,
+    }
+  }
+
+  this.router.navigate(['/modi-cuenta'], navigationExtras);
+
+}
+
 ngOnInit() {
   this.servicioBD.dbState().subscribe(res=>{
     if(res){

@@ -270,6 +270,8 @@ export class BDService {
     let data = [correo,nombre,apellido,numero,clave,imagen,id_usuario];
     return this.database.executeSql('UPDATE usuario SET correo = ?, nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?',data).then(data2=>{
       this.buscarUsuarios();
+      this.router.navigate(['/perfil']);
+
     })
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-modi-cuenta',
@@ -9,52 +10,49 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class ModiCuentaPage {
 
-  e:string = "";
-  c:string = "";
-  c2:string = "";
-  n:string = "";
-  a:string = "";
-  nu:string = "";
+  id = "";
+  c = "";
+  n = "";
+  a = "";
+  nu = "";
+  cl = "";
+  cl2 = "";
+  img = "";
 
 
 
 
-  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController) {
+  constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController, private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.e = this.router.getCurrentNavigation().extras.state.em;
-        this.c = this.router.getCurrentNavigation().extras.state.con;
-        this.n = this.router.getCurrentNavigation().extras.state.nom;
-        this.a = this.router.getCurrentNavigation().extras.state.ape;
-        this.nu = this.router.getCurrentNavigation().extras.state.num;
+        this.activedRouter.queryParams.subscribe(params =>{
+          if(this.router.getCurrentNavigation().extras.state){
+            this.id = this.router.getCurrentNavigation().extras.state.idEnviado;
+            this.c = this.router.getCurrentNavigation().extras.state.correoEnviado;
+            this.n = this.router.getCurrentNavigation().extras.state.nombreEnviado;
+            this.a = this.router.getCurrentNavigation().extras.state.apellidoEnviado;
+            this.nu = this.router.getCurrentNavigation().extras.state.numeroEnviado;
+            this.cl = this.router.getCurrentNavigation().extras.state.claveEnviado;
+            this.img = this.router.getCurrentNavigation().extras.state.imagenEnviado;
+          }
+        })
       }
     })
    }
 
-   modificarDatos3() {
-    let navigationExtras: NavigationExtras = {
-      state: {
-        /*pe: this.ap*/
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a,
-        num: this.nu
-      }
-    }
-    this.router.navigate(['/perfil'], navigationExtras);
-  
+  modificarc(){
+    this.servicioBD.modificarUsuarios(this.id,this.c,this.n,this.a,this.nu,this.cl,this.img);
   }
 
   validar(){
     var correo = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
 
-    if((this.e.length < 1 ) || (this.n.length < 1 ) || (this.a.length < 1) || (this.nu.length < 1) || (this.c.length < 1) || (this.c2.length < 1)){
+    if((this.c.length < 1 ) || (this.n.length < 1 ) || (this.a.length < 1) || (this.nu.length < 1) || (this.cl.length < 1) || (this.cl2.length < 1)){
       this.presentAlert4();
     }
 
-    else if(!correo.test(this.e)){
+    else if(!correo.test(this.c)){
       this.presentAlert5();
     }
 
@@ -75,13 +73,14 @@ export class ModiCuentaPage {
       this.presentAlert2();
     }
 
-    else if (this.c != this.c2) {
+    else if (this.cl != this.cl2) {
       this.presentAlert();
     }
 
     else {
+      this.servicioBD.modificarUsuarios(this.id,this.c,this.n,this.a,this.nu,this.cl,this.img);
       this.presentToast();
-      this.modificarDatos3();
+      
     }
   }
 
