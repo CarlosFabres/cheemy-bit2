@@ -13,7 +13,7 @@
 <ion-content class="body">
   <ion-list>
     <div *ngFor="let x of arregloViajes">
-      <ion-item [routerLink]="['/dato-v']">
+      <ion-item (click)="verViaje(x)">
         <img src="../../assets/img/cheems.png" alt="">
         <ion-label class="inpu font">Salida: {{ x.hora_salida }} - {{ x.destino }} <p>{{ x.asientos_ocupa }}/{{ x.asientos_dispo }} Asientos</p></ion-label>
       </ion-item>

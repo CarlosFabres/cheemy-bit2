@@ -172,10 +172,10 @@ export class BDService {
   //VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE--------------//
 
   //variable para la sentencia de creación de tabla
-  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER,idusuario INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo),FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
+  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1,1);";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1,1);";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -293,8 +293,7 @@ export class BDService {
             monto: res.rows.item(i).monto,
             sector: res.rows.item(i).sector,
             destino: res.rows.item(i).destino,
-            idvehiculo: res.rows.item(i).idvehiculo,
-            idusuario: res.rows.item(i).idusuario
+            idvehiculo: res.rows.item(i).idvehiculo
           })
         }
 
@@ -352,6 +351,8 @@ export class BDService {
 
   }
 
+  //---------perfil------------perfil------------perfil------------perfil---
+
   buscarUsuariosIniciar(corre) {
     let data = [corre];
     //retorno la ejecución del select
@@ -385,6 +386,8 @@ export class BDService {
     return this.listaUsuariosIniciar.asObservable();
   }
 
+  //----------------------Vehiculo-------------------------Vehiculo-------------------------Vehiculo-------------------------Vehiculo--------------
+
   buscarVehiculosIniciar(corre) {
     let data = [corre];
     //retorno la ejecución del select
@@ -413,6 +416,103 @@ export class BDService {
   listaVehiculosIniciar = new BehaviorSubject([]);
   fetchVehiculosIniciar(): Observable<Vehiculo[]> {
     return this.listaVehiculosIniciar.asObservable();
+  }
+
+  //----------viajes------------viajes------------viajes------------viajes------------viajes------------viajes---
+
+  buscarViajesIniciar(idvi) {
+    let data = [idvi];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM viaje WHERE id_viaje = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Viaje[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_viaje: res.rows.item(i).id_viaje,
+            hora_salida: res.rows.item(i).hora_salida,
+            asientos_dispo: res.rows.item(i).asientos_dispo,
+            asientos_ocupa: res.rows.item(i).asientos_ocupa,
+            monto: res.rows.item(i).monto,
+            sector: res.rows.item(i).sector,
+            destino: res.rows.item(i).destino,
+            idvehiculo: res.rows.item(i).id_vehiculo
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaViajesIniciar.next(items);
+    })
+  }
+
+  listaViajesIniciar = new BehaviorSubject([]);
+  fetchViajesIniciar(): Observable<Viaje[]> {
+    return this.listaViajesIniciar.asObservable();
+  }
+
+  buscarUsuariosViaje(idvi) {
+    let data = [idvi];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM usuario INNER JOIN vehiculo on usuario.id_usuario = vehiculo.idusuario INNER JOIN viaje on vehiculo.id_vehiculo = viaje.idvehiculo WHERE viaje.id_viaje = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Usuario[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            correo: res.rows.item(i).correo,
+            puntos: res.rows.item(i).puntos,
+            nombre: res.rows.item(i).nombre,
+            apellido: res.rows.item(i).apellido,
+            numero: res.rows.item(i).numero,
+            clave: res.rows.item(i).clave,
+            imagen: res.rows.item(i).imagen,
+            idtipo: res.rows.item(i).idtipo
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaUsuariosViaje.next(items);
+    })
+  }
+
+  listaUsuariosViaje = new BehaviorSubject([]);
+  fetchUsuariosViaje(): Observable<Usuario[]> {
+    return this.listaUsuariosViaje.asObservable();
+  }
+
+  buscarVehiculosViaje(idvi) {
+    let data = [idvi];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM vehiculo INNER JOIN viaje on vehiculo.id_vehiculo = viaje.idvehiculo WHERE viaje.id_viaje = ? ', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Vehiculo[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_vehiculo: res.rows.item(i).id_vehiculo,
+            patente: res.rows.item(i).patente,
+            color: res.rows.item(i).color,
+            modelo: res.rows.item(i).modelo,
+            marca: res.rows.item(i).marca,
+            idusuario: res.rows.item(i).idusuario
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaVehiculosViaje.next(items);
+    })
+  }
+
+  listaVehiculosViaje = new BehaviorSubject([]);
+  fetchVehiculosViaje(): Observable<Viaje[]> {
+    return this.listaVehiculosViaje.asObservable();
   }
 }
 

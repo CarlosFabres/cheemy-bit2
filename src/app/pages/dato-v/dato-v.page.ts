@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-dato-v',
@@ -9,6 +10,48 @@ import { AlertController, MenuController, ToastController } from '@ionic/angular
 })
 export class DatoVPage implements OnInit {
 
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : ""
+    }
+  ]
+
+  arregloViajes: any = [
+    {
+      id_viaje : "",
+      hora_salida: "",
+      asientos_dispo : "",
+      asientos_ocupa : "",
+      monto : "",
+      sector : "",
+      destino : "",
+      idvehiculo : "",
+      idusuario : ""
+    }
+  
+  ]
+
+  arregloVehiculos: any = [
+    {
+      id_vehiculo : "",
+      patente: "",
+      color : "",
+      modelo : "",
+      marca : "",
+      idusuario : ""
+    }
+
+  ]
+
+  idvi = "";
   e: string = "";
   c: string = "";
   n: string = "";
@@ -16,15 +59,11 @@ export class DatoVPage implements OnInit {
 
   eliminar: string= "";
 
-  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private toastCtrl: ToastController) { 
+  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private toastCtrl: ToastController,private servicioBD: BDService) { 
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.e = this.router.getCurrentNavigation().extras.state.correo;
-        this.c = this.router.getCurrentNavigation().extras.state.contra;
-        this.n = this.router.getCurrentNavigation().extras.state.nom;
-        this.a = this.router.getCurrentNavigation().extras.state.ape;
+        this.idvi = this.router.getCurrentNavigation().extras.state.idEnviado;
 
-        this.eliminar = this.router.getCurrentNavigation().extras.state.eli;
       }
     })
 
@@ -63,7 +102,35 @@ export class DatoVPage implements OnInit {
     this.isDisplayImage = !this.isDisplayImage;
   }
   
+  viaje(idvi){
+    this.servicioBD.buscarViajesIniciar(this.idvi);
+  }
+
+  usuario(idvi){
+    this.servicioBD.buscarUsuariosViaje(this.idvi);
+  }
+
+  vehiculo(idvi){
+    this.servicioBD.buscarVehiculosViaje(this.idvi);
+  }
+
   ngOnInit() {
+    this.servicioBD.dbState().subscribe(res=>{
+      if(res){
+        this.viaje(this.idvi);
+        this.usuario(this.idvi);
+        this.vehiculo(this.idvi);
+        this.servicioBD.fetchViajesIniciar().subscribe(item=>{
+          this.arregloViajes = item;
+        })
+        this.servicioBD.fetchUsuariosViaje().subscribe(item=>{
+          this.arregloUsuarios = item;
+        })
+        this.servicioBD.fetchVehiculosViaje().subscribe(item=>{
+          this.arregloViajes = item;
+        })
+      }
+    })
   }
 
 }

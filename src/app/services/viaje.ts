@@ -7,5 +7,4 @@ export class Viaje {
     sector : string;
     destino : string;
     idvehiculo: number;
-    idusuario: string;
 }
