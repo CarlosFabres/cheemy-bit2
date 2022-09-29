@@ -27,7 +27,7 @@ export class VehiculoPage {
 
   constructor(private router: Router, private activedRouter: ActivatedRoute, private toastCtrl: ToastController, public navCtrl:NavController, private alertController: AlertController, private servicioBD: BDService) {
     
-   }
+  }
 
   async presentToast() {
     const toast = await this.toastCtrl.create({

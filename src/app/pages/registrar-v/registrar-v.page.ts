@@ -10,6 +10,22 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class RegistrarVPage {
 
+  corre = localStorage.getItem("correo");
+
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : ""
+    }
+  ]
+
   patente: string = "";
   marca: string = "";
   modelo: string = "";
@@ -19,7 +35,7 @@ export class RegistrarVPage {
 
   constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController, private servicioBD: BDService) { }
 
-  pasarDatos(){
+  pasarDatos(x){
     
     if ((this.patente.length < 1 ) || (this.marca.length < 1 ) || (this.modelo.length < 1 ) || (this.color.length < 1 )) {
       this.presentAlert4();
@@ -30,7 +46,7 @@ export class RegistrarVPage {
     }
 
     else {
-      this.servicioBD.insertarVehiculos(this.patente,this.marca,this.modelo,this.color,this.idU);
+      this.servicioBD.insertarVehiculos(this.patente,this.marca,this.modelo,this.color,x.id_usuario);
       this.presentToast();
       this.router.navigate(['/vehiculo']);
     }
@@ -96,6 +112,19 @@ export class RegistrarVPage {
     toast.present();
   }
 
+  usuario(corre){
+    this.servicioBD.buscarUsuariosIniciar(this.corre);
+  }
 
+  ngOnInit() {
+    this.servicioBD.dbState().subscribe(res=>{
+      if(res){
+        this.usuario(this.corre);
+        this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
+          this.arregloUsuarios = item;
+        })
+      }
+    })
+  }
 
 }
