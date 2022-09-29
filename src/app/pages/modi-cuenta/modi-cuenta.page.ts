@@ -10,6 +10,8 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class ModiCuentaPage {
 
+  corre = localStorage.getItem("correo");
+
   id = "";
   c = "";
   n = "";
@@ -40,7 +42,7 @@ export class ModiCuentaPage {
     })
    }
 
-  modificarc(){
+  modificarc(corre){
     this.servicioBD.modificarUsuarios(this.id,this.c,this.n,this.a,this.nu,this.cl,this.img);
   }
 

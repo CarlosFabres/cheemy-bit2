@@ -191,7 +191,7 @@ export class BDService {
   //Vehiculo----------------------------------------------------------------
   buscarVehiculos() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM vehiculo WHERE idusuario = 1', []).then(res => {
+    return this.database.executeSql('SELECT * FROM vehiculo', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Vehiculo[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -231,7 +231,7 @@ export class BDService {
 
   eliminarVehiculos(id_vehiculo){
 
-    return this.database.executeSql('DELETE FROM vehiculo WHERE id_vehiculo = ?',[id_vehiculo]).then(a=>{
+    return this.database.executeSql('DELETE * FROM vehiculo WHERE id_vehiculo = ?',[id_vehiculo]).then(a=>{
       this.buscarVehiculos();
     })
 
@@ -241,7 +241,7 @@ export class BDService {
 
   buscarUsuarios() {
     //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM usuario WHERE id_usuario = 1', []).then(res => {
+    return this.database.executeSql('SELECT * FROM usuario', []).then(res => {
       //creo mi lista de objetos de noticias vacio
       let items: Usuario[] = [];
       //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
@@ -339,14 +339,10 @@ export class BDService {
             correo: res.rows.item(i).correo
           });
         }
-        let navigationExtras: NavigationExtras = {
-          state: {
-            correoEnviado: correo
-          }
-        }
         this.listaLogin.next(item2);
-        this.router.navigate(['/menu-p'], navigationExtras);
+        this.router.navigate(['/menu-p']);
         this.presentToast("has iniciado sesion correctamente");
+
       }
       else {
         this.presentToast("Usuario y/o clave incorrecta");
@@ -380,8 +376,43 @@ export class BDService {
 
       }
       //actualizamos el observable de las noticias
-      this.listaUsuarios.next(items);
+      this.listaUsuariosIniciar.next(items);
     })
   }
 
+  listaUsuariosIniciar = new BehaviorSubject([]);
+  fetchUsuariosIniciar(): Observable<Usuario[]> {
+    return this.listaUsuariosIniciar.asObservable();
+  }
+
+  buscarVehiculosIniciar(corre) {
+    let data = [corre];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM vehiculo INNER JOIN usuario on vehiculo.idusuario = usuario.id_usuario WHERE usuario.correo = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Vehiculo[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_vehiculo: res.rows.item(i).id_vehiculo,
+            patente: res.rows.item(i).patente,
+            color: res.rows.item(i).color,
+            modelo: res.rows.item(i).modelo,
+            marca: res.rows.item(i).marca,
+            idusuario: res.rows.item(i).idusuario
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaVehiculosIniciar.next(items);
+    })
+  }
+
+  listaVehiculosIniciar = new BehaviorSubject([]);
+  fetchVehiculosIniciar(): Observable<Vehiculo[]> {
+    return this.listaVehiculosIniciar.asObservable();
+  }
 }
+

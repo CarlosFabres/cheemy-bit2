@@ -14,7 +14,22 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class LoginPage {
 
-  correo = "";
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : ""
+    }
+
+  ]
+
+  corre = "";
   clave = "";
 
   e: string = "";
@@ -34,78 +49,36 @@ export class LoginPage {
 
 
   constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController,private servicioBD: BDService) {
-    this.activedRouter.queryParams.subscribe(params => {
-      if (this.router.getCurrentNavigation().extras.state) {
-        this.e = this.router.getCurrentNavigation().extras.state.correo;
-        this.c = this.router.getCurrentNavigation().extras.state.contra;
-        this.n = this.router.getCurrentNavigation().extras.state.nom;
-        this.a = this.router.getCurrentNavigation().extras.state.ape;
-      }
-    })
+    
   }
 
   login(){
-    this.servicioBD.loginUsuario(this.correo,this.clave);
+    this.servicioBD.loginUsuario(this.corre,this.clave);
+    localStorage.setItem('correo', this.corre);
+    localStorage.setItem('id_usuario', this.arregloUsuarios.id_usuario);
+    
+    this.corre="";
+    this.clave="";
   }
+
 
 
   validar() {
     let lista1: string[] = ["vicente@gmail.com", "carlos@gmail.com", this.e];
     let lista2: string[] = ["Vicente123", "Carlos123", this.c];
 
-    if ((this.correo.length < 1) || (this.clave.length < 1)) {
+    if ((this.corre.length < 1) || (this.clave.length < 1)) {
       this.presentAlert4();
     }
-    else if ((this.correo != lista1[0] || this.clave != lista2[0]) && (this.correo != lista1[1] || this.clave != lista2[1]) && (this.correo != lista1[2] || this.clave != lista2[2])) {
+    else if ((this.corre != lista1[0] || this.clave != lista2[0]) && (this.corre != lista1[1] || this.clave != lista2[1]) && (this.corre != lista1[2] || this.clave != lista2[2])) {
       this.presentAlert();
     }
     else {
-      this.pasarDatos();
+      
     }
   }
 
   
-
-
-
-  pasarDatos() {
-    if ((this.correo == "vicente@gmail.com")) {
-      let navigationExtras: NavigationExtras = {
-        state: {
-          correo: this.e2,
-          contra: this.c2,
-          nom: this.n2,
-          ape: this.a2,
-          eli: '0'
-        }
-      }
-      this.router.navigate(['/menu-p'], navigationExtras);
-    
-    }
-    else if (((this.correo == "carlos@gmail.com"))){
-      let navigationExtras: NavigationExtras = {
-        state: {
-          correo: this.e3,
-          contra: this.c3,
-          nom: this.n3,
-          ape: this.a3,
-          eli: '0'
-        }
-      }
-      this.router.navigate(['/menu-p'], navigationExtras);
-    }
-    else {
-      let navigationExtras: NavigationExtras = {
-        state: {
-          correo: this.e,
-          contra: this.c,
-          nom: this.n,
-          ape: this.a
-        }
-      }
-      this.router.navigate(['/menu-p'], navigationExtras);
-    }
-  }
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -140,9 +113,19 @@ export class LoginPage {
     await alert.present();
   }
 
+  usuario(corre){
+    this.servicioBD.buscarUsuariosIniciar(this.corre);
+  }
+
   ngOnInit() {
-    
-    
+    this.servicioBD.dbState().subscribe(res=>{
+      if(res){
+        this.usuario(this.corre);
+        this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
+          this.arregloUsuarios = item;
+        })
+      }
+    })
   }
   
 

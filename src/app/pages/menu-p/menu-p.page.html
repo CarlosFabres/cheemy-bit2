@@ -2,14 +2,15 @@
   <ion-toolbar color="mycolor">
     <ion-title class="font">Menú</ion-title>
     <!--<ion-icon name="person" class="floata" (click)="pasarDatos()"></ion-icon>-->
-    <ion-buttons slot="end" (click) = "pasarDatosMenu()">
+    <ion-buttons slot="end">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="body">
-  <div *ngFor="let x of arregloUsuarios">
+  {{ id }}
+  <div *ngFor = "let x of arregloUsuarios">
     <center><h4 class="font">¡¡Bienvenido {{ x.nombre }}!!</h4></center>
     <div>
       <center><img src="../../../assets/img/car1.gif" alt="" class="baner"></center>
@@ -60,8 +61,5 @@
         </center>
     </div>
   </div>
-
-
-
 
 </ion-content>

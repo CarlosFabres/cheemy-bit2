@@ -10,6 +10,8 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class VehiculoPage {
 
+  corre = localStorage.getItem("correo");
+
   arregloVehiculos: any = [
     {
       id_vehiculo : "",
@@ -78,10 +80,15 @@ export class VehiculoPage {
     this.servicioBD.presentToast("Vehiculo Eliminado");
   }
 
+  vehiculo(corre){
+    this.servicioBD.buscarVehiculosIniciar(this.corre);
+  }
+
   ngOnInit() {
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
-        this.servicioBD.fetchVehiculos().subscribe(item=>{
+        this.vehiculo(this.corre);
+        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
           this.arregloVehiculos = item;
         })
       }

@@ -11,6 +11,8 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class PerfilPage implements OnInit {
 
+  corre = localStorage.getItem("correo");
+
   arregloUsuarios: any = [
     {
       id_usuario : "",
@@ -71,10 +73,15 @@ modificar(x){
 
 }
 
+usuario(corre){
+  this.servicioBD.buscarUsuariosIniciar(this.corre);
+}
+
 ngOnInit() {
   this.servicioBD.dbState().subscribe(res=>{
     if(res){
-      this.servicioBD.fetchUsuarios().subscribe(item=>{
+      this.usuario(this.corre);
+      this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
         this.arregloUsuarios = item;
       })
     }
