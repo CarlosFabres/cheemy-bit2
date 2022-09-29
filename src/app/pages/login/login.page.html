@@ -15,13 +15,13 @@
   <center><img src="../../../assets/img/cheems.png" alt="" class="img2"></center>
     <ion-item lines="full" class="aaa">
       <ion-label position="floating" class="inpu font">Email:</ion-label>
-      <ion-input type="text" required class="inpu2 font" [(ngModel)]="email"></ion-input>
+      <ion-input type="text" required class="inpu2 font" [(ngModel)]="correo"></ion-input>
     </ion-item>
     <ion-item lines="full" class="aaa">
       <ion-label position="floating" class="inpu font">Contraseña:</ion-label>
       <ion-input type="password" required class="inpu2 font" [(ngModel)]="clave"></ion-input>
     </ion-item>
-    <ion-button expand="block" color="mycolor" (click)="validar()" class="font">Acceder</ion-button>
+    <ion-button expand="block" color="mycolor" (click)="login()" class="font">Acceder</ion-button>
  
     <p [routerLink]="['/recup-contra']" class="font" class="ion-text-center">¿Has olvidado la contraseña?</p>
   

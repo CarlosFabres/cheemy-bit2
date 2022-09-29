@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController, ToastController } from '@ionic/angular';
+import { BehaviorSubject } from 'rxjs';
+import { BDService } from 'src/app/services/bd.service';
+
 
 
 
@@ -10,6 +13,9 @@ import { AlertController, MenuController, ToastController } from '@ionic/angular
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage {
+
+  correo = "";
+  clave = "";
 
   e: string = "";
   c: string = "";
@@ -27,7 +33,7 @@ export class LoginPage {
   a3: string = "Fabres";
 
 
-  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController) {
+  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController,private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.e = this.router.getCurrentNavigation().extras.state.correo;
@@ -38,18 +44,19 @@ export class LoginPage {
     })
   }
 
-  email: string = "";
-  clave: string = "";
+  login(){
+    this.servicioBD.loginUsuario(this.correo,this.clave);
+  }
 
 
   validar() {
     let lista1: string[] = ["vicente@gmail.com", "carlos@gmail.com", this.e];
     let lista2: string[] = ["Vicente123", "Carlos123", this.c];
 
-    if ((this.email.length < 1) || (this.clave.length < 1)) {
+    if ((this.correo.length < 1) || (this.clave.length < 1)) {
       this.presentAlert4();
     }
-    else if ((this.email != lista1[0] || this.clave != lista2[0]) && (this.email != lista1[1] || this.clave != lista2[1]) && (this.email != lista1[2] || this.clave != lista2[2])) {
+    else if ((this.correo != lista1[0] || this.clave != lista2[0]) && (this.correo != lista1[1] || this.clave != lista2[1]) && (this.correo != lista1[2] || this.clave != lista2[2])) {
       this.presentAlert();
     }
     else {
@@ -57,10 +64,12 @@ export class LoginPage {
     }
   }
 
+  
+
 
 
   pasarDatos() {
-    if ((this.email == "vicente@gmail.com")) {
+    if ((this.correo == "vicente@gmail.com")) {
       let navigationExtras: NavigationExtras = {
         state: {
           correo: this.e2,
@@ -73,7 +82,7 @@ export class LoginPage {
       this.router.navigate(['/menu-p'], navigationExtras);
     
     }
-    else if (((this.email == "carlos@gmail.com"))){
+    else if (((this.correo == "carlos@gmail.com"))){
       let navigationExtras: NavigationExtras = {
         state: {
           correo: this.e3,
@@ -132,7 +141,8 @@ export class LoginPage {
   }
 
   ngOnInit() {
-
+    
+    
   }
   
 

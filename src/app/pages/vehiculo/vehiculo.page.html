@@ -16,12 +16,12 @@
       <h3 class="font">Datos de vehiculo</h3>
       <p>No tienes un vehiculo registrado...</p>
     </center>
-    <div *ngFor="let x of arregloVehiculos">
       <center>
-        <ion-item >
-          <p class="info font">Patente:</p>
-          <ion-label class="font icolo">{{ x.patente }}</ion-label>
-        </ion-item>
+        <div *ngFor="let x of arregloVehiculos"></div>
+          <ion-item >
+            <p class="info font">Patente:</p>
+            <ion-label class="font icolo">{{ x.patente }}</ion-label>
+          </ion-item>
         <ion-item >
           <p class="info font">Marca:</p>
           <ion-label class="font icolo">{{ x.marca }}</ion-label>

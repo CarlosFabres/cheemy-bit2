@@ -12,26 +12,12 @@
 
 <ion-content class="body">
   <ion-list>
-    <ion-item [routerLink]="['/dato-v']">
-      <img src="../../assets/img/cheems.png" alt="">
-      <ion-label class="inpu font">Salida: 19:00 - Til-Til <p>0/4 Asientos</p></ion-label>
-    </ion-item>
-    <ion-item [routerLink]="['/dato-v']">
-      <img src="../../assets/img/amongus.jpg" alt="">
-      <ion-label class="inpu font">Salida: 19:00 - La Florida  <p>3/4 Asientos</p></ion-label>
-    </ion-item>
-    <ion-item [routerLink]="['/dato-v']">
-      <img src="../../assets/img/megamente.jpg" alt="">
-      <ion-label class="inpu font">Salida: 19:00 - Valle Grande  <p>2/4 Asientos</p></ion-label>
-    </ion-item>
-    <ion-item [routerLink]="['/dato-v']">
-      <img src="../../assets/img/messi.jpg" alt="">
-      <ion-label class="inpu font">Salida: 19:00 - Las Condes  <p>2/4 Asientos</p></ion-label>
-    </ion-item>
-    <ion-item [routerLink]="['/dato-v']">
-      <img src="../../assets/img/alexis.jpg" alt="">
-      <ion-label class="inpu font">Salida: 19:00 - Quilicura  <p>4/4 Asientos</p></ion-label>
-    </ion-item>
+    <div *ngFor="let x of arregloViajes">
+      <ion-item [routerLink]="['/dato-v']">
+        <img src="../../assets/img/cheems.png" alt="">
+        <ion-label class="inpu font">Salida: {{ x.hora_salida }} - {{ x.destino }} <p>{{ x.asientos_ocupa }}/{{ x.asientos_dispo }} Asientos</p></ion-label>
+      </ion-item>
+    </div>
   </ion-list>
   
 </ion-content>

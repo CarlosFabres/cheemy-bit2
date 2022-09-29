@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
+import { NavigationExtras, Router } from '@angular/router';
 import { SQLite, SQLiteObject } from '@awesome-cordova-plugins/sqlite/ngx';
 import { Platform, ToastController } from '@ionic/angular';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Login } from './login';
 import { Tipousuario } from './tipousuario';
 import { Titulo } from './titulo';
 import { Usuario } from './usuario';
@@ -18,7 +20,7 @@ export class BDService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController) {
+  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController,private router: Router) {
     this.crearBD();
   }
 
@@ -70,11 +72,19 @@ export class BDService {
 
       await this.database.executeSql(this.registroUsuario, []);
 
+      await this.database.executeSql(this.registroUsuario2, []);
+
       await this.database.executeSql(this.tablaVehiculo, []);
 
       await this.database.executeSql(this.registroVehiculo, []);
 
       await this.database.executeSql(this.tablaViaje, []);
+
+      await this.database.executeSql(this.registroViaje, []);
+
+      await this.database.executeSql(this.registroViaje2, []);
+      
+      this.buscarViajes();
 
       this.buscarVehiculos();
 
@@ -85,6 +95,14 @@ export class BDService {
     } catch (e) {
       this.presentToast("Error Tablas: " + e);
     }
+  }
+
+  //LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN----LOGIN
+
+  listaLogin = new BehaviorSubject([]);
+
+  fetchLogin(): Observable<Login[]> {
+    return this.listaLogin.asObservable();
   }
 
   //TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-----TITULO-------------------------//
@@ -124,11 +142,10 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (1,'A@A.COM',1000,'vicente','echeverria',123332323,'pepe1',NULL,2);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (1,'a@a.com',1000,'vicente','echeverria',123332323,'Pepe1',NULL,2);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (2,'e@e.com',1000,'Pepe','Soto',292188321,'Caca1',NULL,1);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
-
- 
 
   fetchUsuarios(): Observable<Usuario[]> {
     return this.listaUsuarios.asObservable();
@@ -155,8 +172,10 @@ export class BDService {
   //VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE--------------//
 
   //variable para la sentencia de creación de tabla
-  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida DATETIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
+  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER,idusuario INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo),FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
   //variable para la sentencia de registros por defecto en la tabla
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1,1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1,1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -271,7 +290,9 @@ export class BDService {
             asientos_ocupa: res.rows.item(i).asientos_ocupa,
             monto: res.rows.item(i).monto,
             sector: res.rows.item(i).sector,
-            destino: res.rows.item(i).destino
+            destino: res.rows.item(i).destino,
+            idvehiculo: res.rows.item(i).idvehiculo,
+            idusuario: res.rows.item(i).idusuario
           })
         }
 
@@ -305,5 +326,60 @@ export class BDService {
 
   }
   //------------------------------------------------------------------------------------
+
+  loginUsuario(correo, clave) {
+    let data = [correo, clave];
+    return this.database.executeSql('SELECT correo FROM usuario WHERE correo = ? and clave = ?', data).then((res) => {
+      let item2: Login[] = [];
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          item2.push({
+            correo: res.rows.item(i).correo
+          });
+        }
+        let navigationExtras: NavigationExtras = {
+          state: {
+            correoEnviado: correo
+          }
+        }
+        this.listaLogin.next(item2);
+        this.router.navigate(['/menu-p'], navigationExtras);
+        this.presentToast("has iniciado sesion correctamente");
+      }
+      else {
+        this.presentToast("Usuario y/o clave incorrecta");
+      }
+      
+    })
+
+  }
+
+  buscarUsuariosIniciar(corre) {
+    let data = [corre];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM usuario WHERE correo = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Usuario[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_usuario: res.rows.item(i).id_usuario,
+            correo: res.rows.item(i).correo,
+            puntos: res.rows.item(i).puntos,
+            nombre: res.rows.item(i).nombre,
+            apellido: res.rows.item(i).apellido,
+            numero: res.rows.item(i).numero,
+            clave: res.rows.item(i).clave,
+            imagen: res.rows.item(i).imagen,
+            idtipo: res.rows.item(i).idtipo
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaUsuarios.next(items);
+    })
+  }
 
 }

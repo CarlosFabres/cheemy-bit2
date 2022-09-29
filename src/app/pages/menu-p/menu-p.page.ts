@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-menu-p',
@@ -9,23 +10,44 @@ import { AlertController, MenuController, ToastController } from '@ionic/angular
 })
 export class MenuPPage {
 
-  e: string = "";
-  c: string = "";
-  n: string = "";
-  a: string = "";
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : ""
+    }
+  ]
+
+  arregloViajes: any = [
+    {
+      id_viaje : "",
+      hora_salida: "",
+      asientos_dispo : "",
+      asientos_ocupa : "",
+      monto : "",
+      sector : "",
+      destino : "",
+      idvehiculo : "",
+      idusuario : ""
+    }
+  
+  ]
+
+  corre: string = "";
+  
 
   eliminar:string = "";
 
-  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController) {
-
+  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.e = this.router.getCurrentNavigation().extras.state.correo;
-        this.c = this.router.getCurrentNavigation().extras.state.contra;
-        this.n = this.router.getCurrentNavigation().extras.state.nom;
-        this.a = this.router.getCurrentNavigation().extras.state.ape;
-        
-        this.eliminar = this.router.getCurrentNavigation().extras.state.eli;
+        this.corre = this.router.getCurrentNavigation().extras.state.correoEnviado;
       }
     })
   }
@@ -33,11 +55,7 @@ export class MenuPPage {
   pasarDatos() {
     let navigationExtras: NavigationExtras = {
       state: {
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a,
-        eli: this.eliminar
+        
       }
     }
     this.router.navigate(['/perfil'], navigationExtras);
@@ -47,11 +65,7 @@ export class MenuPPage {
   pasarDatosViaje() {
     let navigationExtras: NavigationExtras = {
       state: {
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a,
-        eli: this.eliminar
+        
       }
     }
     this.router.navigate(['/dato-v'], navigationExtras);
@@ -61,11 +75,7 @@ export class MenuPPage {
   pasarDatosViaje2() {
     let navigationExtras: NavigationExtras = {
       state: {
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a,
-        eli: this.eliminar
+        
       }
     }
     this.router.navigate(['/v-agendar'], navigationExtras);
@@ -75,16 +85,29 @@ export class MenuPPage {
   pasarDatosMenu() {
     let navigationExtras: NavigationExtras = {
       state: {
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a
+        
       }
     }
     this.router.navigate(['/app'], navigationExtras);
   
   }
+
+  usuario(corre){
+    this.servicioBD.buscarUsuariosIniciar(this.corre);
+  }
+
   ngOnInit() {
     this.menuCtrl.enable(true);
+    this.servicioBD.dbState().subscribe(res=>{
+      if(res){
+        this.usuario(this.corre);
+        this.servicioBD.fetchUsuarios().subscribe(item=>{
+          this.arregloUsuarios = item;
+        })
+        this.servicioBD.fetchViajes().subscribe(item=>{
+          this.arregloViajes = item;
+        })
+      }
+    })
   }
 }

@@ -6,4 +6,6 @@ export class Viaje {
     monto : number;
     sector : string;
     destino : string;
+    idvehiculo: number;
+    idusuario: string;
 }
