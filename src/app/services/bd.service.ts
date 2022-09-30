@@ -174,8 +174,8 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1);";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1);";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -266,10 +266,10 @@ export class BDService {
     })
   }
 
-  modificarUsuarios(id_usuario,correo,nombre,apellido, numero, clave, imagen){
-    let data = [correo,nombre,apellido,numero,clave,imagen,id_usuario];
-    return this.database.executeSql('UPDATE usuario SET correo = ?, nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?',data).then(data2=>{
-      this.buscarUsuarios();
+  modificarUsuarios(id_usuario,corre,nombre,apellido, numero, clave, imagen){
+    let data = [nombre,apellido,numero,clave,imagen,id_usuario];
+    return this.database.executeSql('UPDATE usuario SET nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?',data).then(data2=>{
+      this.buscarUsuariosIniciar(corre);
       this.router.navigate(['/perfil']);
 
     })
