@@ -455,6 +455,9 @@ export class BDService {
     return this.listaViajesIniciar.asObservable();
   }
 
+
+
+
   buscarUsuariosViaje(idvi) {
     let data = [idvi];
     //retorno la ejecución del select
@@ -476,12 +479,14 @@ export class BDService {
             idtipo: res.rows.item(i).idtipo
           })
         }
-
       }
+
       //actualizamos el observable de las noticias
       this.listaUsuariosViaje.next(items);
     })
   }
+
+
 
   listaUsuariosViaje = new BehaviorSubject([]);
   fetchUsuariosViaje(): Observable<Usuario[]> {
@@ -521,20 +526,22 @@ export class BDService {
 
 
 /////////////////////////////////////////////////////////
-  corre = localStorage.getItem("correo");
 
 
   nick: string;
   correo: string;
-
+  
   arrayUsers: any;
 
   bucardatos() {
     for (let x of this.arrayUsers) {
       this.nick = x.username
       this.correo = x.email
+      localStorage.setItem('nick', this.nick);
     }
   }
+
+
 
 
   ngOnInit() {
@@ -542,6 +549,7 @@ export class BDService {
       this.arrayUsers = item;
     })
   }
+
 /////////////////////////////////////////////////////////
 
 }
