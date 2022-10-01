@@ -13,6 +13,8 @@ export class PerfilPage implements OnInit {
 
   corre = localStorage.getItem("correo");
 
+  
+
   arregloUsuarios: any = [
     {
       id_usuario : "",

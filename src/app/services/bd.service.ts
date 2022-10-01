@@ -10,6 +10,9 @@ import { Usuario } from './usuario';
 import { Vehiculo } from './vehiculo';
 import { Viaje } from './viaje';
 
+//API
+import { ApirestService } from './apirest.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -20,7 +23,7 @@ export class BDService {
 
   private isDBReady: BehaviorSubject<boolean> = new BehaviorSubject(false);
 
-  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController,private router: Router) {
+  constructor(private sqlite: SQLite, private platform: Platform, private toastController: ToastController, private router: Router, public Apirest: ApirestService) {
     this.crearBD();
   }
 
@@ -58,8 +61,8 @@ export class BDService {
   async crearTablas() {
     try {
 
-      
-      
+
+
       await this.database.executeSql(this.tablaTitulos, []);
 
       await this.database.executeSql(this.registroTitulos, []);
@@ -83,7 +86,7 @@ export class BDService {
       await this.database.executeSql(this.registroViaje, []);
 
       await this.database.executeSql(this.registroViaje2, []);
-      
+
       this.buscarViajes();
 
       this.buscarVehiculos();
@@ -113,7 +116,7 @@ export class BDService {
   registroTitulos: string = "INSERT or IGNORE INTO titulo(id_titulo, nombret,puntost) VALUES (1,'siwi',0),(2,'apapa',1000);";
   listaTitulos = new BehaviorSubject([]);
 
- 
+
 
   fetchTitulos(): Observable<Titulo[]> {
     return this.listaTitulos.asObservable();
@@ -181,7 +184,7 @@ export class BDService {
 
 
   //FALTA INSERTAR LOS TITULOS CON SUS ID'S
-  
+
 
   fetchViajes(): Observable<Viaje[]> {
     return this.listaViajes.asObservable();
@@ -221,17 +224,17 @@ export class BDService {
 
   }
 
-  
-  modificarVehiculos(id_vehiculo,patente,marca,modelo,color){
-    let data = [patente,color,modelo,marca,id_vehiculo];
-    return this.database.executeSql('UPDATE vehiculo SET patente = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?',data).then(data2=>{
+
+  modificarVehiculos(id_vehiculo, patente, marca, modelo, color) {
+    let data = [patente, color, modelo, marca, id_vehiculo];
+    return this.database.executeSql('UPDATE vehiculo SET patente = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?', data).then(data2 => {
       this.buscarVehiculos();
     })
   }
 
-  eliminarVehiculos(id_vehiculo){
+  eliminarVehiculos(id_vehiculo) {
 
-    return this.database.executeSql('DELETE * FROM vehiculo WHERE id_vehiculo = ?',[id_vehiculo]).then(a=>{
+    return this.database.executeSql('DELETE * FROM vehiculo WHERE id_vehiculo = ?', [id_vehiculo]).then(a => {
       this.buscarVehiculos();
     })
 
@@ -266,9 +269,9 @@ export class BDService {
     })
   }
 
-  modificarUsuarios(id_usuario,corre,nombre,apellido, numero, clave, imagen){
-    let data = [nombre,apellido,numero,clave,imagen,id_usuario];
-    return this.database.executeSql('UPDATE usuario SET nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?',data).then(data2=>{
+  modificarUsuarios(id_usuario, corre, nombre, apellido, numero, clave, imagen) {
+    let data = [nombre, apellido, numero, clave, imagen, id_usuario];
+    return this.database.executeSql('UPDATE usuario SET nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?', data).then(data2 => {
       this.buscarUsuariosIniciar(corre);
       this.router.navigate(['/perfil']);
 
@@ -303,25 +306,25 @@ export class BDService {
     })
   }
 
-  insertarViajes(id_viaje, hora_salida, asientos_dispo, monto, sector, destino,id_vehiculo) {
-    let data = [id_viaje,hora_salida, asientos_dispo, monto, sector, destino,id_vehiculo];
+  insertarViajes(id_viaje, hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo) {
+    let data = [id_viaje, hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo];
     return this.database.executeSql('INSERT INTO vehiculo(id_viaje,hora_salida,asientos_dispo,monto,sector,destino,id_vehiculo) VALUES (?,?,?,?,?,?,?)', data).then(res => {
       this.buscarVehiculos();
     });
 
   }
 
-  
-  modificarViajes(id_viaje,hora_salida,asientos_dispo, monto,sector,destino){
-    let data = [hora_salida,asientos_dispo,monto,sector,destino,id_viaje];
-    return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?',data).then(data2=>{
+
+  modificarViajes(id_viaje, hora_salida, asientos_dispo, monto, sector, destino) {
+    let data = [hora_salida, asientos_dispo, monto, sector, destino, id_viaje];
+    return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?', data).then(data2 => {
       this.buscarViajes();
     })
   }
 
-  eliminarViajes(id_viaje){
+  eliminarViajes(id_viaje) {
 
-    return this.database.executeSql('DELETE FROM viaje WHERE id_viaje = ?',[id_viaje]).then(a=>{
+    return this.database.executeSql('DELETE FROM viaje WHERE id_viaje = ?', [id_viaje]).then(a => {
       this.buscarViajes();
     })
 
@@ -346,7 +349,7 @@ export class BDService {
       else {
         this.presentToast("Usuario y/o clave incorrecta");
       }
-      
+
     })
 
   }
@@ -514,5 +517,32 @@ export class BDService {
   fetchVehiculosViaje(): Observable<Viaje[]> {
     return this.listaVehiculosViaje.asObservable();
   }
+
+
+
+/////////////////////////////////////////////////////////
+  corre = localStorage.getItem("correo");
+
+
+  nick: string;
+  correo: string;
+
+  arrayUsers: any;
+
+  bucardatos() {
+    for (let x of this.arrayUsers) {
+      this.nick = x.username
+      this.correo = x.email
+    }
+  }
+
+
+  ngOnInit() {
+    this.Apirest.getUsers().subscribe(item => {
+      this.arrayUsers = item;
+    })
+  }
+/////////////////////////////////////////////////////////
+
 }
 
