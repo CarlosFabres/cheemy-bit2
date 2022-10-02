@@ -127,7 +127,7 @@ export class DatoVPage implements OnInit {
           this.arregloUsuarios = item;
         })
         this.servicioBD.fetchVehiculosViaje().subscribe(item=>{
-          this.arregloViajes = item;
+          this.arregloVehiculos = item;
         })
       }
     })

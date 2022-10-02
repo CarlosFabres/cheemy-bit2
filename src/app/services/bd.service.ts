@@ -519,7 +519,7 @@ export class BDService {
   }
 
   listaVehiculosViaje = new BehaviorSubject([]);
-  fetchVehiculosViaje(): Observable<Viaje[]> {
+  fetchVehiculosViaje(): Observable<Vehiculo[]> {
     return this.listaVehiculosViaje.asObservable();
   }
 
