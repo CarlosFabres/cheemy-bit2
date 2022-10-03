@@ -60,7 +60,17 @@ export class MenuPPage {
   }
 
   
+  verViajePajasero(y){
+    
+    let navigationExtras: NavigationExtras = {
+      state: {
+        idEnviado: y.id_detalle
+      }
+    }
 
+    this.router.navigate(['/v-agendar'], navigationExtras);
+
+  }
   
 
   

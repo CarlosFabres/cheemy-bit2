@@ -57,7 +57,7 @@
         </div>
           <center>
             <div *ngFor = "let y of arregloDetalleViajes">
-              <ion-button color="mycolor" size="medium" class="font" (click) = "pasarDatosViaje2()">Mi Viaje 🚖</ion-button>
+              <ion-button color="mycolor" size="medium" class="font" (click) = "verViajePajasero(y)">Mi Viaje 🚖</ion-button>
             </div>
             <ion-button color="mycolor" size="medium" [routerLink]="'/empviaje'" class="font" *ngIf= "e == 'vicente@gmail.com' && eliminar == '1'">Mi Viaje 👨‍✈️</ion-button>
           </center>

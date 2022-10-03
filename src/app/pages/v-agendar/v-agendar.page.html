@@ -15,50 +15,59 @@
     <h4 class="font">Ruta</h4>
   </center>
   <center><img src="assets/img/mapa.PNG" alt=""></center>
-  <center>
-    <ion-item>
-      <p class="info font">Patente:</p>
-      <ion-label class="font icolo">PR206</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Marca:</p>
-      <ion-label class="font icolo">Tesla</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Modelo:</p>
-      <ion-label class="font icolo">5000Z</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Color:</p>
-      <ion-label class="font icolo">Gris</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Salida:</p>
-      <ion-label class="font icolo">19:00</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Destino:</p>
-      <ion-label class="font icolo">Til-Til</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Chofer:</p>
-      <ion-label class="font icolo">Carlos</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Tarifa:</p>
-      <ion-label class="font icolo">{{2000 | currency:'CLP'}}</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Asientos:</p>
-      <ion-label class="font icolo">1/4</ion-label>
-    </ion-item>
-    <ion-item>
-      <p class="info font">Sector:</p>
-      <ion-label class="font icolo">C{{ eli }}</ion-label>
-    </ion-item>
-  </center>
-  <center><img src="assets/img/Sectores.png" alt="" *ngIf="isDisplayImage">
-    <button ion-button (click)="displayImage()" class="font">Mapa de Sectores</button>
-  </center>
-  <ion-button expand="block" color="mycolor" class="margen font" (click) = "presentAlert()">Cancelar viaje</ion-button>
+  <div *ngFor = "let x of arregloDetalleViajeIniciar">
+    <div *ngFor="let x of arregloViajes">
+      <div *ngFor="let y of arregloUsuarios">
+        <div *ngFor="let z of arregloVehiculos">
+          <center>
+            <ion-item>
+              <p class="info font">Patente:</p>
+              <ion-label class="font icolo">{{ z.patente }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Marca:</p>
+              <ion-label class="font icolo">{{ z.marca }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Modelo:</p>
+              <ion-label class="font icolo">{{ z.modelo }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Color:</p>
+              <ion-label class="font icolo">{{ z.color }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Salida:</p>
+              <ion-label class="font icolo">{{ x.hora_salida }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Destino:</p>
+              <ion-label class="font icolo">{{ x.destino }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Chofer:</p>
+              <ion-label class="font icolo">{{ y.nombre }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Tarifa:</p>
+              <ion-label class="font icolo">{{ x.monto | currency:'CLP'}}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Asientos:</p>
+              <ion-label class="font icolo">{{ x.asientos_ocupa }}/{{ x.asientos_dispo }}</ion-label>
+            </ion-item>
+            <ion-item>
+              <p class="info font">Sector:</p>
+              <ion-label class="font icolo">{{ x.sector }}</ion-label>
+            </ion-item>
+          </center>
+        
+          <center><img src="assets/img/Sectores.png" alt="" *ngIf="isDisplayImage">
+            <button ion-button (click)="displayImage()" class="font">Mapa de Sectores</button>
+          </center>
+          <ion-button expand="block" color="mycolor" class="margen font" (click) = "presentAlert(x)">Cancelar viaje</ion-button>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>

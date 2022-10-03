@@ -184,7 +184,7 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (1,strftime('%H:%M','now','localtime'),4,1,1000,'a','Til-til',1);";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (1,strftime('%H:%M','now','localtime'),4,4,1000,'a','Til-til',1);";
   registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -561,6 +561,13 @@ modificarViajeAsiento(idviaje) {
   })
 }
 
+restarViajeAsiento(idviaje) {
+  let data = [idviaje];
+  return this.database.executeSql('UPDATE viaje SET asientos_ocupa = asientos_ocupa - 1 WHERE id_viaje = ?', data).then(data2 => {
+    this.buscarViajes();
+  })
+}
+
 buscarDetalleViaje() {
   //retorno la ejecución del select
   return this.database.executeSql('SELECT * FROM detalleviaje', []).then(res => {
@@ -582,7 +589,143 @@ buscarDetalleViaje() {
   })
 }
 
+//------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----
 
+buscarDetalleViajeIniciar(iddetalle) {
+  let data = [iddetalle];
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM detalleviaje WHERE id_detalle = ?', data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Detalleviaje[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_detalle: res.rows.item(i).id_detalle,
+          idviaje: res.rows.item(i).idviaje,
+          idusuario: res.rows.item(i).idusuario
+        })
+      }
+
+    }
+    //actualizamos el observable de las noticias
+    this.listaDetalleViajeIniciar.next(items);
+  })
+}
+
+listaDetalleViajeIniciar = new BehaviorSubject([]);
+fetchDetalleViajeIniciar(): Observable<Detalleviaje[]> {
+return this.listaDetalleViajeIniciar.asObservable();
+}
+
+eliminarViajePajasero(iddetalle){
+  let data = [iddetalle]
+  return this.database.executeSql('DELETE FROM detalleviaje WHERE id_detalle = ?',data).then(a=>{
+    this.buscarDetalleViaje();
+  })
+
+}
+
+buscarViajesIniciarPasajero(iddevi) {
+  let data = [iddevi];
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM viaje INNER JOIN detalleviaje on viaje.id_viaje = detalleviaje.idviaje WHERE detalleviaje.id_detalle = ?', data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Viaje[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_viaje: res.rows.item(i).id_viaje,
+          hora_salida: res.rows.item(i).hora_salida,
+          asientos_dispo: res.rows.item(i).asientos_dispo,
+          asientos_ocupa: res.rows.item(i).asientos_ocupa,
+          monto: res.rows.item(i).monto,
+          sector: res.rows.item(i).sector,
+          destino: res.rows.item(i).destino,
+          idvehiculo: res.rows.item(i).id_vehiculo
+        })
+      }
+
+    }
+    //actualizamos el observable de las noticias
+    this.listaViajesIniciarPasajero.next(items);
+  })
+}
+
+listaViajesIniciarPasajero = new BehaviorSubject([]);
+fetchViajesIniciarPasajero(): Observable<Viaje[]> {
+  return this.listaViajesIniciarPasajero.asObservable();
+}
+
+
+
+
+buscarUsuariosViajePasajero(idvi) {
+  let data = [idvi];
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM usuario INNER JOIN detalleviaje on usuario.id_usuario = detalleviaje.idusuario WHERE detalleviaje.id_detalle = ?', data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Usuario[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_usuario: res.rows.item(i).id_usuario,
+          correo: res.rows.item(i).correo,
+          puntos: res.rows.item(i).puntos,
+          nombre: res.rows.item(i).nombre,
+          apellido: res.rows.item(i).apellido,
+          numero: res.rows.item(i).numero,
+          clave: res.rows.item(i).clave,
+          imagen: res.rows.item(i).imagen,
+          idtipo: res.rows.item(i).idtipo,
+          idtitulo: res.rows.item(i).idtitulo
+        })
+      }
+    }
+
+    //actualizamos el observable de las noticias
+    this.listaUsuariosViajePasajero.next(items);
+  })
+}
+
+
+
+listaUsuariosViajePasajero = new BehaviorSubject([]);
+fetchUsuariosViajePasajero(): Observable<Usuario[]> {
+  return this.listaUsuariosViajePasajero.asObservable();
+}
+
+buscarVehiculosViajePasajero(idvi) {
+  let data = [idvi];
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM vehiculo INNER JOIN viaje on vehiculo.id_vehiculo = viaje.idvehiculo INNER JOIN detalleviaje on viaje.id_viaje = detalleviaje.idviaje WHERE detalleviaje.id_detalle = ? ', data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Vehiculo[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_vehiculo: res.rows.item(i).id_vehiculo,
+          patente: res.rows.item(i).patente,
+          color: res.rows.item(i).color,
+          modelo: res.rows.item(i).modelo,
+          marca: res.rows.item(i).marca,
+          idusuario: res.rows.item(i).idusuario
+        })
+      }
+
+    }
+    //actualizamos el observable de las noticias
+    this.listaVehiculosViajePasajero.next(items);
+  })
+}
+
+listaVehiculosViajePasajero = new BehaviorSubject([]);
+fetchVehiculosViajePasajero(): Observable<Vehiculo[]> {
+  return this.listaVehiculosViajePasajero.asObservable();
+}
 
 /////////////////////////////////////////////////////////
 

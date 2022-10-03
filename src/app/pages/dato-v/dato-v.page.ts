@@ -98,6 +98,15 @@ export class DatoVPage implements OnInit {
     this.router.navigate(['/menu-p']);
   }
 
+  sexo(x,a){
+    if(this.arregloViajes[0].asientos_ocupa == this.arregloViajes[0].asientos_dispo){
+      this.servicioBD.presentToast("Viaje lleno");
+    }
+    else{
+      this.realizarAgendamiento(x,a);
+    }
+  }
+
   async presentToast() {
     const toast = await this.toastCtrl.create({
       message: 'Viaje agendado con exito.',
