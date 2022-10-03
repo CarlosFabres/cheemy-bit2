@@ -8,4 +8,5 @@ export class Usuario {
     clave: string;
     imagen: File;
     idtipo: Number;
+    idtitulo: number;
 }

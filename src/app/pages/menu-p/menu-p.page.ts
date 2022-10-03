@@ -41,6 +41,15 @@ export class MenuPPage {
   
   ]
 
+  arregloDetalleViajes: any = [
+    {
+      id_detalle : "",
+      idviaje : "",
+      idusuario : ""
+    }
+  
+  ]
+
 
   
 
@@ -64,17 +73,26 @@ export class MenuPPage {
     this.servicioBD.buscarVehiculosIniciar(this.corre);
   }
 
+  detalleviaje(){
+    this.servicioBD.buscarDetalleViaje();
+  }
+
   ngOnInit() {
     this.menuCtrl.enable(true);
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
         this.usuario(this.corre);
         this.vehiculo(this.corre);
+        this.detalleviaje();
+        //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
         this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
           this.arregloUsuarios = item;
         })
         this.servicioBD.fetchViajes().subscribe(item=>{
           this.arregloViajes = item;
+        })
+        this.servicioBD.fetchDetalleViajes().subscribe(item=>{
+          this.arregloDetalleViajes = item;
         })
       }
     })

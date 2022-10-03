@@ -12,6 +12,7 @@ import { Viaje } from './viaje';
 
 //API
 import { ApirestService } from './apirest.service';
+import { Detalleviaje } from './detalleviaje';
 
 @Injectable({
   providedIn: 'root'
@@ -87,11 +88,17 @@ export class BDService {
 
       await this.database.executeSql(this.registroViaje2, []);
 
+      await this.database.executeSql(this.tablaDetalleViaje, []);
+
+
+
       this.buscarViajes();
 
       this.buscarVehiculos();
 
       this.buscarUsuarios();
+
+      this.buscarDetalleViaje();
 
       this.isDBReady.next(true);
 
@@ -143,7 +150,7 @@ export class BDService {
   //USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO-----USUARIO------------------------//
 
   //variable para la sentencia de creación de tabla
-  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo));";
+  tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,idtitulo INTEGER, FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(idtitulo) REFERENCES titulo(id_titulo));";
   //variable para la sentencia de registros por defecto en la tabla
   registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (1,'a@a.com',1000,'vicente','echeverria',123332323,'Pepe1',NULL,2);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo) VALUES (2,'e@e.com',1000,'Pepe','Soto',292188321,'Caca1',NULL,1);";
@@ -190,6 +197,15 @@ export class BDService {
     return this.listaViajes.asObservable();
   }
 
+  //DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE-----DETALLEVIAJE--------------//
+
+  tablaDetalleViaje: string = "CREATE TABLE IF NOT EXISTS DetalleViaje(id_detalle INTEGER PRIMARY KEY autoincrement,idusuario INTEGER, idviaje INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario), FOREIGN KEY(idviaje) REFERENCES viaje(id_viaje));";
+
+  listaDetalleViajes = new BehaviorSubject([]);
+
+  fetchDetalleViajes(): Observable<Detalleviaje[]> {
+    return this.listaDetalleViajes.asObservable();
+  }
   //------------------------------------------METODOS---------------------------------------------------//         
   //Vehiculo----------------------------------------------------------------
   buscarVehiculos() {
@@ -259,7 +275,8 @@ export class BDService {
             numero: res.rows.item(i).numero,
             clave: res.rows.item(i).clave,
             imagen: res.rows.item(i).imagen,
-            idtipo: res.rows.item(i).idtipo
+            idtipo: res.rows.item(i).idtipo,
+            idtitulo: res.rows.item(i).idtitulo
           })
         }
 
@@ -374,7 +391,8 @@ export class BDService {
             numero: res.rows.item(i).numero,
             clave: res.rows.item(i).clave,
             imagen: res.rows.item(i).imagen,
-            idtipo: res.rows.item(i).idtipo
+            idtipo: res.rows.item(i).idtipo,
+            idtitulo: res.rows.item(i).idtitulo
           })
         }
 
@@ -476,7 +494,8 @@ export class BDService {
             numero: res.rows.item(i).numero,
             clave: res.rows.item(i).clave,
             imagen: res.rows.item(i).imagen,
-            idtipo: res.rows.item(i).idtipo
+            idtipo: res.rows.item(i).idtipo,
+            idtitulo: res.rows.item(i).idtitulo
           })
         }
       }
@@ -522,6 +541,46 @@ export class BDService {
   fetchVehiculosViaje(): Observable<Vehiculo[]> {
     return this.listaVehiculosViaje.asObservable();
   }
+
+//-------------------------------------------------------------------------------------------------------------------------------------
+
+agendarViaje(idviaje,idusuario){
+  let data = [idviaje, idusuario];
+    return this.database.executeSql('INSERT INTO detalleviaje(idviaje,idusuario) VALUES (?,?)', data).then(res => {
+      this.buscarDetalleViaje();
+    });
+}
+
+
+
+
+modificarViajeAsiento(idviaje) {
+  let data = [idviaje];
+  return this.database.executeSql('UPDATE viaje SET asientos_ocupa = asientos_ocupa + 1 WHERE id_viaje = ?', data).then(data2 => {
+    this.buscarViajes();
+  })
+}
+
+buscarDetalleViaje() {
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM detalleviaje', []).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Detalleviaje[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_detalle: res.rows.item(i).id_detalle,
+          idviaje: res.rows.item(i).idviaje,
+          idusuario: res.rows.item(i).idusuario
+        })
+      }
+
+    }
+    //actualizamos el observable de las noticias
+    this.listaDetalleViajes.next(items);
+  })
+}
 
 
 

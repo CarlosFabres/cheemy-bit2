@@ -9,57 +9,60 @@
 </ion-header>
 
 <ion-content class="body">
-  {{ id }}
   <div *ngFor = "let x of arregloUsuarios">
-    <center><h4 class="font">¡¡Bienvenido {{ x.nombre }}!!</h4></center>
-    <div>
-      <center><img src="../../../assets/img/car1.gif" alt="" class="baner"></center>
-    </div>
-    <div>
-      <center><p class="podio">🏆 Podio 🏆</p></center>
-      <ion-row>
-        <ion-col>
-          <center>
-            <ion-card class="sombra" color="mycolor">
-              <ion-card-header>
-                <ion-card-title class="font cardtittle">ㅤMessiㅤ</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <img src="../../../assets/img/messi.jpg" alt="" class="foto">
-                <ion-card-subtitle class="font">Turbo 🚀</ion-card-subtitle>
-              </ion-card-content>
-            </ion-card>
-          </center>
-        </ion-col>
-        <ion-col>
-          <center>
-            <ion-card class="sombra" color="mycolor">
-              <ion-card-header>
-                <ion-card-title class="font cardtittle">Amongas</ion-card-title>
-              </ion-card-header>
-              <ion-card-content>
-                <img src="../../../assets/img/amongus.jpg" alt="" class="foto2">
-                <ion-card-subtitle class="font">Retro 👾</ion-card-subtitle>
-          
 
-              </ion-card-content>
-            </ion-card>
-          </center>
-        </ion-col>
-      </ion-row>
-      <div *ngFor="let y of arregloViajes">
-        <ion-list>
-          <ion-item (click) = "pasarDatosViaje()">
-            <img src="../../assets/img/cheems.png" alt="" class="viaje mar ">
-            <ion-label class="inpu font">Salida: {{ y.hora_salida }} - {{ y.destino }} <p>{{ y.asientos_ocupa }}/{{ y.asientos_dispo }} Asientos</p></ion-label>
-          </ion-item>
-        </ion-list>
+      <center><h4 class="font">¡¡Bienvenido {{ x.nombre }}!!</h4></center>
+      <div>
+        <center><img src="../../../assets/img/car1.gif" alt="" class="baner"></center>
       </div>
-        <center>
-          <ion-button color="mycolor" size="medium" class="font" (click) = "pasarDatosViaje2()" *ngIf= "e == 'carlos@gmail.com' && eliminar == '1'">Mi Viaje 🚖</ion-button>
-          <ion-button color="mycolor" size="medium" [routerLink]="'/empviaje'" class="font" *ngIf= "e == 'vicente@gmail.com' && eliminar == '1'">Mi Viaje 👨‍✈️</ion-button>
-        </center>
-    </div>
+      <div>
+        <center><p class="podio">🏆 Podio 🏆</p></center>
+        <ion-row>
+          <ion-col>
+            <center>
+              <ion-card class="sombra" color="mycolor">
+                <ion-card-header>
+                  <ion-card-title class="font cardtittle">ㅤMessiㅤ</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <img src="../../../assets/img/messi.jpg" alt="" class="foto">
+                  <ion-card-subtitle class="font">Turbo 🚀</ion-card-subtitle>
+                </ion-card-content>
+              </ion-card>
+            </center>
+          </ion-col>
+          <ion-col>
+            <center>
+              <ion-card class="sombra" color="mycolor">
+                <ion-card-header>
+                  <ion-card-title class="font cardtittle">Amongas</ion-card-title>
+                </ion-card-header>
+                <ion-card-content>
+                  <img src="../../../assets/img/amongus.jpg" alt="" class="foto2">
+                  <ion-card-subtitle class="font">Retro 👾</ion-card-subtitle>
+            
+
+                </ion-card-content>
+              </ion-card>
+            </center>
+          </ion-col>
+        </ion-row>
+        <div *ngFor="let y of arregloViajes">
+          <ion-list>
+            <ion-item (click) = "pasarDatosViaje()">
+              <img src="../../assets/img/cheems.png" alt="" class="viaje mar ">
+              <ion-label class="inpu font">Salida: {{ y.hora_salida }} - {{ y.destino }} <p>{{ y.asientos_ocupa }}/{{ y.asientos_dispo }} Asientos</p></ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+          <center>
+            <div *ngFor = "let y of arregloDetalleViajes">
+              <ion-button color="mycolor" size="medium" class="font" (click) = "pasarDatosViaje2()">Mi Viaje 🚖</ion-button>
+            </div>
+            <ion-button color="mycolor" size="medium" [routerLink]="'/empviaje'" class="font" *ngIf= "e == 'vicente@gmail.com' && eliminar == '1'">Mi Viaje 👨‍✈️</ion-button>
+          </center>
+      </div>
+
   </div>
 
 </ion-content>

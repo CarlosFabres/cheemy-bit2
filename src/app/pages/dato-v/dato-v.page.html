@@ -18,57 +18,58 @@
     <div *ngFor="let x of arregloViajes">
       <div *ngFor="let y of arregloUsuarios">
         <div *ngFor="let z of arregloVehiculos">
-          <center>  
-            <ion-item>
-              <p class="info font">Patente:</p>
-              {{ x.id_viaje }}
-              <ion-label class="font icolo">{{ z.patente }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Marca:</p>
-              <ion-label class="font icolo">{{ z.marca }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Modelo:</p>
-              <ion-label class="font icolo">{{ z.modelo }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Color:</p>
-              <ion-label class="font icolo">{{ z.color }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Salida:</p>
-              <ion-label class="font icolo">{{ x.hora_salida }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Destino:</p>
-              <ion-label class="font icolo">{{ x.destino }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Chofer:</p>
-              <ion-label class="font icolo">{{ y.nombre }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Tarifa:</p>
-              <ion-label class="font icolo">{{ x.monto | currency:'CLP'}}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Asientos:</p>
-              <ion-label class="font icolo">{{ x.asientos_ocupa }}/{{ x.asientos_dispo }}</ion-label>
-            </ion-item>
-            <ion-item>
-              <p class="info font">Sector:</p>
-              <ion-label class="font icolo">{{ x.sector }}</ion-label>
-            </ion-item>
-          </center>
+          <div *ngFor="let a of arregloUsuariosIniciar">
+            <center>  
+              <ion-item>
+                <p class="info font">Patente:</p>
+                <ion-label class="font icolo">{{ z.patente }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Marca:</p>
+                <ion-label class="font icolo">{{ z.marca }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Modelo:</p>
+                <ion-label class="font icolo">{{ z.modelo }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Color:</p>
+                <ion-label class="font icolo">{{ z.color }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Salida:</p>
+                <ion-label class="font icolo">{{ x.hora_salida }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Destino:</p>
+                <ion-label class="font icolo">{{ x.destino }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Chofer:</p>
+                <ion-label class="font icolo">{{ y.nombre }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Tarifa:</p>
+                <ion-label class="font icolo">{{ x.monto | currency:'CLP'}}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Asientos:</p>
+                <ion-label class="font icolo">{{ x.asientos_ocupa }}/{{ x.asientos_dispo }}</ion-label>
+              </ion-item>
+              <ion-item>
+                <p class="info font">Sector:</p>
+                <ion-label class="font icolo">{{ x.sector }}</ion-label>
+              </ion-item>
+            </center>
 
-          <center><img src="assets/img/Sectores.png" alt="" *ngIf="isDisplayImage">
-            <button ion-button (click)="displayImage()" class="font" mat-raised-button matTooltip="Mostrar/Ocultar Mapa"
-              aria-label="Button that displays a tooltip when focused or hovered over">Mapa de Sectores</button>
-          </center>
+            <center><img src="assets/img/Sectores.png" alt="" *ngIf="isDisplayImage">
+              <button ion-button (click)="displayImage()" class="font" mat-raised-button matTooltip="Mostrar/Ocultar Mapa"
+                aria-label="Button that displays a tooltip when focused or hovered over">Mapa de Sectores</button>
+            </center>
 
-          <ion-button expand="block" color="mycolor" class="margen font" (click)="eliminarViaje()">Realizar agendamiento
-          </ion-button>
+            <ion-button expand="block" color="mycolor" class="margen font" (click)="realizarAgendamiento(x,a)">Realizar agendamiento
+            </ion-button>
+          </div>
         </div>
       </div>
     </div>

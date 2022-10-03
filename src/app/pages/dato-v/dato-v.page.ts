@@ -10,6 +10,23 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class DatoVPage implements OnInit {
 
+  corre = localStorage.getItem("correo");
+
+  arregloUsuariosIniciar: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : "",
+      idtitulo : ""
+    }
+  ]
+
   arregloUsuarios: any = [
     {
       id_usuario : "",
@@ -20,7 +37,8 @@ export class DatoVPage implements OnInit {
       numero : "",
       clave : "",
       imagen : "",
-      idtipo : ""
+      idtipo : "",
+      idtitulo : ""
     }
   ]
 
@@ -70,22 +88,14 @@ export class DatoVPage implements OnInit {
     console.log(this.eliminar);
   }
 
-  
+  usuarioIniciar(corre){
+    this.servicioBD.buscarUsuariosIniciar(this.corre);
+  }
 
-  eliminarViaje() {
-    this.eliminar="hola";
-    let navigationExtras: NavigationExtras = {
-      state: {
-        eli: '1',
-        correo: this.e,
-        contra: this.c,
-        nom: this.n,
-        ape: this.a
-      }
-    }
-    this.presentToast();
-    this.router.navigate(['/menu-p'], navigationExtras);
-  
+  realizarAgendamiento(x,a){
+    this.servicioBD.agendarViaje(x.id_viaje, a.id_usuario);
+    this.servicioBD.modificarViajeAsiento(x.id_viaje);
+    this.router.navigate(['/menu-p']);
   }
 
   async presentToast() {
@@ -120,11 +130,15 @@ export class DatoVPage implements OnInit {
         this.viaje(this.idvi);
         this.usuario(this.idvi);
         this.vehiculo(this.idvi);
+        this.usuarioIniciar(this.corre);
         this.servicioBD.fetchViajesIniciar().subscribe(item=>{
           this.arregloViajes = item;
         })
         this.servicioBD.fetchUsuariosViaje().subscribe(item=>{
           this.arregloUsuarios = item;
+        })
+        this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
+          this.arregloUsuariosIniciar = item;
         })
         this.servicioBD.fetchVehiculosViaje().subscribe(item=>{
           this.arregloVehiculos = item;
