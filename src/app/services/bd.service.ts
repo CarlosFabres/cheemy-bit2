@@ -182,10 +182,10 @@ export class BDService {
   //VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE-----VIAJE--------------//
 
   //variable para la sentencia de creación de tabla
-  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida TIME NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
+  tablaViaje: string = "CREATE TABLE IF NOT EXISTS viaje(id_viaje INTEGER PRIMARY KEY autoincrement, hora_salida VARCHAR(5) NOT NULL, asientos_dispo NUMERIC NOT NULL,asientos_ocupa NUMERIC NOT NULL, monto NUMERIC NOT NULL, sector VARCHAR(5),destino VARCHAR(50),idvehiculo INTEGER, FOREIGN KEY(idvehiculo) REFERENCES vehiculo(id_vehiculo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (1,strftime('%H:%M','now','localtime'),4,4,1000,'a','Til-til',1);";
-  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (2,strftime('%H:%M','now','localtime'),6,0,3000,'b','Valle big',1);";
+  registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (1,'12:13',4,4,1000,'a','Til-til',1);";
+  registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (2,'15:08',6,0,3000,'b','Valle big',1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -241,17 +241,19 @@ export class BDService {
   }
 
 
-  modificarVehiculos(id_vehiculo, patente, marca, modelo, color) {
+  modificarVehiculos(id_vehiculo, patente, marca, modelo, color,corre) {
     let data = [patente, color, modelo, marca, id_vehiculo];
     return this.database.executeSql('UPDATE vehiculo SET patente = ?, color = ?,modelo = ?,marca = ? WHERE id_vehiculo = ?', data).then(data2 => {
-      this.buscarVehiculos();
+      this.buscarVehiculosIniciar(corre);
+      this.router.navigate(['/vehiculo']);
     })
   }
 
-  eliminarVehiculos(id_vehiculo) {
-
-    return this.database.executeSql('DELETE * FROM vehiculo WHERE id_vehiculo = ?', [id_vehiculo]).then(a => {
-      this.buscarVehiculos();
+  eliminarVehiculos(id_vehiculo, corre) {
+    let data = [id_vehiculo]
+    return this.database.executeSql('DELETE FROM vehiculo WHERE id_vehiculo = ?', data).then(a => {
+      this.buscarVehiculosIniciar(corre);
+      this.router.navigate(['/vehiculo']);
     })
 
   }
@@ -323,10 +325,11 @@ export class BDService {
     })
   }
 
-  insertarViajes(id_viaje, hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo) {
-    let data = [id_viaje, hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo];
-    return this.database.executeSql('INSERT INTO vehiculo(id_viaje,hora_salida,asientos_dispo,monto,sector,destino,id_vehiculo) VALUES (?,?,?,?,?,?,?)', data).then(res => {
-      this.buscarVehiculos();
+  insertarViajes( hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo) {
+    let data = [ hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo];
+    return this.database.executeSql('INSERT INTO viaje(hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (?,?,0,?,?,?,?)', data).then(res => {
+      this.buscarViajes();
+      this.router.navigate(['/viajes'])
     });
 
   }
@@ -730,23 +733,31 @@ fetchVehiculosViajePasajero(): Observable<Vehiculo[]> {
 /////////////////////////////////////////////////////////
 
 
-  nick: string;
-  correo: string;
+  iduser: string;
+  nombre: string;
+  clave: string;
   
   arrayUsers: any;
 
   bucardatos() {
     for (let x of this.arrayUsers) {
-      this.nick = x.username
-      this.correo = x.email
-      localStorage.setItem('nick', this.nick);
+      this.iduser = x.id
+      this.nombre = x.nombre
+      this.clave = x.clave
+    }
+  }
+
+  registroUsuarios(){
+    for (let x of this.arrayUsers) {
+      this.iduser = x.id
+      this.nombre = x.nombre
+      this.clave = x.clave
     }
   }
 
 
-
-
   ngOnInit() {
+    this.bucardatos();
     this.Apirest.getUsers().subscribe(item => {
       this.arrayUsers = item;
     })

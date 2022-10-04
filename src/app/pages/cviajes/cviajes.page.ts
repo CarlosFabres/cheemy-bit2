@@ -1,6 +1,8 @@
+import { Time } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-cviajes',
@@ -8,8 +10,6 @@ import { AlertController, ToastController } from '@ionic/angular';
   styleUrls: ['./cviajes.page.scss'],
 })
 export class CviajesPage implements OnInit {
-
-
 
   horario: string = "";
   destino: string = "";
@@ -19,11 +19,25 @@ export class CviajesPage implements OnInit {
 
   eliminar: string= "";
 
-  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController) { }
+  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController, private servicioBD: BDService) { }
 
   e:string="vicente@gmail.com"
   n:string="Vicente"
   
+  corre = localStorage.getItem("correo");
+
+  arregloVehiculos: any = [
+    {
+      id_vehiculo : "",
+      patente: "",
+      color : "",
+      modelo : "",
+      marca : "",
+      idusuario : ""
+    }
+
+  ]
+
   pasarDatos(){
 
     
@@ -51,16 +65,8 @@ export class CviajesPage implements OnInit {
     
 
     else {
-      this.eliminar
-      let navigationExtras: NavigationExtras = {
-        state: {
-          eli: '1',
-          correo: this.e,
-          nom: this.n
-        }
-      }
-      this.presentToast();
-      this.router.navigate(['/menu-p'], navigationExtras);
+      
+      this.servicioBD.insertarViajes(this.horario,this.asientos,this.tarifa,this.sector,this.destino, this.arregloVehiculos[0].id_vehiculo);
     }
   }
 
@@ -160,8 +166,6 @@ export class CviajesPage implements OnInit {
     this.isDisplayImage = !this.isDisplayImage;
   }
   
-  ngOnInit() {
-  }
 
   async presentToast() {
     const toast = await this.toastCtrl.create({
@@ -171,4 +175,18 @@ export class CviajesPage implements OnInit {
     toast.present();
   }
 
+  vehiculo(corre){
+    this.servicioBD.buscarVehiculosIniciar(this.corre);
+  }
+
+  ngOnInit() {
+    this.servicioBD.dbState().subscribe(res=>{
+      if(res){
+        this.vehiculo(this.corre);
+        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
+          this.arregloVehiculos = item;
+        })
+      }
+    })
+  }
 }

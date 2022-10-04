@@ -76,7 +76,7 @@ export class VehiculoPage {
   }
 
   eliminar(x){
-    this.servicioBD.eliminarVehiculos(x.id_vehiculo);
+    this.servicioBD.eliminarVehiculos(x.id_vehiculo, this.corre);
     this.servicioBD.presentToast("Vehiculo Eliminado");
   }
 

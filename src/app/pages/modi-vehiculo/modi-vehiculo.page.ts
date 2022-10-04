@@ -17,6 +17,7 @@ export class ModiVehiculoPage {
   l:string = "";
 
 
+  corre = localStorage.getItem("correo");
 
   constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController,private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params =>{
@@ -41,9 +42,8 @@ export class ModiVehiculoPage {
       }
   
       else {
-        this.servicioBD.modificarVehiculos(this.id,this.p,this.m,this.o,this.l);
+        this.servicioBD.modificarVehiculos(this.id,this.p,this.m,this.o,this.l,this.corre);
         this.presentToast();
-        this.router.navigate(['/vehiculo']);
       }
     }
 
