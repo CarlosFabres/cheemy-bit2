@@ -22,7 +22,8 @@ export class MenuPPage {
       numero : "",
       clave : "",
       imagen : "",
-      idtipo : ""
+      idtipo : "",
+      idtitulo : ""
     }
   ]
 
@@ -50,6 +51,15 @@ export class MenuPPage {
   
   ]
 
+  arregloTitulos: any = [
+    {
+      id_titulo : "",
+      nombret : "",
+      puntost : ""
+    }
+  
+  ]
+
 
   
 
@@ -69,6 +79,18 @@ export class MenuPPage {
     }
 
     this.router.navigate(['/v-agendar'], navigationExtras);
+
+  }
+
+  verViajeConductor(x){
+    
+    let navigationExtras: NavigationExtras = {
+      state: {
+        idEnviado: x.id_viaje
+      }
+    }
+
+    this.router.navigate(['/empviaje'], navigationExtras);
 
   }
   
@@ -91,12 +113,17 @@ export class MenuPPage {
     this.servicioBD.buscarViajes();
   }
 
+  titulo(corre){
+    this.servicioBD.buscarTituloIniciar(this.corre);
+  }
+
   ngOnInit() {
     this.menuCtrl.enable(true);
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
         this.usuario(this.corre);
         this.vehiculo(this.corre);
+        this.titulo(this.corre);
         this.detalleviaje();
         this.viaje();
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
@@ -109,8 +136,8 @@ export class MenuPPage {
         this.servicioBD.fetchDetalleViajes().subscribe(item=>{
           this.arregloDetalleViajes = item;
         })
-        this.servicioBD.fetchDetalleViajes().subscribe(item=>{
-          this.arregloDetalleViajes = item;
+        this.servicioBD.fetchTituloIniciar().subscribe(item=>{
+          this.arregloTitulos = item;
         })
       }
     })

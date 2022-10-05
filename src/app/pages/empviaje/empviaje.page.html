@@ -14,10 +14,10 @@
   <center><ion-icon name="car" class="icon"></ion-icon></center>
   <ion-row>
     <ion-col>
-      <ion-button [routerLink]="['/viajeemp']" expand ="block" color="mycolor">Empezar viaje</ion-button>
+      <ion-button (click) = "presentAlert2()" expand ="block" color="mycolor">Empezar viaje</ion-button>
     </ion-col>
     <ion-col>
-      <ion-button [routerLink]="['/modi-viaje']" expand ="block" color="mycolor">Modificar viaje</ion-button>
+      <ion-button expand ="block" color="mycolor" (click)="modificar()">Modificar viaje</ion-button>
     </ion-col>
   </ion-row>
   <ion-row>

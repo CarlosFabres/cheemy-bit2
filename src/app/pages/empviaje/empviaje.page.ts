@@ -10,35 +10,70 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class EmpviajePage implements OnInit {
 
-  iddevi: "";
+  idvi: "";
 
   constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private toastCtrl: ToastController, private servicioBD: BDService) {
     this.activedRouter.queryParams.subscribe(params =>{
       if(this.router.getCurrentNavigation().extras.state){
-        this.iddevi = this.router.getCurrentNavigation().extras.state.idEnviado;
+        this.idvi = this.router.getCurrentNavigation().extras.state.idEnviado;
       }
     })
    }
 
   elim: string = "0";
 
-  arregloDetalleViajes: any = [
+  arregloUsuarios: any = [
     {
-      id_detalle : "",
-      idviaje : "",
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : "",
+      idtitulo: ""
+    }
+  ]
+
+  arregloViajes: any = [
+    {
+      id_viaje : "",
+      hora_salida: "",
+      asientos_dispo : "",
+      asientos_ocupa : "",
+      monto : "",
+      sector : "",
+      destino : "",
+      idvehiculo : "",
       idusuario : ""
     }
   
   ]
 
-  eliminarViaje() {
+  modificar(){
+    
     let navigationExtras: NavigationExtras = {
       state: {
-        eli: this.elim,
+        idEnviado: this.arregloViajes[0].id_viaje,
+        horaEnviado: this.arregloViajes[0].hora_salida,
+        asientosEnviado: this.arregloViajes[0].asientos_dispo,
+        montoEnviado: this.arregloViajes[0].monto,
+        sectorEnviado: this.arregloViajes[0].sector,
+        destinoEnviado: this.arregloViajes[0].destino
       }
     }
-    this.router.navigate(['/menu-p'], navigationExtras);
-  
+
+    this.router.navigate(['/modi-viaje'], navigationExtras);
+
+  }
+
+  empezarViaje(){
+    this.servicioBD.eliminarViajeConductor(this.idvi);
+    this.servicioBD.sumarPuntos(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    this.servicioBD.presentToast("Viaje empezado");
+    this.router.navigate(['/viajeemp']);
   }
 
   async presentAlert() {
@@ -54,8 +89,29 @@ export class EmpviajePage implements OnInit {
           text: 'Si',
           cssClass: 'alert-button-confirm',
           handler: () => {
-            this.presentToast()
-            this.eliminarViaje()
+            this.eliminarVC()
+          }
+        },
+      ],
+    });
+  
+    await alert.present();
+  }
+
+  async presentAlert2() {
+    const alert = await this.alertController.create({
+      header: 'Estas seguro de empezar el viaje?\nDespues de empezar se eliminara el viaje',
+      cssClass: 'custom-alert',
+      buttons: [
+        {
+          text: 'No',
+          cssClass: 'alert-button-cancel',
+        },
+        {
+          text: 'Si',
+          cssClass: 'alert-button-confirm',
+          handler: () => {
+            this.empezarViaje()
           }
         },
       ],
@@ -72,17 +128,31 @@ export class EmpviajePage implements OnInit {
     toast.present();
   }
 
-  detalleviaje(){
-    this.servicioBD.buscarDetalleViajeIniciar(this.iddevi);
+  eliminarVC(){
+    this.servicioBD.eliminarViajeConductor(this.idvi);
+    this.servicioBD.presentToast("Viaje Eliminado");
+    this.router.navigate(['/menu-p'])
+  }
+
+  viaje(){
+    this.servicioBD.buscarViajesIniciar(this.idvi);
+  }
+
+  usuario(){
+    this.servicioBD.buscarUsuariosViaje(this.idvi);
   }
 
   ngOnInit() {
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
-        this.detalleviaje();
+        this.viaje();
+        this.usuario();
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
-        this.servicioBD.fetchDetalleViajes().subscribe(item=>{
-          this.arregloDetalleViajes = item;
+        this.servicioBD.fetchViajesIniciar().subscribe(item=>{
+          this.arregloViajes = item;
+        })
+        this.servicioBD.fetchUsuariosViaje().subscribe(item=>{
+          this.arregloUsuarios = item;
         })
       }
     })

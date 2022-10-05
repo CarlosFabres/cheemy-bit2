@@ -59,8 +59,8 @@
             <div *ngFor = "let y of arregloDetalleViajes">
               <ion-button color="mycolor" size="medium" class="font" (click) = "verViajePajasero(y)">Mi Viaje 🚖</ion-button>
             </div>
-            <div *ngFor = "let y of arregloViajes">
-              <ion-button color="mycolor" size="medium" class="font">Mi Viaje 👨‍✈️</ion-button>
+            <div *ngFor = "let x of arregloViajes">
+              <ion-button color="mycolor" size="medium" class="font" (click) = "verViajeConductor(x)">Mi Viaje 👨‍✈️</ion-button>
             </div>
           </center>
       </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
+import { BDService } from 'src/app/services/bd.service';
 
 @Component({
   selector: 'app-modi-viaje',
@@ -9,13 +10,25 @@ import { AlertController, ToastController } from '@ionic/angular';
 })
 export class ModiViajePage implements OnInit {
 
-  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController) { }
+  constructor(private router: Router, private alertController: AlertController, private toastCtrl: ToastController, private activedRouter: ActivatedRoute,private servicioBD: BDService) { 
+    this.activedRouter.queryParams.subscribe(params =>{
+      if(this.router.getCurrentNavigation().extras.state){
+        this.idviaje = this.router.getCurrentNavigation().extras.state.idEnviado;
+        this.horario = this.router.getCurrentNavigation().extras.state.horaEnviado;
+        this.asientos = this.router.getCurrentNavigation().extras.state.asientosEnviado;
+        this.tarifa = this.router.getCurrentNavigation().extras.state.montoEnviado;
+        this.sector = this.router.getCurrentNavigation().extras.state.sectorEnviado;
+        this.destino = this.router.getCurrentNavigation().extras.state.destinoEnviado;
+      }
+    })
+  }
 
-  horario: string = "18:00";
-  destino: string = "Til-Til";
-  tarifa: string = "10000";
-  asientos: string = "2";
-  sector: string = "C";
+  idviaje: string = "";
+  horario: string = "";
+  destino: string = "";
+  tarifa: string = "";
+  asientos: string = "";
+  sector: string = "";
 
   pasarDatos(){
 
@@ -28,9 +41,6 @@ export class ModiViajePage implements OnInit {
     else if ((this.asientos.length != 1)){
       this.presentAlert5();
     }
-    else if(/[A-Z]/.test(this.asientos) || /[a-z]/.test(this.asientos)){
-      this.presentAlert7();
-    }
     else if ((this.sector.length != 1)){
       this.presentAlert6();
     }
@@ -39,12 +49,11 @@ export class ModiViajePage implements OnInit {
     }
 
     else {
-      let navigationExtras: NavigationExtras = {
-      }
-      this.presentToast()
-      this.router.navigate(['/empviaje'], navigationExtras);
+      this.servicioBD.modificarViajes(this.idviaje,this.horario,this.destino,this.tarifa,this.asientos,this.sector);
     }
   }
+
+  
 
   async presentAlert() {
     const alert = await this.alertController.create({
