@@ -46,7 +46,7 @@ export class RegistrarVPage {
     }
 
     else {
-      this.servicioBD.insertarVehiculos(this.patente,this.marca,this.modelo,this.color,x.id_usuario);
+      this.servicioBD.insertarVehiculos(this.patente,this.marca,this.modelo,this.color,x.id_usuario,this.corre);
       this.presentToast();
       this.router.navigate(['/vehiculo']);
     }

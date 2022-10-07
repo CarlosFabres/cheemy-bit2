@@ -43,6 +43,6 @@
         <ion-button type=submit expand="block" color="danger"  (click)="presentAlert(x)">Eliminar vehiculo
         </ion-button>
       </div>
-      <ion-button [routerLink]="['/registrar-v']" expand="block" color="mycolor">Agregar vehiculo
+      <ion-button [routerLink]="['/registrar-v']" expand="block" color="mycolor" *ngIf = "arregloVehiculos[0] == null">Agregar vehiculo
       </ion-button>
 </ion-content>

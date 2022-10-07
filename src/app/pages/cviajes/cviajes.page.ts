@@ -66,12 +66,12 @@ export class CviajesPage implements OnInit {
 
     else {
       
-      this.sexo2();
+      this.crearviaje();
     }
   }
 
-  sexo2(){
-    if(this.arregloVehiculos[0].patente == null){
+  crearviaje(){
+    if(this.arregloVehiculos[0] == null){
       this.verificarAuto();
     }
     else{
