@@ -66,6 +66,15 @@ export class CviajesPage implements OnInit {
 
     else {
       
+      this.sexo2();
+    }
+  }
+
+  sexo2(){
+    if(this.arregloVehiculos[0].patente == null){
+      this.verificarAuto();
+    }
+    else{
       this.servicioBD.insertarViajes(this.horario,this.asientos,this.tarifa,this.sector,this.destino, this.arregloVehiculos[0].id_vehiculo);
     }
   }
@@ -74,6 +83,15 @@ export class CviajesPage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Horario invalido',
       message: 'La hora no es valida',
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+  async verificarAuto() {
+    const alert = await this.alertController.create({
+      header: 'Auto',
+      message: 'Debes tener un auto para crear un viaje',
       buttons: ['Aceptar'],
     });
 

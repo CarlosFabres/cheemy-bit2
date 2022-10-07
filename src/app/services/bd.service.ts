@@ -165,7 +165,7 @@ export class BDService {
 
 
   //variable para la sentencia de creación de tabla
-  tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo INTEGER PRIMARY KEY autoincrement,patente VARCHAR(10) NOT NULL, color VARCHAR(40) NOT NULL, modelo VARCHAR(40) NOT NULL,  marca VARCHAR(40) NOT NULL,idusuario INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
+  tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo INTEGER PRIMARY KEY autoincrement,patente VARCHAR(10) , color VARCHAR(40) NOT NULL, modelo VARCHAR(40),  marca VARCHAR(40),idusuario INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
   //variable para la sentencia de registros por defecto en la tabla
   registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (1,'as21kd','rojo','tesla','k2',1);";
   listaVehiculos = new BehaviorSubject([]);
@@ -253,10 +253,10 @@ export class BDService {
     })
   }
 
-  insertarVehiculos(patente, marca, modelo, color, id_usuario) {
+  insertarVehiculos(patente, marca, modelo, color, id_usuario, correo) {
     let data = [patente, color, modelo, marca, id_usuario];
     return this.database.executeSql('INSERT INTO vehiculo(patente,color,modelo,marca,idusuario) VALUES (?,?,?,?,?)', data).then(res => {
-      this.buscarVehiculos();
+      this.buscarVehiculosIniciar(correo);
     });
 
   }
