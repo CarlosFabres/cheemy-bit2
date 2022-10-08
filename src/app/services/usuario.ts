@@ -6,7 +6,7 @@ export class Usuario {
     apellido: string;
     numero: number;
     clave: string;
-    imagen: File;
+    imagen: Blob;
     idtipo: Number;
     idtitulo: number;
 }
