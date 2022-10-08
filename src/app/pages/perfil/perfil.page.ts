@@ -12,7 +12,6 @@ import { CamaraService } from 'src/app/services/camara.service';
 })
 export class PerfilPage implements OnInit {
 
-  foto: any;
 
   corre = localStorage.getItem("correo");
 
@@ -97,11 +96,6 @@ export class PerfilPage implements OnInit {
         })
       }
     })
-    this.camara.fetchcamara().subscribe(image => {
-      this.foto = image;
-
-    })
-
   }
 
 
