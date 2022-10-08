@@ -14,7 +14,7 @@
 <ion-content class="body">
     <center>
       <h3 class="font">Datos de vehiculo</h3>
-      <p>No tienes un vehiculo registrado...</p>
+      <p *ngIf = "arregloVehiculos[0] == null">No tienes un vehiculo registrado...</p>
     </center>
         
       <div *ngFor="let x of arregloVehiculos">

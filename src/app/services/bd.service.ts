@@ -660,6 +660,14 @@ eliminarViajeConductor(idviaje){
 
 }
 
+eliminarViajePasajeroConductor(idviaje){
+  let data = [idviaje]
+  return this.database.executeSql('DELETE FROM detalleviaje WHERE idviaje = ?',data).then(a=>{
+    this.buscarDetalleViaje();
+  })
+
+}
+
 buscarViajesIniciarPasajero(iddevi) {
   let data = [iddevi];
   //retorno la ejecución del select

@@ -38,10 +38,16 @@ export class ModiViajePage implements OnInit {
     else if ((this.horario.length != 5 )) {
       this.presentAlert();
     }
-    else if ((this.asientos.length != 1)){
+    else if ((this.asientos.length < 1) || (this.asientos.length > 1)){
       this.presentAlert5();
     }
-    else if ((this.sector.length != 1)){
+    else if (/[A-Z]/.test(this.tarifa) || /[a-z]/.test(this.tarifa)){
+      this.presentAlert9();
+    }
+    else if(/[A-Z]/.test(this.asientos) || /[a-z]/.test(this.asientos)){
+      this.presentAlert7();
+    }
+    else if ((this.sector.length < 1) || (this.sector.length > 1)){
       this.presentAlert6();
     }
     else if(/[0-9]/.test(this.sector)){
@@ -108,7 +114,7 @@ export class ModiViajePage implements OnInit {
   async presentAlert6() {
     const alert = await this.alertController.create({
       header: 'Error/Sector',
-      message: 'Solo un numero',
+      message: 'Solo una letra',
       buttons: ['Aceptar'],
     });
 
@@ -129,6 +135,16 @@ export class ModiViajePage implements OnInit {
     const alert = await this.alertController.create({
       header: 'Error/Sector',
       message: 'Solo letras',
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+
+  async presentAlert9() {
+    const alert = await this.alertController.create({
+      header: 'Error/Tarifa',
+      message: 'Solo numeros',
       buttons: ['Aceptar'],
     });
 
