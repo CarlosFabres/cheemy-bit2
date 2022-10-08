@@ -37,7 +37,7 @@ export class ModiVehiculoPage {
         this.presentAlert4();
       }
 
-      else if ((this.p.length != 6 )) {
+      else if ((this.p.length < 6 ) || (this.p.length > 6 )) {
         this.presentAlert();
       }
   

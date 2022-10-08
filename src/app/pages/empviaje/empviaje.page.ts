@@ -130,8 +130,9 @@ export class EmpviajePage implements OnInit {
 
   eliminarVC(){
     this.servicioBD.eliminarViajeConductor(this.idvi);
+    this.servicioBD.eliminarViajePasajeroConductor(this.idvi);
     this.servicioBD.presentToast("Viaje Eliminado");
-    this.router.navigate(['/menu-p'])
+    this.router.navigate(['/menu-p']);
   }
 
   viaje(){

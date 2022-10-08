@@ -47,7 +47,7 @@ export class CviajesPage implements OnInit {
     else if ((this.horario.length != 5 )) {
       this.presentAlert();
     }
-    else if ((this.asientos.length != 1)){
+    else if ((this.asientos.length < 1) || (this.asientos.length > 1)){
       this.presentAlert5();
     }
     else if (/[A-Z]/.test(this.tarifa) || /[a-z]/.test(this.tarifa)){
@@ -56,7 +56,7 @@ export class CviajesPage implements OnInit {
     else if(/[A-Z]/.test(this.asientos) || /[a-z]/.test(this.asientos)){
       this.presentAlert7();
     }
-    else if ((this.sector.length != 1)){
+    else if ((this.sector.length < 1) || (this.sector.length > 1)){
       this.presentAlert6();
     }
     else if(/[0-9]/.test(this.sector)){
