@@ -105,8 +105,8 @@ export class MenuPPage {
     this.servicioBD.buscarVehiculosIniciar(this.corre);
   }
 
-  detalleviaje(){
-    this.servicioBD.buscarDetalleViaje();
+  detalleviaje(corre){
+    this.servicioBD.buscarDetalleViajeIniciarPajasero(this.corre);
   }
 
   viaje(){
@@ -124,7 +124,7 @@ export class MenuPPage {
         this.usuario(this.corre);
         this.vehiculo(this.corre);
         this.titulo(this.corre);
-        this.detalleviaje();
+        this.detalleviaje(this.corre);
         this.viaje();
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
         this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
@@ -133,7 +133,7 @@ export class MenuPPage {
         this.servicioBD.fetchViajes().subscribe(item=>{
           this.arregloViajes = item;
         })
-        this.servicioBD.fetchDetalleViajes().subscribe(item=>{
+        this.servicioBD.fetchDetalleViajesIniciarPajasero().subscribe(item=>{
           this.arregloDetalleViajes = item;
         })
         this.servicioBD.fetchTituloIniciar().subscribe(item=>{

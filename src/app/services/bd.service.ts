@@ -615,6 +615,34 @@ buscarDetalleViaje() {
   })
 }
 
+buscarDetalleViajeIniciarPajasero(corre) {
+  let data = [corre];
+  //retorno la ejecución del select
+  return this.database.executeSql('SELECT * FROM detalleviaje INNER JOIN usuario on detalleviaje.idusuario = usuario.id_usuario WHERE usuario.correo = ?', data).then(res => {
+    //creo mi lista de objetos de noticias vacio
+    let items: Detalleviaje[] = [];
+    //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+    if (res.rows.length > 0) {
+      for (var i = 0; i < res.rows.length; i++) {
+        items.push({
+          id_detalle: res.rows.item(i).id_detalle,
+          idviaje: res.rows.item(i).idviaje,
+          idusuario: res.rows.item(i).idusuario
+        })
+      }
+
+    }
+    //actualizamos el observable de las noticias
+    this.listaDetalleViajesIniciarPajasero.next(items);
+  })
+}
+
+listaDetalleViajesIniciarPajasero = new BehaviorSubject([]);
+
+fetchDetalleViajesIniciarPajasero(): Observable<Detalleviaje[]> {
+return this.listaDetalleViajes.asObservable();
+}
+
 //------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----------ViajePasajero----
 
 buscarDetalleViajeIniciar(iddetalle) {
