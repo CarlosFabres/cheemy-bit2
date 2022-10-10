@@ -113,7 +113,6 @@ export class MenuPPage {
 
   usuario(corre){
     this.servicioBD.buscarUsuariosIniciar(this.corre);
-    this.puntos(this.arregloUsuarios[0].puntos,this.arregloUsuarios[0].id_usuario);
   }
 
   vehiculo(corre){
@@ -132,18 +131,6 @@ export class MenuPPage {
     this.servicioBD.buscarTituloIniciar(this.corre);
   }
 
-  puntos(puntos,id){
-    if(puntos == 2000){
-      this.servicioBD.updatePuntos1(id,this.corre);
-    }
-    else if(puntos == 3000){
-      this.servicioBD.updatePuntos2(id,this.corre);
-    }
-    else if(puntos == 4000){
-      this.servicioBD.updatePuntos3(id,this.corre);
-    }
-  }
-
   ngOnInit() {
     this.menuCtrl.enable(true);
     this.servicioBD.dbState().subscribe(res=>{
@@ -153,7 +140,6 @@ export class MenuPPage {
         this.titulo(this.corre);
         this.detalleviaje(this.corre);
         this.viaje(this.corre);
-        this.puntos(this.arregloUsuarios[0].puntos,this.arregloUsuarios[0].id_usuario);
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
         this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
           this.arregloUsuarios = item;
