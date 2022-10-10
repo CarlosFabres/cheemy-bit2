@@ -120,7 +120,7 @@ export class BDService {
 
   tablaTitulos: string = "CREATE TABLE IF NOT EXISTS titulo(id_titulo INTEGER PRIMARY KEY, nombret VARCHAR(40) NOT NULL,puntost NUMERIC NOT NULL);";
 
-  registroTitulos: string = "INSERT or IGNORE INTO titulo(id_titulo, nombret,puntost) VALUES (1,'siwi',0),(2,'apapa',1000);";
+  registroTitulos: string = "INSERT or IGNORE INTO titulo(id_titulo, nombret,puntost) VALUES (1,'siwi',1000),(2,'apapa',2000),(3,'elpepe',3000),(4,'etecech',4000);";
   listaTitulos = new BehaviorSubject([]);
 
 
@@ -152,8 +152,8 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,idtitulo INTEGER, FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(idtitulo) REFERENCES titulo(id_titulo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',0,'vicente','echeverria',123332323,'Pepe1',NULL,2,1);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',0,'Pepe','Soto',292188321,'Caca1',NULL,1,1);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'vicente','echeverria',123332323,'Pepe1',NULL,2,1);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',1000,'Pepe','Soto',292188321,'Caca1',NULL,1,1);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -863,6 +863,27 @@ sumarPuntos(idusuario,correo){
     return this.database.executeSql('UPDATE usuario SET puntos = puntos + 1000 WHERE id_usuario = ?', data).then(data2 => {
       this.buscarUsuariosIniciar(correo);
     })
+}
+////////////puntoooooooooooooooooooooooooooooooooooooooooooooos//////
+
+updatePuntos1(id_usuario,correo) {
+  let data = [id_usuario];
+  return this.database.executeSql('UPDATE usuario SET idtitulo = 2 WHERE id_usuario = ?', data).then(data2 => {
+    this.buscarUsuariosIniciar(correo);
+  })
+}
+
+updatePuntos2(id_usuario,correo) {
+  let data = [id_usuario];
+  return this.database.executeSql('UPDATE usuario SET idtitulo = 3 WHERE id_usuario = ?', data).then(data2 => {
+    this.buscarViajesIniciar(correo);
+  })
+}
+updatePuntos3(id_usuario,correo) {
+  let data = [id_usuario];
+  return this.database.executeSql('UPDATE usuario SET idtitulo = 4 WHERE id_usuario = ?', data).then(data2 => {
+    this.buscarViajesIniciar(correo);
+  })
 }
 
 /////////////////////////////////////////////////////////
