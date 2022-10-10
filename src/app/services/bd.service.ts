@@ -90,6 +90,8 @@ export class BDService {
 
       await this.database.executeSql(this.tablaDetalleViaje, []);
 
+      this.buscarTipo();
+
       this.buscarTitulos();
 
       this.buscarViajes();
@@ -152,7 +154,7 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,idtitulo INTEGER, FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(idtitulo) REFERENCES titulo(id_titulo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1',NULL,2,1);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1',NULL,2,4);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',1000,'carlos2','Soto',292188321,'Caca1',NULL,1,1);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -279,6 +281,14 @@ export class BDService {
 
   }
 
+  eliminarViajeVehiculo(id_vehiculo){
+    let data = [id_vehiculo]
+    return this.database.executeSql('DELETE FROM viaje WHERE idvehiculo = ?', data).then(a => {
+      this.buscarViajes();
+      this.router.navigate(['/vehiculo']);
+    })
+  }
+
   //Usuario-----------------------------------------------------------------------------------------
 
   buscarUsuarios() {
@@ -319,6 +329,57 @@ export class BDService {
   }
 
   //Viaje------------------------------------------------------------------------------------
+
+  buscarTipoIniciar(corre){
+    let data = [corre];
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM tipousuario INNER JOIN usuario on tipousuario.id_tipo = usuario.idtipo WHERE usuario.correo = ?', data).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Tipousuario[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_tipo: res.rows.item(i).id_tipo,
+            nombre_tipo: res.rows.item(i).nombre_tipo
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaTipoUsuarioIniciar.next(items);
+    })
+  }
+
+  listaTipoUsuarioIniciar = new BehaviorSubject([]);
+  fetchTipoUsuarioIniciar(): Observable<Tipousuario[]> {
+    return this.listaTipoUsuarioIniciar.asObservable();
+  }
+
+  buscarTipo() {
+    //retorno la ejecución del select
+    return this.database.executeSql('SELECT * FROM tipousuario', []).then(res => {
+      //creo mi lista de objetos de noticias vacio
+      let items: Tipousuario[] = [];
+      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
+      if (res.rows.length > 0) {
+        for (var i = 0; i < res.rows.length; i++) {
+          items.push({
+            id_tipo: res.rows.item(i).id_tipo,
+            nombre_tipo: res.rows.item(i).nombre_tipo
+          })
+        }
+
+      }
+      //actualizamos el observable de las noticias
+      this.listaTipoUsuario.next(items);
+    })
+  }
+
+  listaTipoUsuario = new BehaviorSubject([]);
+  fetchTipoUsuario(): Observable<Tipousuario[]> {
+    return this.listaTipoUsuario.asObservable();
+  }
 
   buscarViajes() {
     //retorno la ejecución del select
@@ -393,7 +454,7 @@ export class BDService {
   modificarViajes(id_viaje, hora_salida, destino, monto, asientos_dispo, sector) {
     let data = [hora_salida, asientos_dispo, monto, sector, destino, id_viaje];
     return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?', data).then(data2 => {
-      this.buscarViajesIniciar(id_viaje);
+      this.buscarViajes();
       this.router.navigate(['/empviaje'])
     })
   }

@@ -57,15 +57,15 @@
         </div>
           <center>
             <div *ngFor = "let y of arregloDetalleViajes">
-              <div *ngIf = "arregloUsuarios[0].id_usuario == arregloDetalleViajes[0].idusuario">
-                <ion-button color="mycolor" size="medium" class="font" (click) = "verViajePajasero(y)">Mi Viaje 🚖</ion-button>
+              <div *ngIf = "y.idusuario == arregloUsuarios[0].id_usuario">
+                <ion-button color="mycolor" size="medium" class="font" (click) = "verViajePajasero(y)">{{ y.idusuario }}</ion-button>
               </div>
             </div>
             <div *ngFor = "let x of arregloViajes">
-              <div *ngIf = "arregloUsuarios[0].id_usuario == arregloViajes[0].idusuario">
+              <div *ngIf = "x.idvehiculo == arregloVehiculos[0].id_vehiculo">
                 <ion-button color="mycolor" size="medium" class="font" (click) = "verViajeConductor(x)">Mi Viaje 👨‍✈️</ion-button>
               </div>
-              </div>
+            </div>
           </center>
       </div>
 

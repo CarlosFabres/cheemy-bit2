@@ -27,9 +27,27 @@ export class PerfilPage implements OnInit {
       numero: "",
       clave: "",
       imagen: "",
-      idtipo: ""
+      idtipo: "",
+      idtitulo: ""
     }
 
+  ]
+
+  arregloTitulos: any = [
+    {
+      id_titulo : "",
+      nombret : "",
+      puntost : ""
+    }
+  
+  ]
+
+  arregloTipos: any = [
+    {
+      id_tipo : "",
+      nombre_tipo : ""
+    }
+  
   ]
 
   constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, public navCtrl: NavController, private servicioBD: BDService, private camara: CamaraService) {
@@ -87,12 +105,27 @@ export class PerfilPage implements OnInit {
     this.servicioBD.buscarUsuariosIniciar(this.corre);
   }
 
+  titulo(corre){
+    this.servicioBD.buscarTituloIniciar(this.corre);
+  }
+
+  tipo(corre){
+    this.servicioBD.buscarTipoIniciar(this.corre);
+  }
+
   ngOnInit() {
     this.servicioBD.dbState().subscribe(res => {
       if (res) {
         this.usuario(this.corre);
+        this.tipo(this.corre);
         this.servicioBD.fetchUsuariosIniciar().subscribe(item => {
           this.arregloUsuarios = item;
+        })
+        this.servicioBD.fetchTituloIniciar().subscribe(item=>{
+          this.arregloTitulos = item;
+        })
+        this.servicioBD.fetchTipoUsuarioIniciar().subscribe(item=>{
+          this.arregloTipos = item;
         })
       }
     })

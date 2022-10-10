@@ -26,6 +26,7 @@ export class MenuPPage {
       idtitulo : ""
     }
   ]
+  
 
   arregloViajes: any = [
     {
@@ -49,6 +50,18 @@ export class MenuPPage {
       idusuario : ""
     }
   
+  ]
+
+  arregloVehiculos: any = [
+    {
+      id_vehiculo : "",
+      patente: "",
+      color : "",
+      modelo : "",
+      marca : "",
+      idusuario : ""
+    }
+
   ]
 
   arregloTitulos: any = [
@@ -138,6 +151,9 @@ export class MenuPPage {
         })
         this.servicioBD.fetchTituloIniciar().subscribe(item=>{
           this.arregloTitulos = item;
+        })
+        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
+          this.arregloVehiculos = item;
         })
       }
     })
