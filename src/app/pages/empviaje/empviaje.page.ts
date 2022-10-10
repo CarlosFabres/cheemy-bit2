@@ -71,6 +71,7 @@ export class EmpviajePage implements OnInit {
 
   empezarViaje(){
     this.servicioBD.eliminarViajeConductor(this.idvi);
+    this.servicioBD.eliminarViajePasajeroConductor(this.idvi);
     this.servicioBD.sumarPuntos(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
     this.servicioBD.presentToast("Viaje empezado");
     this.router.navigate(['/viajeemp']);

@@ -82,6 +82,8 @@ export class BDService {
 
       await this.database.executeSql(this.registroVehiculo, []);
 
+      await this.database.executeSql(this.registroVehiculo2, []);
+
       await this.database.executeSql(this.tablaViaje, []);
 
       await this.database.executeSql(this.registroViaje, []);
@@ -154,8 +156,8 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,idtitulo INTEGER, FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(idtitulo) REFERENCES titulo(id_titulo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1',NULL,2,4);";
-  registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',1000,'carlos2','Soto',292188321,'Caca1',NULL,1,1);";
+  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1','../../assets/img/cheems.png',2,4);";
+  registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',1000,'carlos2','Soto',292188321,'Caca1','../../assets/img/cheems.png',1,1);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -170,6 +172,7 @@ export class BDService {
   tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo INTEGER PRIMARY KEY autoincrement,patente VARCHAR(10) , color VARCHAR(40) NOT NULL, modelo VARCHAR(40),  marca VARCHAR(40),idusuario INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
   //variable para la sentencia de registros por defecto en la tabla
   registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (1,'as21kd','rojo','tesla','k2',1);";
+  registroVehiculo2: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (2,'elpepe','etecech','a','599',2);";
   listaVehiculos = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -987,4 +990,3 @@ updatePuntos3(id_usuario,correo) {
 
 
 }
-

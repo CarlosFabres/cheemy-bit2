@@ -14,7 +14,7 @@
 
   <div *ngFor="let x of arregloUsuarios">
     <center>
-      <div class="divi"><img src="../../../assets/img/cheems.png" alt="" class="img2">
+      <div class="divi"><img [src]= "x.imagen"alt="" class="img2">
         <p class="font titu">{{ x.nombre }} {{ x.apellido }}</p>
         <p class="font titulo">{{ arregloTitulos[0].nombret }} 🦍</p>
       </div>
