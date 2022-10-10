@@ -42,6 +42,18 @@ export class MenuPPage {
   
   ]
 
+  arregloVehiculos: any = [
+    {
+      id_vehiculo : "",
+      patente: "",
+      color : "",
+      modelo : "",
+      marca : "",
+      idusuario : ""
+    }
+
+  ]
+
   arregloDetalleViajes: any = [
     {
       id_detalle : "",
@@ -93,6 +105,8 @@ export class MenuPPage {
     this.router.navigate(['/empviaje'], navigationExtras);
 
   }
+
+  
   
 
   
@@ -109,8 +123,8 @@ export class MenuPPage {
     this.servicioBD.buscarDetalleViajeIniciarPajasero(this.corre);
   }
 
-  viaje(){
-    this.servicioBD.buscarViajes();
+  viaje(corre){
+    this.servicioBD.buscarViajesIniciarConductor(this.corre);
   }
 
   titulo(corre){
@@ -125,12 +139,15 @@ export class MenuPPage {
         this.vehiculo(this.corre);
         this.titulo(this.corre);
         this.detalleviaje(this.corre);
-        this.viaje();
+        this.viaje(this.corre);
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
         this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
           this.arregloUsuarios = item;
         })
-        this.servicioBD.fetchViajes().subscribe(item=>{
+        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
+          this.arregloVehiculos = item;
+        })
+        this.servicioBD.fetchViajesIniciarConductor().subscribe(item=>{
           this.arregloViajes = item;
         })
         this.servicioBD.fetchDetalleViajesIniciarPajasero().subscribe(item=>{

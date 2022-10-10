@@ -46,8 +46,7 @@ export class EmpviajePage implements OnInit {
       monto : "",
       sector : "",
       destino : "",
-      idvehiculo : "",
-      idusuario : ""
+      idvehiculo : ""
     }
   
   ]

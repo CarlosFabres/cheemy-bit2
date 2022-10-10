@@ -12,6 +12,13 @@
 
 <ion-content class="body">
   <center><ion-icon name="car" class="icon"></ion-icon></center>
+  <div *ngFor = "let x of arregloViajes">
+    <p>1-{{ x.hora_salida }}</p>
+    <p>2-{{ x.hora_ocupa }}/{{ x.asientos_dispo }}</p>
+    <p>3-{{ x.monto }}</p>
+    <p>4-{{ x.sector }}</p>
+    <p>5-{{ x.destino }}</p>
+  </div>
   <ion-row>
     <ion-col>
       <ion-button (click) = "presentAlert2()" expand ="block" color="mycolor">Empezar viaje</ion-button>
