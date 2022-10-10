@@ -42,18 +42,6 @@ export class MenuPPage {
   
   ]
 
-  arregloVehiculos: any = [
-    {
-      id_vehiculo : "",
-      patente: "",
-      color : "",
-      modelo : "",
-      marca : "",
-      idusuario : ""
-    }
-
-  ]
-
   arregloDetalleViajes: any = [
     {
       id_detalle : "",
@@ -105,15 +93,12 @@ export class MenuPPage {
     this.router.navigate(['/empviaje'], navigationExtras);
 
   }
-
-  
   
 
   
 
   usuario(corre){
     this.servicioBD.buscarUsuariosIniciar(this.corre);
-    this.puntos(this.arregloUsuarios[0].puntos,this.arregloUsuarios[0].id_usuario);
   }
 
   vehiculo(corre){
@@ -124,24 +109,12 @@ export class MenuPPage {
     this.servicioBD.buscarDetalleViajeIniciarPajasero(this.corre);
   }
 
-  viaje(corre){
-    this.servicioBD.buscarViajesIniciarConductor(this.corre);
+  viaje(){
+    this.servicioBD.buscarViajes();
   }
 
   titulo(corre){
     this.servicioBD.buscarTituloIniciar(this.corre);
-  }
-
-  puntos(puntos,id){
-    if(puntos == 2000){
-      this.servicioBD.updatePuntos1(id,this.corre);
-    }
-    else if(puntos == 3000){
-      this.servicioBD.updatePuntos2(id,this.corre);
-    }
-    else if(puntos == 4000){
-      this.servicioBD.updatePuntos3(id,this.corre);
-    }
   }
 
   ngOnInit() {
@@ -152,16 +125,12 @@ export class MenuPPage {
         this.vehiculo(this.corre);
         this.titulo(this.corre);
         this.detalleviaje(this.corre);
-        this.viaje(this.corre);
-        this.puntos(this.arregloUsuarios[0].puntos,this.arregloUsuarios[0].id_usuario);
+        this.viaje();
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
         this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
           this.arregloUsuarios = item;
         })
-        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
-          this.arregloVehiculos = item;
-        })
-        this.servicioBD.fetchViajesIniciarConductor().subscribe(item=>{
+        this.servicioBD.fetchViajes().subscribe(item=>{
           this.arregloViajes = item;
         })
         this.servicioBD.fetchDetalleViajesIniciarPajasero().subscribe(item=>{
