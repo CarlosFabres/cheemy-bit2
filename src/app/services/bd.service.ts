@@ -346,40 +346,6 @@ export class BDService {
     })
   }
 
-  buscarViajesIniciarConductor(corre) {
-    let data = [corre];
-    //retorno la ejecución del select
-    return this.database.executeSql('SELECT * FROM viaje INNER JOIN vehiculo on viaje.idvehiculo = vehiculo.id_vehiculo INNER JOIN usuario on vehiculo.idusuario = usuario.id_usuario WHERE usuario.correo = ?', data).then(res => {
-      //creo mi lista de objetos de noticias vacio
-      let items: Viaje[] = [];
-      //si cuento mas de 0 filas en el resultSet entonces agrego los registros al items
-      if (res.rows.length > 0) {
-        for (var i = 0; i < res.rows.length; i++) {
-          items.push({
-            id_viaje: res.rows.item(i).id_viaje,
-            hora_salida: res.rows.item(i).hora_salida,
-            asientos_dispo: res.rows.item(i).asientos_dispo,
-            asientos_ocupa: res.rows.item(i).asientos_ocupa,
-            monto: res.rows.item(i).monto,
-            sector: res.rows.item(i).sector,
-            destino: res.rows.item(i).destino,
-            idvehiculo: res.rows.item(i).idvehiculo,
-            
-          })
-        }
-
-      }
-      //actualizamos el observable de las noticias
-      this.listaViajesIniciarConductor.next(items);
-    })
-  }
-
-  listaViajesIniciarConductor = new BehaviorSubject([]);
-
-  fetchViajesIniciarConductor(): Observable<Viaje[]> {
-  return this.listaViajesIniciarConductor.asObservable();
-  }
-
   insertarViajes( hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo) {
     let data = [ hora_salida, asientos_dispo, monto, sector, destino, id_vehiculo];
     return this.database.executeSql('INSERT INTO viaje(hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo) VALUES (?,?,0,?,?,?,?)', data).then(res => {

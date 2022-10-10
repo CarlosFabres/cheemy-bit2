@@ -40,7 +40,7 @@
                 <ion-card-content>
                   <img src="../../../assets/img/amongus.jpg" alt="" class="foto2">
                   <ion-card-subtitle class="font">Retro 👾</ion-card-subtitle>
-
+            
 
                 </ion-card-content>
               </ion-card>
@@ -49,6 +49,10 @@
         </ion-row>
         <div *ngFor="let y of arregloViajes">
           <ion-list>
+            <ion-item (click) = "pasarDatosViaje()">
+              <img src="../../assets/img/cheems.png" alt="" class="viaje mar ">
+              <ion-label class="inpu font">Salida: {{ y.hora_salida }} - {{ y.destino }} <p>{{ y.asientos_ocupa }}/{{ y.asientos_dispo }} Asientos</p></ion-label>
+            </ion-item>
           </ion-list>
         </div>
           <center>
@@ -58,7 +62,7 @@
               </div>
             </div>
             <div *ngFor = "let x of arregloViajes">
-              <div *ngIf = "arregloVehiculos[0].id_vehiculo == arregloViajes[0].idvehiculo">
+              <div *ngIf = "arregloUsuarios[0].id_usuario == arregloViajes[0].idusuario">
                 <ion-button color="mycolor" size="medium" class="font" (click) = "verViajeConductor(x)">Mi Viaje 👨‍✈️</ion-button>
               </div>
               </div>
