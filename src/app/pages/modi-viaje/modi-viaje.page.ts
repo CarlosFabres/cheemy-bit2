@@ -16,6 +16,7 @@ export class ModiViajePage implements OnInit {
         this.idviaje = this.router.getCurrentNavigation().extras.state.idEnviado;
         this.horario = this.router.getCurrentNavigation().extras.state.horaEnviado;
         this.asientos = this.router.getCurrentNavigation().extras.state.asientosEnviado;
+        this.asientosO = this.router.getCurrentNavigation().extras.state.asientosOEnviado;
         this.tarifa = this.router.getCurrentNavigation().extras.state.montoEnviado;
         this.sector = this.router.getCurrentNavigation().extras.state.sectorEnviado;
         this.destino = this.router.getCurrentNavigation().extras.state.destinoEnviado;
@@ -28,6 +29,7 @@ export class ModiViajePage implements OnInit {
   destino: string = "";
   tarifa: string = "";
   asientos: string = "";
+  asientosO:string = "";
   sector: string = "";
 
   pasarDatos(){
@@ -55,7 +57,12 @@ export class ModiViajePage implements OnInit {
     }
 
     else {
-      this.servicioBD.modificarViajes(this.idviaje,this.horario,this.destino,this.tarifa,this.asientos,this.sector);
+      if(this.asientosO > this.asientos){
+        this.servicioBD.presentToast("No puedes asignar un numero menor al de los asientos ya ocupados.");
+      }else{
+        this.servicioBD.modificarViajes(this.idviaje,this.horario,this.destino,this.tarifa,this.asientos,this.sector);
+      }
+      
     }
   }
 

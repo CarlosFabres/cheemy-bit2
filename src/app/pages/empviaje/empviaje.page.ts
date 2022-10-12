@@ -59,6 +59,7 @@ export class EmpviajePage implements OnInit {
         idEnviado: this.arregloViajes[0].id_viaje,
         horaEnviado: this.arregloViajes[0].hora_salida,
         asientosEnviado: this.arregloViajes[0].asientos_dispo,
+        asientosOEnviado: this.arregloViajes[0].asientos_ocupa,
         montoEnviado: this.arregloViajes[0].monto,
         sectorEnviado: this.arregloViajes[0].sector,
         destinoEnviado: this.arregloViajes[0].destino
@@ -73,8 +74,21 @@ export class EmpviajePage implements OnInit {
     this.servicioBD.eliminarViajeConductor(this.idvi);
     this.servicioBD.eliminarViajePasajeroConductor(this.idvi);
     this.servicioBD.sumarPuntos(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    this.cambiarTitulo();
     this.servicioBD.presentToast("Viaje empezado");
     this.router.navigate(['/viajeemp']);
+  }
+
+  cambiarTitulo(){
+    if(this.arregloUsuarios[0].puntos == 1000){
+      this.servicioBD.updatePuntos1(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    }
+    else if(this.arregloUsuarios[0].puntos == 2000){
+      this.servicioBD.updatePuntos2(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    }
+    else if(this.arregloUsuarios[0].puntos == 3000){
+      this.servicioBD.updatePuntos3(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    }
   }
 
   async presentAlert() {

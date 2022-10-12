@@ -99,8 +99,11 @@ export class DatoVPage implements OnInit {
   }
 
   sexo(x,a){
-    if(this.arregloViajes[0].asientos_ocupa == this.arregloViajes[0].asientos_dispo){
-      this.servicioBD.presentToast("Viaje lleno");
+    if(this.arregloUsuarios[0].id_usuario == this.arregloUsuariosIniciar[0].id_usuario){
+      this.servicioBD.presentToast("No puedes agendar tu propio viaje.");
+    }
+    else if(this.arregloViajes[0].asientos_ocupa == this.arregloViajes[0].asientos_dispo){
+      this.servicioBD.presentToast("Viaje lleno.");
     }
     else{
       this.realizarAgendamiento(x,a);

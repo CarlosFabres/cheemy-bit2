@@ -99,6 +99,8 @@ export class PerfilPage implements OnInit {
     this.camara.takePicture();
   }
 
+  
+
 
 
   usuario(corre) {
@@ -118,6 +120,7 @@ export class PerfilPage implements OnInit {
       if (res) {
         this.usuario(this.corre);
         this.tipo(this.corre);
+        this.titulo(this.corre)
         this.servicioBD.fetchUsuariosIniciar().subscribe(item => {
           this.arregloUsuarios = item;
         })
