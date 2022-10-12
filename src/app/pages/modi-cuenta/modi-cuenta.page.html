@@ -12,6 +12,7 @@
 <ion-content class="body">
 
   <ion-item>
+    <div *ngIf = "foto == ''"><ion-label floating><img [src]="img" alt=""></ion-label></div>
     <ion-label floating><img [src]="foto" alt=""></ion-label>
     <ion-icon name="camera-outline" (click)="apicamara()"></ion-icon>
   </ion-item>

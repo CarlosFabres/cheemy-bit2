@@ -46,7 +46,12 @@ export class ModiCuentaPage {
   }
 
   modificarc(corre) {
-    this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.cl, this.img);
+    if(this.foto == ''){
+      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.cl, this.img);
+    }else{
+      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.cl, this.foto);
+    }
+    
   }
 
   validar() {
