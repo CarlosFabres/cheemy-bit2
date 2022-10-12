@@ -38,6 +38,21 @@ export class CviajesPage implements OnInit {
 
   ]
 
+  arregloUsuarios: any = [
+    {
+      id_usuario : "",
+      correo: "",
+      puntos : "",
+      nombre : "",
+      apellido : "",
+      numero : "",
+      clave : "",
+      imagen : "",
+      idtipo : "",
+      idtitulo : ""
+    }
+  ]
+
   pasarDatos(){
 
     
@@ -75,7 +90,7 @@ export class CviajesPage implements OnInit {
       this.verificarAuto();
     }
     else{
-      this.servicioBD.insertarViajes(this.horario,this.asientos,this.tarifa,this.sector,this.destino, this.arregloVehiculos[0].id_vehiculo);
+      this.servicioBD.insertarViajes(this.horario,this.asientos,this.tarifa,this.sector,this.destino, this.arregloVehiculos[0].id_vehiculo,this.arregloUsuarios[0].id_usuario);
     }
   }
 
@@ -193,6 +208,10 @@ export class CviajesPage implements OnInit {
     toast.present();
   }
 
+  usuario(corre){
+    this.servicioBD.buscarUsuariosIniciar(this.corre);
+  }
+
   vehiculo(corre){
     this.servicioBD.buscarVehiculosIniciar(this.corre);
   }
@@ -200,9 +219,13 @@ export class CviajesPage implements OnInit {
   ngOnInit() {
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
+        this.usuario(this.corre);
         this.vehiculo(this.corre);
         this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
           this.arregloVehiculos = item;
+        })
+        this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
+          this.arregloUsuarios = item;
         })
       }
     })

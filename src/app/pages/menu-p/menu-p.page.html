@@ -62,7 +62,7 @@
               </div>
             </div>
             <div *ngFor = "let x of arregloViajes">
-              <div *ngIf = "x.idvehiculo == arregloVehiculos[0].id_vehiculo">
+              <div *ngIf = "x.idusuario == arregloUsuarios[0].id_usuario">
                 <ion-button color="mycolor" size="medium" class="font" (click) = "verViajeConductor(x)">Mi Viaje 👨‍✈️</ion-button>
               </div>
             </div>

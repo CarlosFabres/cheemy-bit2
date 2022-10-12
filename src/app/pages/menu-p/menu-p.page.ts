@@ -52,18 +52,6 @@ export class MenuPPage {
   
   ]
 
-  arregloVehiculos: any = [
-    {
-      id_vehiculo : "",
-      patente: "",
-      color : "",
-      modelo : "",
-      marca : "",
-      idusuario : ""
-    }
-
-  ]
-
   arregloTitulos: any = [
     {
       id_titulo : "",
@@ -114,10 +102,6 @@ export class MenuPPage {
     this.servicioBD.buscarUsuariosIniciar(this.corre);
   }
 
-  vehiculo(corre){
-    this.servicioBD.buscarVehiculosIniciar(this.corre);
-  }
-
   detalleviaje(corre){
     this.servicioBD.buscarDetalleViajeIniciarPajasero(this.corre);
   }
@@ -135,7 +119,6 @@ export class MenuPPage {
     this.servicioBD.dbState().subscribe(res=>{
       if(res){
         this.usuario(this.corre);
-        this.vehiculo(this.corre);
         this.titulo(this.corre);
         this.detalleviaje(this.corre);
         this.viaje();
@@ -151,9 +134,6 @@ export class MenuPPage {
         })
         this.servicioBD.fetchTituloIniciar().subscribe(item=>{
           this.arregloTitulos = item;
-        })
-        this.servicioBD.fetchVehiculosIniciar().subscribe(item=>{
-          this.arregloVehiculos = item;
         })
       }
     })

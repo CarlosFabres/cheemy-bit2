@@ -69,6 +69,8 @@ export class DatoVPage implements OnInit {
 
   ]
 
+  
+
   idvi = "";
   e: string = "";
   c: string = "";
@@ -99,11 +101,11 @@ export class DatoVPage implements OnInit {
   }
 
   sexo(x,a){
-    if(this.arregloUsuarios[0].id_usuario == this.arregloUsuariosIniciar[0].id_usuario){
-      this.servicioBD.presentToast("No puedes agendar tu propio viaje.");
-    }
-    else if(this.arregloViajes[0].asientos_ocupa == this.arregloViajes[0].asientos_dispo){
+    if(this.arregloViajes[0].asientos_ocupa == this.arregloViajes[0].asientos_dispo){
       this.servicioBD.presentToast("Viaje lleno.");
+    }
+    else if(this.arregloUsuarios[0].id_usuario == this.arregloUsuariosIniciar[0].id_usuario){
+      this.servicioBD.presentToast("No puedes agendar tu propio viaje.");
     }
     else{
       this.realizarAgendamiento(x,a);
@@ -127,6 +129,9 @@ export class DatoVPage implements OnInit {
   viaje(idvi){
     this.servicioBD.buscarViajesIniciar(this.idvi);
   }
+
+  
+  
 
   usuario(idvi){
     this.servicioBD.buscarUsuariosViaje(this.idvi);
