@@ -3,7 +3,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController, ToastController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { BDService } from 'src/app/services/bd.service';
-
+import { ApirestService } from 'src/app/services/apirest.service';
 
 
 
@@ -12,22 +12,47 @@ import { BDService } from 'src/app/services/bd.service';
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
-export class LoginPage {
+export class LoginPage implements OnInit {
 
   arregloUsuarios: any = [
     {
-      id_usuario : "",
+      id_usuario: "",
       correo: "",
-      puntos : "",
-      nombre : "",
-      apellido : "",
-      numero : "",
-      clave : "",
-      imagen : "",
-      idtipo : ""
+      puntos: "",
+      nombre: "",
+      apellido: "",
+      numero: "",
+      clave: "",
+      imagen: "",
+      idtipo: ""
     }
 
   ]
+
+
+
+  arrayUsers: any = [
+    {
+      id: "",
+      nombre: "",
+      clave: "",
+      id_rol: ""
+    }
+  ]
+
+  id_usuario = 1;
+  correo = "a@a.com";
+  puntos = 1000;
+  nombre = this.arrayUsers[0].nombre;
+  apellido = "SOTO";
+  numero = 12345678;
+  clave2 = this.arrayUsers[0].clave;
+  imagen = "../../assets/img/cheems.png";
+  idtipo = 1;
+  idtitulo = 1;
+
+  
+
 
   corre = "";
   clave = "";
@@ -48,17 +73,17 @@ export class LoginPage {
   a3: string = "Fabres";
 
 
-  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController,private servicioBD: BDService) {
-    
+  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private servicioBD: BDService, public service: ApirestService) {
+
   }
 
-  login(){
-    this.servicioBD.loginUsuario(this.corre,this.clave);
+  login() {
+    this.servicioBD.loginUsuario(this.corre, this.clave);
     localStorage.setItem('correo', this.corre);
     localStorage.setItem('id_usuario', this.arregloUsuarios.id_usuario);
-    
-    this.corre="";
-    this.clave="";
+
+    this.corre = "";
+    this.clave = "";
   }
 
 
@@ -74,11 +99,11 @@ export class LoginPage {
       this.presentAlert();
     }
     else {
-      
+
     }
   }
 
-  
+
 
   async presentToast() {
     const toast = await this.toastController.create({
@@ -113,20 +138,25 @@ export class LoginPage {
     await alert.present();
   }
 
-  usuario(corre){
+  usuario(corre) {
     this.servicioBD.buscarUsuariosIniciar(this.corre);
   }
 
   ngOnInit() {
-    this.servicioBD.dbState().subscribe(res=>{
-      if(res){
+    this.servicioBD.dbState().subscribe(res => {
+      if (res) {
         this.usuario(this.corre);
-        this.servicioBD.fetchUsuariosIniciar().subscribe(item=>{
+        this.servicioBD.insertarUsuario(this.id_usuario, this.correo, this.puntos, this.nombre, this.apellido, this.numero, this.clave2, this.imagen, this.idtipo, this.idtitulo);
+        this.servicioBD.fetchUsuariosIniciar().subscribe(item => {
           this.arregloUsuarios = item;
         })
       }
     })
+    this.service.getUsers().subscribe((item) => {
+      this.arrayUsers = item;
+      console.log(item[0]);
+    }, (error) => {
+      console.log(error);
+    });
   }
-  
-
 }

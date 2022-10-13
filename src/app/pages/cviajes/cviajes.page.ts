@@ -28,7 +28,7 @@ export class CviajesPage implements OnInit {
 
   arregloVehiculos: any = [
     {
-      id_vehiculo : "",
+      id_vehiculo : "",       
       patente: "",
       color : "",
       modelo : "",

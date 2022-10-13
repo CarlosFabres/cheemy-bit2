@@ -74,7 +74,7 @@ export class BDService {
 
       await this.database.executeSql(this.tablaUsuario, []);
 
-      await this.database.executeSql(this.registroUsuario, []);
+      //await this.database.executeSql(this.registroUsuario, []);
 
       await this.database.executeSql(this.registroUsuario2, []);
 
@@ -156,7 +156,7 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaUsuario: string = "CREATE TABLE IF NOT EXISTS usuario(id_usuario INTEGER PRIMARY KEY, correo VARCHAR(100) NOT NULL, nombre VARCHAR(40) NOT NULL, apellido VARCHAR(40) NOT NULL, numero NUMERIC NOT NULL, clave VARCHAR(25) NOT NULL, puntos NUMERIC, imagen BLOB,idtipo INTEGER,idtitulo INTEGER, FOREIGN KEY(idtipo) REFERENCES tipousuario(id_tipo), FOREIGN KEY(idtitulo) REFERENCES titulo(id_titulo));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1','../../assets/img/cheems.png',2,1);";
+  //registroUsuario: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (1,'a@a.com',1000,'carlos','echeverria',123332323,'Pepe1','../../assets/img/cheems.png',2,1);";
   registroUsuario2: string = "INSERT or IGNORE INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (2,'e@e.com',1000,'carlos2','Soto',292188321,'Caca1','../../assets/img/cheems.png',1,1);";
   listaUsuarios = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -265,6 +265,14 @@ export class BDService {
     });
 
   }
+
+  insertarUsuario(id_usuario,correo,puntos,nombre,apellido,numero,clave2,imagen,idtipo,idtitulo){
+    let data = [id_usuario,correo,puntos,nombre,apellido,numero,clave2,imagen,idtipo,idtitulo];
+    return this.database.executeSql('INSERT INTO usuario(id_usuario, correo, puntos, nombre, apellido, numero, clave, imagen, idtipo,idtitulo) VALUES (?,?,?,?,?,?,?;?,?,?)',data).then(res =>{
+      this.buscarUsuarios();
+    });
+  }
+
 
 
   modificarVehiculos(id_vehiculo, patente, marca, modelo, color,corre) {

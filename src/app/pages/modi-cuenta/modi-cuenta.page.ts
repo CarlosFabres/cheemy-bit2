@@ -182,6 +182,8 @@ export class ModiCuentaPage {
     toast.present();
   }
 
+
+  
   apicamara() {
     this.camara.takePicture();
   }
