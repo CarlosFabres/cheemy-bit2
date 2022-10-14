@@ -54,10 +54,10 @@ export class LoginPage implements OnInit {
   id_usuario2 = 2;
   correo2 = "e@e.com";
   puntos2 = 1000;
-  nombre2 = this.arrayUsers[1].nombre;
+ 
   apellido2 = "PASTOR";
   numero2 = 12345678;
-  clave23 = this.arrayUsers[1].clave;
+
   imagen2 = "../../assets/img/cheems.png";
   idtipo2 = 1;
   idtitulo2 = 1;
