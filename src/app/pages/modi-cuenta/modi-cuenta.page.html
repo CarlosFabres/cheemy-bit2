@@ -11,11 +11,17 @@
 </ion-header>
 <ion-content class="body">
 
-  <ion-item>
-    <div *ngIf = "foto == ''"><ion-label floating><img [src]="img" alt=""></ion-label></div>
-    <ion-label floating><img [src]="foto" alt=""></ion-label>
-    <ion-icon name="camera-outline" (click)="apicamara()"></ion-icon>
-  </ion-item>
+  <center>
+    <ion-item>
+      <div *ngIf="foto == ''">
+        <ion-label floating><img [src]="img" alt="" class="img"></ion-label>
+      </div>
+      <ion-label floating><img [src]="foto" alt="" class="img"></ion-label>
+      <div>
+        <ion-icon name="camera-outline" (click)="apicamara()" class="icolor"></ion-icon>
+      </div>
+    </ion-item>
+  </center>
   <ion-item lines="full">
     <ion-label position="floating" class="inpu font">Nombre:</ion-label>
     <ion-input type="text" required class="inpu2" [(ngModel)]="n"></ion-input>

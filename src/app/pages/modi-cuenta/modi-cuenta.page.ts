@@ -79,7 +79,7 @@ export class ModiCuentaPage {
       this.presentAlert6();
     }
 
-    else if (this.cl.length < 8) {
+    else if (this.cl.length < 7) {
       this.presentAlert2();
     }
 
