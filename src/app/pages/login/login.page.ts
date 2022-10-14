@@ -51,6 +51,17 @@ export class LoginPage implements OnInit {
   idtipo = 1;
   idtitulo = 1;
 
+  id_usuario2 = 2;
+  correo2 = "e@e.com";
+  puntos2 = 1000;
+  nombre2 = this.arrayUsers[1].nombre;
+  apellido2 = "PASTOR";
+  numero2 = 12345678;
+  clave23 = this.arrayUsers[1].clave;
+  imagen2 = "../../assets/img/cheems.png";
+  idtipo2 = 1;
+  idtitulo2 = 1;
+
   
 
 
@@ -146,7 +157,6 @@ export class LoginPage implements OnInit {
     this.servicioBD.dbState().subscribe(res => {
       if (res) {
         this.usuario(this.corre);
-        this.servicioBD.insertarUsuario(this.id_usuario, this.correo, this.puntos, this.nombre, this.apellido, this.numero, this.clave2, this.imagen, this.idtipo, this.idtitulo);
         this.servicioBD.fetchUsuariosIniciar().subscribe(item => {
           this.arregloUsuarios = item;
         })
@@ -155,6 +165,8 @@ export class LoginPage implements OnInit {
     this.service.getUsers().subscribe((item) => {
       this.arrayUsers = item;
       console.log(item[0]);
+      this.servicioBD.insertarUsuario(this.id_usuario, this.correo, this.puntos, this.arrayUsers[0].nombre, this.apellido, this.numero, this.arrayUsers[0].clave, this.imagen, this.idtipo, this.idtitulo);
+      this.servicioBD.insertarUsuario(this.id_usuario2, this.correo2, this.puntos2, this.arrayUsers[1].nombre, this.apellido2, this.numero2, this.arrayUsers[1].clave, this.imagen2, this.idtipo2, this.idtitulo2);
     }, (error) => {
       console.log(error);
     });
