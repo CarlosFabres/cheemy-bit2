@@ -16,7 +16,11 @@ export class ApirestService {
 
   getUsers(): Observable<any> { return this.http.get(this.apiURL + '/users/').pipe(retry(3)); }
 
+  getVehiculos(): Observable<any> { return this.http.get(this.apiURL2 + '/autos/').pipe(retry(3)); }
+
   constructor(private http: HttpClient) { }
   apiURL = 'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos';
+
+  apiURL2 = 'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos';
 }
 

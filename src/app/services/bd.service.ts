@@ -80,7 +80,7 @@ export class BDService {
 
       await this.database.executeSql(this.tablaVehiculo, []);
 
-      await this.database.executeSql(this.registroVehiculo, []);
+      //await this.database.executeSql(this.registroVehiculo, []);
 
       //await this.database.executeSql(this.registroVehiculo2, []);
 
@@ -171,7 +171,7 @@ export class BDService {
   //variable para la sentencia de creación de tabla
   tablaVehiculo: string = "CREATE TABLE IF NOT EXISTS vehiculo(id_vehiculo INTEGER PRIMARY KEY autoincrement,patente VARCHAR(10) , color VARCHAR(40) NOT NULL, modelo VARCHAR(40),  marca VARCHAR(40),idusuario INTEGER, FOREIGN KEY(idusuario) REFERENCES usuario(id_usuario));";
   //variable para la sentencia de registros por defecto en la tabla
-  registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (1,'as21kd','rojo','tesla','k2',1);";
+  //registroVehiculo: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (1,'as21kd','rojo','tesla','k2',1);";
   //registroVehiculo2: string = "INSERT or IGNORE INTO vehiculo(id_vehiculo,patente, color, modelo, marca, idusuario) VALUES (2,'elpepe','etecech','a','599',2);";
   listaVehiculos = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
@@ -262,6 +262,14 @@ export class BDService {
     let data = [patente, color, modelo, marca, id_usuario];
     return this.database.executeSql('INSERT INTO vehiculo(patente,color,modelo,marca,idusuario) VALUES (?,?,?,?,?)', data).then(res => {
       this.buscarVehiculosIniciar(correo);
+    })
+
+  }
+
+  insertarVehiculosApi(id_vehiculo,patente, marca, modelo, color, id_usuario) {
+    let data = [id_vehiculo,patente, color, modelo, marca, id_usuario];
+    return this.database.executeSql('INSERT INTO vehiculo(id_vehiculo,patente,color,modelo,marca,idusuario) VALUES (?,?,?,?,?,?)', data).then(res => {
+      this.buscarVehiculos();
     })
 
   }

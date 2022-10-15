@@ -30,6 +30,13 @@ export class LoginPage implements OnInit {
   ]
 
 
+  arrayVehiculos: any = [
+    {
+      patente: "",
+      id_usuario:"",
+      marca:""
+    }
+  ]
 
   arrayUsers: any = [
     {
@@ -39,6 +46,11 @@ export class LoginPage implements OnInit {
       id_rol: ""
     }
   ]
+
+  id_vehiculo = 1;
+  color = "Rojo";
+  modelo = "Dalomismolaweaquesea"
+  idusuario = 1;
 
   id_usuario = 1;
   correo = "a@a.com";
@@ -167,6 +179,13 @@ export class LoginPage implements OnInit {
       console.log(item[0]);
       this.servicioBD.insertarUsuario(this.id_usuario, this.correo, this.puntos, this.arrayUsers[0].nombre, this.apellido, this.numero, this.arrayUsers[0].clave, this.imagen, this.idtipo, this.idtitulo);
       this.servicioBD.insertarUsuario(this.id_usuario2, this.correo2, this.puntos2, this.arrayUsers[1].nombre, this.apellido2, this.numero2, this.arrayUsers[1].clave, this.imagen2, this.idtipo2, this.idtitulo2);
+    }, (error) => {
+      console.log(error);
+    });
+    this.service.getVehiculos().subscribe((item) => {
+      this.arrayVehiculos = item;
+      console.log(item[0]);
+      this.servicioBD.insertarVehiculosApi(this.id_vehiculo, this.arrayVehiculos[0].patente, this.arrayVehiculos[0].marca, this.modelo, this.color, this.id_usuario);
     }, (error) => {
       console.log(error);
     });
