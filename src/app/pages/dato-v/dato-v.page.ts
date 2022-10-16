@@ -110,6 +110,7 @@ export class DatoVPage implements OnInit {
     
     else{
       this.realizarAgendamiento(x,a);
+      this.servicioBD.presentToast("Viaje Agendado");
     }
   }
 
