@@ -50,7 +50,7 @@ export class ModiVehiculoPage {
     async presentAlert() {
       const alert = await this.alertController.create({
         header: 'Patente invalida',
-        message: 'La patente no es valida',
+        message: 'La patente no es valida-Recuerde no poner guiones',
         buttons: ['Aceptar'],
       });
   
