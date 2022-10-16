@@ -61,7 +61,7 @@ export class ModiViajePage implements OnInit {
         this.servicioBD.presentToast("No puedes asignar un numero menor al de los asientos ya ocupados.");
       }else{
         this.servicioBD.modificarViajes(this.idviaje,this.horario,this.destino,this.tarifa,this.asientos,this.sector);
-        this.servicioBD.presentToast("Viaje Modificado.");
+        this.servicioBD.presentToast("Viaje Modificado con exito.");
       }
       
     }
