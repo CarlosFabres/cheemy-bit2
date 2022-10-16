@@ -57,7 +57,7 @@ export class RegistrarVPage {
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Patente invalida',
-      message: 'La patente no es valida',
+      message: 'La patente no es valida-Escriba la patente sin guiones.',
       buttons: ['Aceptar'],
     });
 
@@ -66,7 +66,7 @@ export class RegistrarVPage {
   async presentAlert2() {
     const alert = await this.alertController.create({
       header: 'Contraseña',
-      message: 'La contraseña es demasiado corta',
+      message: 'La contraseña es demasiado corta.',
       buttons: ['Aceptar'],
     });
 

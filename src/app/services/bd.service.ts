@@ -474,7 +474,7 @@ export class BDService {
   modificarViajes(id_viaje, hora_salida, destino, monto, asientos_dispo, sector) {
     let data = [hora_salida, asientos_dispo, monto, sector, destino, id_viaje];
     return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?', data).then(data2 => {
-      this.buscarViajes();
+      this.buscarViajesIniciar(id_viaje);
       this.router.navigate(['/empviaje'])
     })
   }
