@@ -12,8 +12,11 @@
 
 <ion-content class="body">
 
-    <center><img src="../../../assets/img/mapa.PNG" alt="" class="img1"></center>
+  <div class="maps">
+    <capacitor-google-maps #map></capacitor-google-maps>
+  </div>
 
-    <ion-button [routerLink]="['/menu-p']" expand="block" color="mycolor" class="font" (click)="terminarViaje()">Terminar viaje</ion-button>
+  <ion-button [routerLink]="['/menu-p']" expand="block" color="mycolor" class="font" (click)="terminarViaje()">Terminar
+    viaje</ion-button>
 
 </ion-content>

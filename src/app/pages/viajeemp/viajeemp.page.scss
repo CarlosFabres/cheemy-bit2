@@ -1,39 +1,39 @@
-h1{
-    text-align: center;
+h1 {
+	text-align: center;
 	font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
-.img2{
+.img2 {
 	max-width: 25px;
 	margin-left: 10px;
-	
+
 }
 
-.sombra{
+.sombra {
 	box-shadow: 10px 10px 10px black;
 }
 
-.img1{
-    max-width: 240px;
-    border-radius: 100px;
-	border-width: 3px; 
-	border-style:solid;
-	margin-bottom : -1px;
-	background-color: rgba(0, 0, 0, 0.384);	
+.img1 {
+	max-width: 240px;
+	border-radius: 100px;
+	border-width: 3px;
+	border-style: solid;
+	margin-bottom: -1px;
+	background-color: rgba(0, 0, 0, 0.384);
 	border-color: rgb(22, 9, 80);
 	border-radius: 10px;
 	margin-top: 10px;
 }
 
-p{
-    text-align: center;
+p {
+	text-align: center;
 	font-size: 20px;
 	color: rgba(255, 255, 255, 0.932);
-	border-color: black; 
-	border-width: 3px; 
-	border-style:solid;
-	margin-bottom : -1px;
-	background-color: rgba(0, 0, 0, 0.438);	
+	border-color: black;
+	border-width: 3px;
+	border-style: solid;
+	margin-bottom: -1px;
+	background-color: rgba(0, 0, 0, 0.438);
 	border-color: rgb(22, 9, 80);
 	border-radius: 10px;
 	margin-left: 10px;
@@ -51,11 +51,26 @@ p{
 }
 
 
-h1{
+h1 {
 	color: aliceblue;
 }
 
-.font{
+.font {
 	font-family: Silkscreen-Regular;
 }
 
+.maps {
+	width: 100%;
+	height: 90%;
+}
+
+capacitor-google-maps {
+
+	display: inline-block;
+	width: 100%;
+	height: 90%;
+}
+
+ion-content {
+	--background: none !important;
+}

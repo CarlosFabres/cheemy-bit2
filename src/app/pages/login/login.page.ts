@@ -7,12 +7,14 @@ import { ApirestService } from 'src/app/services/apirest.service';
 
 
 
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+
 
   arregloUsuarios: any = [
     {
@@ -190,4 +192,6 @@ export class LoginPage implements OnInit {
       console.log(error);
     });
   }
+
+  
 }

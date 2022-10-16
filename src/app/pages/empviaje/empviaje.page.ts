@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AlertController, MenuController, ToastController } from '@ionic/angular';
 import { BDService } from 'src/app/services/bd.service';
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
+
 
 @Component({
   selector: 'app-empviaje',
@@ -10,50 +13,56 @@ import { BDService } from 'src/app/services/bd.service';
 })
 export class EmpviajePage implements OnInit {
 
-  idvi: "";
 
-  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private toastCtrl: ToastController, private servicioBD: BDService) {
-    this.activedRouter.queryParams.subscribe(params =>{
-      if(this.router.getCurrentNavigation().extras.state){
+
+  constructor(public toastController: ToastController, private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private menuCtrl: MenuController, private toastCtrl: ToastController, private servicioBD: BDService, private geolocation: Geolocation) {
+    this.activedRouter.queryParams.subscribe(params => {
+      if (this.router.getCurrentNavigation().extras.state) {
         this.idvi = this.router.getCurrentNavigation().extras.state.idEnviado;
       }
     })
-   }
+  }
+
+  idvi: "";
+
+  latitud: any;
+  longitud: any;
+
 
   elim: string = "0";
 
   arregloUsuarios: any = [
     {
-      id_usuario : "",
+      id_usuario: "",
       correo: "",
-      puntos : "",
-      nombre : "",
-      apellido : "",
-      numero : "",
-      clave : "",
-      imagen : "",
-      idtipo : "",
+      puntos: "",
+      nombre: "",
+      apellido: "",
+      numero: "",
+      clave: "",
+      imagen: "",
+      idtipo: "",
       idtitulo: ""
     }
   ]
 
   arregloViajes: any = [
     {
-      id_viaje : "",
+      id_viaje: "",
       hora_salida: "",
-      asientos_dispo : "",
-      asientos_ocupa : "",
-      monto : "",
-      sector : "",
-      destino : "",
-      idvehiculo : "",
-      idusuario : ""
+      asientos_dispo: "",
+      asientos_ocupa: "",
+      monto: "",
+      sector: "",
+      destino: "",
+      idvehiculo: "",
+      idusuario: ""
     }
-  
+
   ]
 
-  modificar(){
-    
+  modificar() {
+
     let navigationExtras: NavigationExtras = {
       state: {
         idEnviado: this.arregloViajes[0].id_viaje,
@@ -70,28 +79,28 @@ export class EmpviajePage implements OnInit {
 
   }
 
-  empezarViaje(){
-    if(this.arregloViajes[0].asientos_ocupa == 0){
+  empezarViaje() {
+    if (this.arregloViajes[0].asientos_ocupa == 0) {
       this.servicioBD.presentToast("No puedes iniciar el viaje sin ningun pasajero.");
-    }else{
+    } else {
       this.servicioBD.eliminarViajeConductor(this.idvi);
       this.servicioBD.eliminarViajePasajeroConductor(this.idvi);
-      this.servicioBD.sumarPuntos(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+      this.servicioBD.sumarPuntos(this.arregloUsuarios[0].id_usuario, this.arregloUsuarios[0].correo);
       this.cambiarTitulo();
       this.servicioBD.presentToast("Viaje empezado");
       this.router.navigate(['/viajeemp']);
     }
   }
 
-  cambiarTitulo(){
-    if(this.arregloUsuarios[0].puntos == 1000){
-      this.servicioBD.updatePuntos1(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+  cambiarTitulo() {
+    if (this.arregloUsuarios[0].puntos == 1000) {
+      this.servicioBD.updatePuntos1(this.arregloUsuarios[0].id_usuario, this.arregloUsuarios[0].correo);
     }
-    else if(this.arregloUsuarios[0].puntos == 2000){
-      this.servicioBD.updatePuntos2(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    else if (this.arregloUsuarios[0].puntos == 2000) {
+      this.servicioBD.updatePuntos2(this.arregloUsuarios[0].id_usuario, this.arregloUsuarios[0].correo);
     }
-    else if(this.arregloUsuarios[0].puntos == 3000){
-      this.servicioBD.updatePuntos3(this.arregloUsuarios[0].id_usuario,this.arregloUsuarios[0].correo);
+    else if (this.arregloUsuarios[0].puntos == 3000) {
+      this.servicioBD.updatePuntos3(this.arregloUsuarios[0].id_usuario, this.arregloUsuarios[0].correo);
     }
   }
 
@@ -113,7 +122,7 @@ export class EmpviajePage implements OnInit {
         },
       ],
     });
-  
+
     await alert.present();
   }
 
@@ -135,7 +144,7 @@ export class EmpviajePage implements OnInit {
         },
       ],
     });
-  
+
     await alert.present();
   }
 
@@ -147,35 +156,60 @@ export class EmpviajePage implements OnInit {
     toast.present();
   }
 
-  eliminarVC(){
+  eliminarVC() {
     this.servicioBD.eliminarViajeConductor(this.idvi);
     this.servicioBD.eliminarViajePasajeroConductor(this.idvi);
     this.servicioBD.presentToast("Viaje Eliminado");
     this.router.navigate(['/menu-p']);
   }
 
-  viaje(){
+  viaje() {
     this.servicioBD.buscarViajesIniciar(this.idvi);
   }
 
-  usuario(){
+  usuario() {
     this.servicioBD.buscarUsuariosViaje(this.idvi);
   }
+  getGeolocation() {
 
+    this.geolocation.getCurrentPosition().then((resp) => {
+      this.latitud = resp.coords.latitude
+      this.longitud = resp.coords.longitude
+      localStorage.setItem('lat', this.latitud)
+      localStorage.setItem('lng', this.longitud)
+      console.log(this.latitud);
+      console.log(this.longitud);
+
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+
+    let watch = this.geolocation.watchPosition();
+    watch.subscribe((data) => {
+
+      // data can be a set of coordinates, or an error (if an error occurred).
+      // data.coords.latitude
+      // data.coords.longitude
+    });
+  }
   ngOnInit() {
-    this.servicioBD.dbState().subscribe(res=>{
-      if(res){
+    this.getGeolocation();
+    this.servicioBD.dbState().subscribe(res => {
+      if (res) {
         this.viaje();
         this.usuario();
         //Hacer diferenciacion del detalleviaje del usuario que ha iniciado sesion
-        this.servicioBD.fetchViajesIniciar().subscribe(item=>{
+        this.servicioBD.fetchViajesIniciar().subscribe(item => {
           this.arregloViajes = item;
         })
-        this.servicioBD.fetchUsuariosViaje().subscribe(item=>{
+        this.servicioBD.fetchUsuariosViaje().subscribe(item => {
           this.arregloUsuarios = item;
         })
       }
     })
   }
+
+  
+
 
 }

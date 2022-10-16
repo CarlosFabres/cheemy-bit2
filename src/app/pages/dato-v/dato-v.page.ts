@@ -107,6 +107,7 @@ export class DatoVPage implements OnInit {
     else if(this.arregloUsuarios[0].id_usuario == this.arregloUsuariosIniciar[0].id_usuario){
       this.servicioBD.presentToast("No puedes agendar tu propio viaje.");
     }
+    
     else{
       this.realizarAgendamiento(x,a);
     }
