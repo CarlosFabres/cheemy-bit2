@@ -91,6 +91,7 @@ export class CviajesPage implements OnInit {
     }
     else{
       this.servicioBD.insertarViajes(this.horario,this.asientos,this.tarifa,this.sector,this.destino, this.arregloVehiculos[0].id_vehiculo,this.arregloUsuarios[0].id_usuario);
+      this.servicioBD.presentToast("Viaje creado con exito.");
     }
   }
 

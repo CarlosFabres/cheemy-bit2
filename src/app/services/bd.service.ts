@@ -90,6 +90,8 @@ export class BDService {
 
       await this.database.executeSql(this.registroViaje2, []);
 
+      //await this.database.executeSql(this.registroViaje3, []);
+
       await this.database.executeSql(this.tablaDetalleViaje, []);
 
       this.buscarTipo();
@@ -191,6 +193,7 @@ export class BDService {
   //variable para la sentencia de registros por defecto en la tabla
   registroViaje: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (1,'12:13',4,4,1000,'a','Til-til',1,1);";
   registroViaje2: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (2,'15:08',6,0,3000,'b','Valle big',1,1);";
+  //registroViaje3: string = "INSERT or IGNORE INTO viaje(id_viaje, hora_salida,asientos_dispo,asientos_ocupa,monto,sector,destino,idvehiculo,idusuario) VALUES (3,'14:15',3,1,2000,'c','aaaa',1,1);";
   listaViajes = new BehaviorSubject([]);
   //observable para manipular si la BD esta lista  o no para su manipulación
 
@@ -475,7 +478,7 @@ export class BDService {
     let data = [hora_salida, asientos_dispo, monto, sector, destino, id_viaje];
     return this.database.executeSql('UPDATE viaje SET hora_salida = ?, asientos_dispo = ?,monto = ?,sector = ?,destino = ? WHERE id_viaje = ?', data).then(data2 => {
       this.buscarViajesIniciar(id_viaje);
-      
+      this.buscarViajes();
       this.router.navigate(['/empviaje'])
     })
   }
