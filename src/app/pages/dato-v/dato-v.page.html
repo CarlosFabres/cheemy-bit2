@@ -11,15 +11,15 @@
 </ion-header>
 
 <ion-content class="body">
-  <center>
-    <h4 class="font">Ruta</h4>
-  </center>
-  <center><img src="assets/img/mapa.PNG" alt=""></center>
     <div *ngFor="let x of arregloViajes">
       <div *ngFor="let y of arregloUsuarios">
         <div *ngFor="let z of arregloVehiculos">
           <div *ngFor="let a of arregloUsuariosIniciar">
             <center>  
+              <ion-item>
+                <p class="info font">Foto:</p>
+                <img [src]= "y.imagen"alt="" class="img2">
+              </ion-item>
               <ion-item>
                 <p class="info font">Patente:</p>
                 <ion-label class="font icolo">{{ z.patente }}</ion-label>

@@ -12,6 +12,8 @@ export class DatoVPage implements OnInit {
 
   corre = localStorage.getItem("correo");
 
+  //Usuario que inicio sesion
+
   arregloUsuariosIniciar: any = [
     {
       id_usuario : "",
@@ -26,6 +28,9 @@ export class DatoVPage implements OnInit {
       idtitulo : ""
     }
   ]
+  /////////////////////////////
+
+  //Viajeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee solo datos caezon
 
   arregloUsuarios: any = [
     {

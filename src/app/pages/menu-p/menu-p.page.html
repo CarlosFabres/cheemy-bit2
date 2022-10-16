@@ -16,37 +16,7 @@
         <center><img src="../../../assets/img/car1.gif" alt="" class="baner"></center>
       </div>
       <div>
-        <center><p class="podio">🏆 Podio 🏆</p></center>
-        <ion-row>
-          <ion-col>
-            <center>
-              <ion-card class="sombra" color="mycolor">
-                <ion-card-header>
-                  <ion-card-title class="font cardtittle">ㅤMessiㅤ</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                  <img src="../../../assets/img/messi.jpg" alt="" class="foto">
-                  <ion-card-subtitle class="font">Turbo 🚀</ion-card-subtitle>
-                </ion-card-content>
-              </ion-card>
-            </center>
-          </ion-col>
-          <ion-col>
-            <center>
-              <ion-card class="sombra" color="mycolor">
-                <ion-card-header>
-                  <ion-card-title class="font cardtittle">Amongas</ion-card-title>
-                </ion-card-header>
-                <ion-card-content>
-                  <img src="../../../assets/img/amongus.jpg" alt="" class="foto2">
-                  <ion-card-subtitle class="font">Retro 👾</ion-card-subtitle>
-            
-
-                </ion-card-content>
-              </ion-card>
-            </center>
-          </ion-col>
-        </ion-row>
+        <center><p class="podio">🏆 CHEEMY-BITBIT 🏆</p></center>
         <div *ngFor="let y of arregloViajes">
           <ion-list>
             <ion-item (click) = "pasarDatosViaje()">
@@ -55,6 +25,23 @@
             </ion-item>
           </ion-list>
         </div>
+        <center>
+          <div>
+            <ion-row>
+              <ion-col>
+                <ion-icon name="search-circle-sharp" [routerLink]="'/viajes'" class="haceleuna"></ion-icon>
+                <p>Buscar viaje</p>
+              </ion-col>
+              <ion-col>
+                <ion-icon name="create-sharp" [routerLink]="'/cviajes'" class="haceleuna"></ion-icon>
+                <p>Crear viaje</p>
+              </ion-col>
+            </ion-row>
+          </div>
+        </center>
+        <center>
+          <P class="font">Aqui apareceran los viajes creados o agendados:</P>
+        </center>
           <center>
             <div *ngFor = "let y of arregloDetalleViajes">
               <div *ngIf = "y.idusuario == arregloUsuarios[0].id_usuario">
