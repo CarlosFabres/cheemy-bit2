@@ -39,6 +39,7 @@ export class ModiCuentaPage {
             this.nu = this.router.getCurrentNavigation().extras.state.numeroEnviado;
             this.cl = this.router.getCurrentNavigation().extras.state.claveEnviado;
             this.img = this.router.getCurrentNavigation().extras.state.imagenEnviado;
+            this.foto = this.router.getCurrentNavigation().extras.state.fotoEnviado;
           }
         })
       }
@@ -47,20 +48,20 @@ export class ModiCuentaPage {
 
   modificarc(corre) {
     if(this.foto == ''){
-      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.cl, this.img);
+      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.img);
       this.servicioBD.presentToast("Perfil modificado.");
     }else{
-      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.cl, this.foto);
+      this.servicioBD.modificarUsuarios(this.id, this.c, this.n, this.a, this.nu, this.foto);
       this.servicioBD.presentToast("Perfil modificado.");
+      this.foto = "";
     }
-    
   }
 
   validar() {
     var correo = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
 
 
-    if ((this.c.length == 0) || (this.n.length == 0) || (this.a.length == 0) || (this.nu.length == 0) || (this.cl.length == 0) || (this.cl2.length == 0)) {
+    if ((this.c.length == 0) || (this.n.length == 0) || (this.a.length == 0) || (this.nu.length == 0) /*|| (this.cl.length == 0) || (this.cl2.length == 0)*/) {
       this.presentAlert4();
     }
 
@@ -76,7 +77,7 @@ export class ModiCuentaPage {
     else if (this.nu.length < 8 || this.nu.length > 8) {
       this.presentAlert3();
     }
-
+    /*
     else if (!/[A-Z]/.test(this.cl) || !/[0-9]/.test(this.cl)) {
       this.presentAlert6();
     }
@@ -88,11 +89,11 @@ export class ModiCuentaPage {
     else if (this.cl != this.cl2) {
       this.presentAlert();
     }
+    */
 
     else {
       this.modificarc(this.corre);
       this.presentToast();
-
     }
   }
 

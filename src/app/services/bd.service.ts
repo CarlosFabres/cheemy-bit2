@@ -341,9 +341,9 @@ export class BDService {
     })
   }
 
-  modificarUsuarios(id_usuario, corre, nombre, apellido, numero, clave, imagen) {
-    let data = [nombre, apellido, numero, clave, imagen, id_usuario];
-    return this.database.executeSql('UPDATE usuario SET nombre = ?,apellido = ?,numero = ?,clave = ?, imagen = ? WHERE id_usuario = ?', data).then(data2 => {
+  modificarUsuarios(id_usuario, corre, nombre, apellido, numero, imagen) {
+    let data = [nombre, apellido, numero, imagen, id_usuario];
+    return this.database.executeSql('UPDATE usuario SET nombre = ?,apellido = ?,numero = ?, imagen = ? WHERE id_usuario = ?', data).then(data2 => {
       this.buscarUsuariosIniciar(corre);
       this.router.navigate(['/perfil']);
 

@@ -88,6 +88,7 @@ export class PerfilPage implements OnInit {
         numeroEnviado: x.numero,
         claveEnviado: x.clave,
         imagenEnviado: x.imagen,
+        fotoEnviado: ""
       }
     }
 

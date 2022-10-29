@@ -76,6 +76,17 @@ export class LoginPage implements OnInit {
   idtipo2 = 1;
   idtitulo2 = 1;
 
+  id_usuario3 = 3;
+  correo3 = "i@i.com";
+  puntos3 = 1000;
+ 
+  apellido3 = "Fabres";
+  numero3 = 29173012;
+
+  imagen3 = "../../assets/img/cheems.png";
+  idtipo3 = 1;
+  idtitulo3 = 1;
+
   
 
 
@@ -179,15 +190,16 @@ export class LoginPage implements OnInit {
     this.service.getUsers().subscribe((item) => {
       this.arrayUsers = item;
       console.log(item[0]);
-      this.servicioBD.insertarUsuario(this.id_usuario, this.correo, this.puntos, this.arrayUsers[0].nombre, this.apellido, this.numero, this.arrayUsers[0].clave, this.imagen, this.idtipo, this.idtitulo);
-      this.servicioBD.insertarUsuario(this.id_usuario2, this.correo2, this.puntos2, this.arrayUsers[1].nombre, this.apellido2, this.numero2, this.arrayUsers[1].clave, this.imagen2, this.idtipo2, this.idtitulo2);
+      this.servicioBD.insertarUsuario(this.arrayUsers[0].id, this.correo, this.puntos, this.arrayUsers[0].nombre, this.apellido, this.numero, this.arrayUsers[0].clave, this.imagen, this.arrayUsers[0].id_rol, this.idtitulo);
+      this.servicioBD.insertarUsuario(this.arrayUsers[1].id, this.correo2, this.puntos2, this.arrayUsers[1].nombre, this.apellido2, this.numero2, this.arrayUsers[1].clave, this.imagen2, this.arrayUsers[1].id_rol, this.idtitulo2);
+      this.servicioBD.insertarUsuario(this.arrayUsers[2].id, this.correo3, this.puntos3, this.arrayUsers[2].nombre, this.apellido3, this.numero3, this.arrayUsers[2].clave, this.imagen3, this.arrayUsers[2].id_rol, this.idtitulo3);
     }, (error) => {
       console.log(error);
     });
     this.service.getVehiculos().subscribe((item) => {
       this.arrayVehiculos = item;
       console.log(item[0]);
-      this.servicioBD.insertarVehiculosApi(this.id_vehiculo, this.arrayVehiculos[0].patente, this.arrayVehiculos[0].marca, this.modelo, this.color, this.id_usuario);
+      this.servicioBD.insertarVehiculosApi(this.id_vehiculo, this.arrayVehiculos[0].patente, this.arrayVehiculos[0].marca, this.modelo, this.color, this.arrayVehiculos[0].id_usuario);
     }, (error) => {
       console.log(error);
     });

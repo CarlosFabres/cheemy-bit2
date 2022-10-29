@@ -57,7 +57,10 @@ export class ModiViajePage implements OnInit {
     }
 
     else {
-      if(this.asientosO > this.asientos){
+      if(this.asientosO != "0"){
+        this.servicioBD.presentToast("No puedes modificar un viaje con un asiento ya ocupado.");
+      }
+      else if(this.asientosO > this.asientos){
         this.servicioBD.presentToast("No puedes asignar un numero menor al de los asientos ya ocupados.");
       }else{
         this.servicioBD.modificarViajes(this.idviaje,this.horario,this.destino,this.tarifa,this.asientos,this.sector);
