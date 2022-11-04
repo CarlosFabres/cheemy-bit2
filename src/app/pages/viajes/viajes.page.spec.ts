@@ -1,4 +1,6 @@
+import { HttpClient, HttpHandler } from '@angular/common/http';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { SQLite } from '@awesome-cordova-plugins/sqlite/ngx';
 import { IonicModule } from '@ionic/angular';
 
 import { ViajesPage } from './viajes.page';
@@ -10,7 +12,8 @@ describe('ViajesPage', () => {
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ViajesPage ],
-      imports: [IonicModule.forRoot()]
+      imports: [IonicModule.forRoot()],
+      providers:[SQLite, HttpClient, HttpHandler]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ViajesPage);
