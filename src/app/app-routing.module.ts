@@ -82,7 +82,11 @@ const routes: Routes = [
   {
     path: 'vehiculo',
     loadChildren: () => import('./pages/vehiculo/vehiculo.module').then( m => m.VehiculoPageModule)
+  },  {
+    path: 'clave',
+    loadChildren: () => import('./pages/clave/clave.module').then( m => m.ClavePageModule)
   },
+
 
 ];
 

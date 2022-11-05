@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="mycolor">
+    <ion-title>Cambiar contraseña</ion-title>
+    <ion-buttons slot="end">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="body">
+  <ion-item>
+    <p class="info font">🔒</p>
+    <ion-input class="font inpu2" placeholder="Contraseña actual"></ion-input>
+  </ion-item>
+  <ion-item>
+    <p class="info font">🔑</p>
+    <ion-input class="font inpu2" placeholder="Contraseña nueva"></ion-input>
+  </ion-item>
+  <ion-item>
+    <p class="info font">🔑</p>
+    <ion-input class="font inpu2" placeholder="Repetir contraseña nueva"></ion-input>
+  </ion-item>
+  <ion-button type="submit" color="mycolor" expand="block"  class="font">Actualizar contraseña</ion-button>
+  <ion-button type="submit" color="mycolor" expand="block"  class="font" [routerLink]="'/menu-p'">Cancelar</ion-button>
+</ion-content>
