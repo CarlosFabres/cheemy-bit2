@@ -28,6 +28,7 @@ export class ModiCuentaPage {
 
 
   constructor(private router: Router, private activedRouter: ActivatedRoute, private alertController: AlertController, private toastCtrl: ToastController, private servicioBD: BDService, private camara: CamaraService) {
+    this.foto = "";
     this.activedRouter.queryParams.subscribe(params => {
       if (this.router.getCurrentNavigation().extras.state) {
         this.activedRouter.queryParams.subscribe(params => {
@@ -195,7 +196,6 @@ export class ModiCuentaPage {
 
     this.camara.fetchcamara().subscribe(image => {
       this.foto = image;
-
     })
 
   }
