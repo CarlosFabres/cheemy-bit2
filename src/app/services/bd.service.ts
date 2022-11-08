@@ -350,6 +350,15 @@ export class BDService {
     })
   }
 
+  modificarUsuariosContra(corre,id_usuario, contra) {
+    let data = [contra, id_usuario];
+    return this.database.executeSql('UPDATE usuario SET clave = ? WHERE id_usuario = ?', data).then(data2 => {
+      this.buscarUsuariosIniciar(corre);
+      this.router.navigate(['/perfil']);
+
+    })
+  }
+
   //Viaje------------------------------------------------------------------------------------
 
   buscarTipoIniciar(corre){
