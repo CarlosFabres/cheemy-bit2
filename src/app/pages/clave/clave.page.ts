@@ -33,10 +33,16 @@ export class ClavePage implements OnInit {
   constructor(private servicioBD: BDService, private alertController: AlertController) { }
 
   cambiarClave(){
-    if(this.contra != this.arregloUsuarios[0].clave){
+    if ((this.contra.length == 0)) {
+      this.presentAlert8();
+    }
+    else if(this.contra != this.arregloUsuarios[0].clave){
       this.presentAlert();
     }else{
-      if (!/[A-Z]/.test(this.contra1) || !/[0-9]/.test(this.contra1)) {
+      if ((this.contra1.length == 0) || (this.contra2.length == 0)) {
+        this.presentAlert4();
+      }
+      else if (!/[A-Z]/.test(this.contra1) || !/[0-9]/.test(this.contra1)) {
         this.presentAlert6();
       }
   
@@ -45,7 +51,7 @@ export class ClavePage implements OnInit {
       }
   
       else if (this.contra1 != this.contra2) {
-        this.presentAlert();
+        this.presentAlert7();
       }
       else{
         this.servicioBD.modificarUsuariosContra(this.corre, this.arregloUsuarios[0].id_usuario ,this.contra1);
@@ -87,7 +93,7 @@ export class ClavePage implements OnInit {
   async presentAlert4() {
     const alert = await this.alertController.create({
       header: 'Campos vacios',
-      message: 'Todos los campos deben estar llenos',
+      message: 'La contraseña nueva no puede ser vacia',
       buttons: ['Aceptar'],
     });
 
@@ -106,7 +112,7 @@ export class ClavePage implements OnInit {
 
   async presentAlert6() {
     const alert = await this.alertController.create({
-      header: 'Clave invalido',
+      header: 'Clave invalida',
       message: 'Debe tener mayuscula y numero',
       buttons: ['Aceptar'],
     });
@@ -116,8 +122,8 @@ export class ClavePage implements OnInit {
 
   async presentAlert7() {
     const alert = await this.alertController.create({
-      header: 'Numero invalido',
-      message: 'Solo numeros pete',
+      header: 'Contraseñas no coinciden',
+      message: 'Las contraseñas no coinciden',
       buttons: ['Aceptar'],
     });
 
@@ -126,8 +132,8 @@ export class ClavePage implements OnInit {
 
   async presentAlert8() {
     const alert = await this.alertController.create({
-      header: 'Numero invalido',
-      message: '9 digitos',
+      header: 'Contraseña vacia',
+      message: 'La contraseña actual no puede estar vacia',
       buttons: ['Aceptar'],
     });
 

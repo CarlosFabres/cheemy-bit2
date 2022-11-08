@@ -10,15 +10,15 @@
 <ion-content class="body">
   <ion-item>
     <p class="info font">🔒</p>
-    <ion-input class="font inpu2" placeholder="Contraseña actual" [(ngModel)]="contra"></ion-input>
+    <ion-input class="font inpu2" type = "password" placeholder="Contraseña actual" [(ngModel)]="contra"></ion-input>
   </ion-item>
   <ion-item>
     <p class="info font">🔑</p>
-    <ion-input class="font inpu2" placeholder="Contraseña nueva" [(ngModel)]="contra1"></ion-input>
+    <ion-input class="font inpu2" type = "password" placeholder="Contraseña nueva" [(ngModel)]="contra1"></ion-input>
   </ion-item>
   <ion-item>
     <p class="info font">🔑</p>
-    <ion-input class="font inpu2" placeholder="Repetir contraseña nueva" [(ngModel)]="contra2"></ion-input>
+    <ion-input class="font inpu2" type = "password" placeholder="Repetir contraseña nueva" [(ngModel)]="contra2"></ion-input>
   </ion-item>
   <ion-button type="submit" color="mycolor" expand="block"  class="font" (click) = "cambiarClave()">Actualizar contraseña</ion-button>
   <ion-button type="submit" color="mycolor" expand="block"  class="font" [routerLink]="'/menu-p'">Cancelar</ion-button>
