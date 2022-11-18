@@ -14,7 +14,30 @@ describe('BDService', () => {
     service = TestBed.inject(BDService);
   });
 
+  afterEach(() =>{
+    localStorage.removeItem('todos');
+    service = null;
+  })
+
+  /////////Prueba 1//////////
+
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  /////////Prueba 2//////////
+
+  it('should return an empty array', () => {
+    expect(service.getTodos()).toEqual([]);
+  });
+
+  /////////Prueba 3//////////
+
+  it('return an array with one object', () => {
+    const arr = ['First Todo'];
+    localStorage.setItem('todos', JSON.stringify(arr));
+
+    expect(service.getTodos()).toEqual(arr);
+    expect(service.getTodos()).toHaveSize(1);
   });
 });

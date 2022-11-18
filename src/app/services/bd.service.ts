@@ -1045,7 +1045,10 @@ updatePuntos3(id_usuario,corre) {
 /////////////////////////////////////////////////////////
 
 
-
+getTodos(): any[]{
+  const result = JSON.parse(localStorage.getItem('todos'));
+  return result || [];
+}
 
 
 }

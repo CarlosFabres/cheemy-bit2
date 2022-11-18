@@ -22,5 +22,10 @@ export class ApirestService {
   apiURL = 'https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos';
 
   apiURL2 = 'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos';
+
+  getProducts(){
+    return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos');
+    
+  }
 }
 

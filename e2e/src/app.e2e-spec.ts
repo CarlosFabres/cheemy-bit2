@@ -5,6 +5,7 @@ describe('new App', () => {
 
   beforeEach(() => {
     page = new AppPage();
+    
   });
 
   it('should be blank', () => {
