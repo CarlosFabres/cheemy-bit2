@@ -56,4 +56,31 @@ describe('ApirestService', () => {
 
     mockRequest.flush(mockResponse);
   });
+
+  it('should make an API call 2', () => {
+    const mockResponse = [
+      {
+        patente: 'FF-HH-22',
+        id_usuario: '1',
+        marca: 'Audi',
+        
+      },
+    ];
+
+    service.getProducts2().subscribe((res)=>{
+      console.log('result', res);
+      expect(res).toBeTruthy();
+      expect(res).toHaveSize(1);
+      const product = res[0];
+      expect(product).toBe(mockResponse[0]);
+    });
+
+    const mockRequest = httpTestingController.expectOne(
+      'https://my-json-server.typicode.com/victorrosendo/repoListadoAutos'
+    );
+
+    expect(mockRequest.request.method).toEqual('GET');
+
+    mockRequest.flush(mockResponse);
+  });
 });

@@ -27,5 +27,10 @@ export class ApirestService {
     return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoUsuariosRamos');
     
   }
+
+  getProducts2(){
+    return this.http.get('https://my-json-server.typicode.com/victorrosendo/repoListadoAutos');
+    
+  }
 }
 
